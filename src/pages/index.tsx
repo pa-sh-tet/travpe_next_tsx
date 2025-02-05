@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import styles from "@/styles/NewsFeed.module.scss";
+import Post from "@/components/Post";
 
 export default function NewsFeed() {
 	const currentUser = {
@@ -49,7 +50,9 @@ export default function NewsFeed() {
 					</div>
 				</div>
 				<div className={styles.postsColumn}>
-					<div className={styles.posts}></div>
+					<div className={styles.posts}>
+						<Post />
+					</div>
 				</div>
 			</section>
 		</>

@@ -1,0 +1,194 @@
+.post {
+	display: flex;
+	flex-direction: column;
+	background-color: #fff;
+	border-radius: 12px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+	&__image {
+		width: 100%;
+		height: 400px;
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+		border-radius: 12px;
+		background-color: #cfd0d259;
+	}
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		padding: 20px;
+		min-height: calc(120px - 2 * 20px);
+		gap: 20px;
+	}
+
+	&__description {
+		font-size: 18px;
+		font-weight: bold;
+		min-height: 20px;
+		max-height: 60px;
+		overflow: auto;
+	}
+
+	&__info {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&__about {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+
+		&_author {
+			font-size: 16px;
+			color: #335270;
+		}
+
+		&_date {
+			font-size: 14px;
+			color: #4f7396;
+		}
+	}
+
+	&__location {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 5px;
+
+		&_icon {
+			width: 18px;
+			height: 18px;
+			background-image: url("../../public/images/pinIcon.png");
+			background-size: cover;
+			background-position: center;
+		}
+
+		&_value {
+			font-size: 14px;
+		}
+	}
+
+	&__like {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 3px;
+
+		&_button {
+			background-image: url("../../public/images/HeartIcon.svg");
+			background-size: cover;
+			background-position: center;
+			width: 20px;
+			height: 20px;
+			border: none;
+			background-color: transparent;
+
+			&_active {
+				background-image: url("../../public/images/HeartFilledIcon.svg");
+			}
+		}
+
+		&_value {
+			font-size: 14px;
+			color: #4b5563;
+		}
+	}
+}
+
+// .profile__post {
+// 	background-color: #fff;
+// 	border-radius: 10px;
+// 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+// 	display: flex;
+// 	flex-direction: column;
+// 	position: relative;
+// 	/* gap: 10px; */
+// }
+
+// .profile__post-image {
+// 	background-image: url("https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=580&q=80");
+// 	background-size: cover;
+// 	background-position: center;
+// 	width: 100%;
+// 	height: 200px;
+// 	border-radius: 10px 10px 0 0;
+// }
+
+// .profile__post-container {
+// 	padding: 18px 15px 15px;
+// }
+
+// .profile__post-title {
+// 	margin-bottom: 8px;
+// 	font-size: 15px;
+// }
+
+// .profile__post-description {
+// 	max-height: 44px;
+// 	overflow: auto; /* TODO доделать переполнение текста */
+// 	scrollbar-width: 1px;
+// 	margin-bottom: 15px;
+// 	/* color: #; */
+// 	line-height: 20px;
+// 	font-size: 16px;
+// 	overflow: hidden;
+// }
+
+// .profile__post-info {
+// 	display: flex;
+// 	flex-direction: row;
+// 	justify-content: space-between;
+// }
+
+// .profile__post-date {
+// 	color: #6b7280;
+// 	font-size: 13px;
+// 	line-height: 20px;
+// }
+
+// .profile__post-likes {
+// 	display: flex;
+// 	flex-direction: row;
+// 	align-items: center;
+// 	gap: 3px;
+// }
+
+// .profile__post-like-button {
+// 	width: 20px;
+// 	height: 20px;
+// 	background-image: url("../../images/HeartIcon.svg");
+// 	background-size: cover;
+// 	background-position: center;
+// 	border: none;
+// 	background-color: transparent;
+// }
+
+// .profile__post-like-button_active {
+// 	background-image: url("../../images/HeartFilledIcon.svg");
+// }
+
+// .profile__post-likes-value {
+// 	font-size: 13px;
+// 	color: #4b5563;
+// }
+
+// .profile__post-delete {
+// 	position: absolute;
+// 	top: 10px;
+// 	right: 10px;
+// 	width: 30px;
+// 	height: 30px;
+// 	background-image: url("../../images/TrashIcon.svg");
+// 	background-size: cover;
+// 	background-position: center;
+// 	border: none;
+// 	color: red;
+// 	opacity: 0;
+// }
+
+// .profile__post:hover .profile__post-delete {
+// 	opacity: 1;
+// }

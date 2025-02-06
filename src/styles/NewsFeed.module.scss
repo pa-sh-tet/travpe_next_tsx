@@ -8,162 +8,162 @@
 	margin: 40px auto;
 	height: 100%;
 
-	.infoColumn {
+	&__info-column {
 		width: 300px;
 		display: flex;
 		flex-direction: column;
 		gap: 25px;
 	}
 
-	.profile {
+	&__profile {
 		@include block_style;
 		display: flex;
 		flex-direction: column;
 		gap: 12px;
+
+		&-face {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+		}
+
+		&-avatar {
+			display: flex;
+			min-width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			background-size: cover;
+			background-position: center;
+			margin-right: 20px;
+		}
+
+		&-info {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-evenly;
+		}
+
+		&-name {
+			font-size: 16px;
+		}
+
+		&-tag {
+			font-size: 13px;
+			color: rgba(0, 0, 0, 0.6);
+		}
+
+		&-stats {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+
+			&-item {
+				text-align: center;
+			}
+
+			&-value {
+				font-size: 13px;
+				font-weight: bold;
+			}
+
+			&-name {
+				font-size: 12px;
+			}
+		}
 	}
 
-	.profileFace {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-	}
-
-	.profileAvatar {
-		display: flex;
-		min-width: 60px;
-		height: 60px;
-		border-radius: 50%;
-		background-size: cover;
-		background-position: center;
-		margin-right: 20px;
-	}
-
-	.profileInfo {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-evenly;
-	}
-
-	.profileName {
-		font-size: 16px;
-	}
-
-	.profileTag {
-		font-size: 13px;
-		color: rgba(0, 0, 0, 0.6);
-	}
-
-	.profileStats {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-	}
-
-	.profileStatsItem {
-		text-align: center;
-	}
-
-	.profileStatsValue {
-		font-size: 13px;
-		font-weight: bold;
-	}
-
-	.profileStatsName {
-		font-size: 12px;
-	}
-
-	.destinations {
-		display: flex;
-		flex-direction: column;
-		gap: 22px;
-	}
-
-	.destinations_title {
-		font-size: 16px;
-	}
-
-	.destinations_list {
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-	}
-
-	.destinations_item {
-		display: flex;
-		flex-direction: row;
-		gap: 5px;
-	}
-
-	.destinations_item_image {
-		width: 16px;
-		height: 16px;
-		background-image: url("/images/placeIcon.png");
-		background-size: cover;
-		background-position: center;
-	}
-
-	.destinations_item_name {
-		font-size: 14px;
-	}
-
-	.tags {
+	&__destinations {
 		display: flex;
 		flex-direction: column;
 		gap: 22px;
+
+		&-title {
+			font-size: 16px;
+		}
+
+		&-list {
+			display: flex;
+			flex-direction: column;
+			gap: 15px;
+		}
+
+		&-item {
+			display: flex;
+			flex-direction: row;
+			gap: 5px;
+
+			&-image {
+				width: 16px;
+				height: 16px;
+				background-image: url("/images/placeIcon.png");
+				background-size: cover;
+				background-position: center;
+			}
+
+			&-name {
+				font-size: 14px;
+			}
+		}
 	}
 
-	.tags_title {
-		font-size: 16px;
-	}
-
-	.tags_list {
+	&__tags {
 		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		gap: 10px;
+		flex-direction: column;
+		gap: 22px;
+
+		&-title {
+			font-size: 16px;
+		}
+
+		&-list {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		&-item {
+			height: calc(30px - 2 * 8px);
+			background-color: #e5e7eb;
+			color: #374151;
+			padding: 8px;
+			font-size: 14px;
+			border-radius: 12px;
+		}
 	}
 
-	.tags_item {
-		height: calc(30px - 2 * 8px);
-		background-color: #e5e7eb;
-		color: #374151;
-		padding: 8px;
-		font-size: 14px;
-		border-radius: 12px;
-	}
-
-	.postsColumn {
+	&__posts-column {
 		width: 780px;
 		display: flex;
 		flex-direction: column;
 		gap: 40px;
 	}
 
-	.post_add_button {
-		border: none;
-		font-size: 18px;
-		font-weight: bold;
-		color: #374151;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		gap: 10px;
-		padding: 15px 20px;
-		border-radius: 30px;
-	}
-
-	.post_add_button_icon {
-		width: 25px;
-		height: 25px;
-		background-image: url("/images/AddIcon.svg");
-		background-size: cover;
-		background-position: center;
-	}
-
-	.posts {
+	&__posts {
 		display: flex;
 		flex-direction: column;
 		gap: 30px;
 	}
+
+	// &__post_add_button {
+	// 	border: none;
+	// 	font-size: 18px;
+	// 	font-weight: bold;
+	// 	color: #374151;
+	// 	display: flex;
+	// 	flex-direction: row;
+	// 	align-items: center;
+	// 	justify-content: center;
+	// 	gap: 10px;
+	// 	padding: 15px 20px;
+	// 	border-radius: 30px;
+	// }
+
+	// &__post_add_button_icon {
+	// 	width: 25px;
+	// 	height: 25px;
+	// 	background-image: url("/images/AddIcon&__svg");
+	// 	background-size: cover;
+	// 	background-position: center;
+	// }
 }

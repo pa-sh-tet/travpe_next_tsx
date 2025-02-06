@@ -1,3 +1,5 @@
+@import "./mixins";
+
 .nav {
 	background-color: #fff;
 	width: 100%;
@@ -7,97 +9,96 @@
 	justify-content: center;
 	padding: 10px 0;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
 
-.nav__container {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: calc(1280px - 2 * 90px);
-	padding: 0 90px;
-	height: 30px;
-	align-items: center;
-}
-
-.nav__logo {
-	display: flex;
-	flex-direction: row;
-	gap: 5px;
-}
-
-.nav__logo-icon {
-	width: 30px;
-	height: 30px;
-	background-image: url("/images/logoMain.png");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	border-radius: 50%;
-}
-
-.nav__logo-text {
-	align-items: center;
-	line-height: 30px;
-}
-
-.nav__links {
-	display: flex;
-	flex-direction: row;
-	/* justify-content: space-between; */
-	justify-content: end;
-	width: 250px;
-	gap: 30px;
-}
-
-.nav__link {
-	display: flex;
-	flex-direction: row;
-	gap: 5px;
-	/* line-height: 0; */
-	align-items: center;
-	font-size: 14px;
-	text-decoration: none;
-	color: #000;
-	font-weight: normal;
-
-	&.nav__link_active {
-		font-weight: bold;
-	}
-}
-
-.nav__link_icon {
-	width: 20px;
-	height: 20px;
-	background-size: cover;
-	background-position: center;
-	margin-bottom: 3px;
-
-	&.home_icon {
-		background-image: url("/images/homeIcon.svg");
+	&__container {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		width: calc(1280px - 2 * 90px);
+		padding: 0 90px;
+		height: 30px;
+		align-items: center;
 	}
 
-	&.home_icon_active {
-		background-image: url("/images/homeIconFilled.png");
+	&__logo {
+		display: flex;
+		flex-direction: row;
+		gap: 5px;
+
+		&-icon {
+			width: 30px;
+			height: 30px;
+			background-image: url("/images/logoMain.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			border-radius: 50%;
+		}
+
+		&-text {
+			align-items: center;
+			line-height: 30px;
+		}
 	}
 
-	&.profile_icon {
-		background-image: url("/images/profileIcon.png");
+	&__links {
+		display: flex;
+		flex-direction: row;
+		justify-content: end;
+		width: 250px;
+		gap: 30px;
 	}
 
-	&.profile_icon_active {
-		background-image: url("/images/profileIconFilled.png");
-	}
+	&__link {
+		@include link-style;
+		display: flex;
+		flex-direction: row;
+		gap: 5px;
+		align-items: center;
+		font-size: 14px;
+		text-decoration: none;
+		color: #000;
+		font-weight: normal;
 
-	&.settings_icon {
-		background-image: url("/images/settingsIcon.png");
-	}
+		&__link_active {
+			font-weight: bold;
+		}
 
-	&.settings_icon_active {
-		background-image: url("/images/settingsIconFilled.png");
-	}
+		&-icon {
+			width: 20px;
+			height: 20px;
+			background-size: cover;
+			background-position: center;
+			margin-bottom: 3px;
 
-	&.login_icon {
-		background-image: url("/images/LoginIcon.png");
-		margin-right: 5px;
+			&.home_icon {
+				background-image: url("/images/homeIcon.svg");
+			}
+
+			&.home_icon_active {
+				background-image: url("/images/homeIconFilled.png");
+			}
+
+			&.profile_icon {
+				background-image: url("/images/profileIcon.png");
+			}
+
+			&.profile_icon_active {
+				background-image: url("/images/profileIconFilled.png");
+			}
+
+			&.settings_icon {
+				background-image: url("/images/settingsIcon.png");
+			}
+
+			&.settings_icon_active {
+				background-image: url("/images/settingsIconFilled.png");
+			}
+
+			&.login_icon {
+				background-image: url("/images/LoginIcon.png");
+				// margin-right: 5px;
+			}
+		}
 	}
 }

@@ -17,8 +17,8 @@ function Header() {
 			<header className={styles.nav}>
 				<div className={styles.nav__container}>
 					<div className={styles.nav__logo}>
-						<div className={styles.nav__logo_icon}></div>
-						<div className={styles.nav__logo_text}>TravPe</div>
+						<div className={styles["nav__logo-icon"]}></div>
+						<div className={styles["nav__logo-text"]}>TravPe</div>
 					</div>
 					<div className={styles.nav__links}>
 						<Link
@@ -28,7 +28,7 @@ function Header() {
 							}`}
 						>
 							<div
-								className={`${styles.nav__link_icon} ${styles.home_icon} ${
+								className={`${styles["nav__link-icon"]} ${styles.home_icon} ${
 									pathname === "/" ? styles.home_icon_active : ""
 								}`}
 							/>
@@ -41,7 +41,7 @@ function Header() {
 							}`}
 						>
 							<div
-								className={`${styles.nav__link_icon} ${styles.profile_icon} ${
+								className={`${styles["nav__link-icon"]} ${styles.profile_icon} ${
 									pathname === "/profile" ? styles.profile_icon_active : ""
 								}`}
 							/>
@@ -54,7 +54,7 @@ function Header() {
 							}`}
 						>
 							<div
-								className={`${styles.nav__link} ${
+								className={`${styles["nav__link-icon"]} ${styles.login_icon} ${
 									pathname === "/signin" ? styles.nav__link_active : ""
 								}`}
 							/>

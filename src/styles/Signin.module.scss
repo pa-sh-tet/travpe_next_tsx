@@ -1,0 +1,97 @@
+@import "./mixins";
+
+.login {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 1280px;
+	height: 100vh;
+
+	&__container {
+		@include block_style;
+		width: 330px;
+		min-height: 360px;
+		padding: 30px;
+		display: flex;
+		flex-direction: column;
+		/* justify-content: space-between; */
+		align-items: center;
+		/* gap: 30px; */
+	}
+
+	&__logo-link {
+		width: 30px;
+		height: 30px;
+		background-image: url("/images/logoMain.png");
+		background-size: cover;
+		background-position: center;
+		border: none;
+		border-radius: 50%;
+		margin: 10px 0;
+	}
+
+	&__title {
+		margin-bottom: 30px;
+		font-size: 20px;
+	}
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		/* gap: 15px; */
+		width: 100%;
+
+		/* TODO сделать чтобы типа placeholder выкатывался вверх, где label */
+		&-item {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			margin-bottom: 15px;
+		}
+	}
+
+	&__label {
+		font-size: 13px;
+		color: #374151;
+		margin-left: 5px;
+	}
+
+	&__input {
+		padding: 8px 10px;
+		font-size: 15px;
+		background-color: #fff;
+		border: 1px solid #d1d5dbb9;
+	}
+
+	&__button {
+		margin: 10px 0 0;
+		background-color: #1f2937;
+		color: #fff;
+		border: none;
+		border-radius: 5px;
+		padding: 12px 20px;
+		font-size: 15px;
+	}
+
+	&__text {
+		font-size: 13px;
+		color: #374151;
+		text-align: center;
+		margin: 25px 0 30px;
+	}
+
+	&__link {
+		text-decoration: none;
+		margin-left: 5px;
+	}
+
+	&__register {
+		width: 100%;
+		padding-top: 15px;
+		font-size: 13px;
+		color: #374151;
+		text-align: center;
+		margin: 0 0 15px;
+		border-top: 1px solid rgba(55, 65, 81, 0.2);
+	}
+}

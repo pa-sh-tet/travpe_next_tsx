@@ -1,16 +1,12 @@
 import styles from "@/styles/Post.module.scss";
+import { currentPost } from "@/data/data";
+import { useRouter } from "next/router";
 
 export default function Post() {
+	const router = useRouter();
 	const isLiked = true;
-  const currentPost = {
-    author: "John Doe",
-    date: "2023-01-01",
-    placeLocation: "New York",
-    description: "Mountains",
-    image: "/images/mountains.png",
-  }
 
-	return (
+	return router.pathname === "/" ? (
 		<div className={styles.post}>
 			<div
 				className={styles.post__image}
@@ -26,7 +22,9 @@ export default function Post() {
 					</div>
 					<div className={styles.post__location}>
 						<div className={styles.post__location_icon}></div>
-						<p className={styles.post__location_value}>{currentPost.placeLocation}</p>
+						<p className={styles.post__location_value}>
+							{currentPost.placeLocation}
+						</p>
 					</div>
 					<div className={styles.post__like}>
 						<button
@@ -35,14 +33,41 @@ export default function Post() {
 							}`}
 							// onClick={handleLikeClick}
 						></button>
-						<p className={styles.post__likes_value}>
-              {/* {likes.length} */}
-              5
-              </p>
+						<p className={styles.post__likes_value}>{/* {likes.length} */}5</p>
 					</div>
 				</div>
 			</div>
 		</div>
+	) : (
+		<li className={styles["profile__post"]}>
+			<div
+				className={styles["profile__post-image"]}
+				style={{ backgroundImage: "url(" + currentPost.image + ")" }}
+			></div>
+			<div className={styles["profile__post-container"]}>
+				<p className={styles["profile__post-description"]}>
+					{currentPost.description}
+				</p>
+				<div className={styles["profile__post-info"]}>
+					<p className={styles["profile__post-date"]}>{currentPost.date}</p>
+					<div className={styles["profile__post-like"]}>
+						<button
+							className={`${styles["profile__post-like-button"]} ${
+								isLiked ? styles["profile__post-like-button_active"] : ""
+							}`}
+							// onClick={handleLikeClick}
+						></button>
+						<p className={styles["profile__post-like-value"]}>
+							{/* {currentPost.likes.length} */}5
+						</p>
+					</div>
+				</div>
+			</div>
+			<button
+				className={styles["profile__post-delete"]}
+				// onClick={handleDeleteClick}
+			></button>
+		</li>
 	);
 }
 

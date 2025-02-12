@@ -1,9 +1,19 @@
+"use client";
+
 import Header from "@/components/Header";
 import styles from "@/styles/Profile.module.scss";
-import { currentUser, userPosts } from "@/data/data";
-import Post from "@/components/Post";
+import {
+	currentUser
+	// userPosts
+} from "@/data/data";
+// import Post from "@/components/Post";
+// import { useSelector } from "react-redux";
+// import { RootState } from "@/redux/store";
 
 export default function Profile() {
+	// const currentUser = useSelector((state: RootState) => state.user);
+	// const userPosts = useSelector((state: RootState) => state.posts);
+
 	return (
 		<div>
 			<Header />
@@ -15,12 +25,13 @@ export default function Profile() {
 							style={{ backgroundImage: `url(${currentUser.avatar})` }}
 						></div>
 						<div className={styles.profile__info}>
-							<h2 className={styles.profile__name}>{currentUser.name}</h2>
-							<p className={styles.profile__tag}>@{currentUser.tag}</p>
-							<p className={styles.profile__summary}>{currentUser.summary}</p>
+							<h2 className={styles.profile__name}>{currentUser.username}</h2>
+							{/* <p className={styles.profile__tag}>@{currentUser.tag}</p> */}
+							{/* <p className={styles.profile__summary}>{currentUser.summary}</p> */}
 						</div>
+						<button>LOGOUT</button>
 					</div>
-					<ul className={styles.profile__stats}>
+					{/* <ul className={styles.profile__stats}>
 						<li className={styles["profile__stats-item"]}>
 							<p className={styles["profile__stats-value"]}>
 								{currentUser.followers}
@@ -39,7 +50,7 @@ export default function Profile() {
 							</p>
 							<p className={styles["profile__stats-name"]}>Posts</p>
 						</li>
-					</ul>
+					</ul> */}
 				</div>
 				{/* <div className={styles.profile__bio}>
 					<div className={`${styles.profile__about} ${styles.profile__block}`}>
@@ -103,9 +114,9 @@ export default function Profile() {
 								Add New Post
 							</p>
 						</button>
-						{userPosts.map((post, index) => (
+						{/* {userPosts.map((post, index) => (
 							<Post key={index} {...post} />
-						))}
+						))} */}
 					</ul>
 				</div>
 			</section>

@@ -2,29 +2,47 @@ import Header from "@/components/Header";
 import styles from "@/styles/NewsFeed.module.scss";
 import Post from "@/components/Post";
 import { currentUser } from "@/data/data";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPosts } from "@/redux/slices/postSlice";
+import { RootState, AppDispatch } from "@/redux/store";
 
 export default function NewsFeed() {
+	const isLogin = true;
+	const dispatch = useDispatch<AppDispatch>();
+	const { posts, status, error } = useSelector(
+		(state: RootState) => state.posts
+	);
+
+	useEffect(() => {
+		dispatch(fetchPosts());
+	}, [dispatch]);
+
 	return (
 		<>
 			<Header />
 			<section className={styles.main}>
-				<div className={styles["main__info-column"]}>
-					<div className={styles.main__profile}>
-						<div className={styles["main__profile-face"]}>
-							<div
-								className={styles["main__profile-avatar"]}
-								style={{ backgroundImage: `url(${currentUser.avatar})` }}
-							></div>
-							<div className={styles["main__profile-info"]}>
-								<h3 className={styles["main__profile-name"]}>
-									{currentUser.name}
-								</h3>
-								<p className={styles["main__profile-tag"]}>
-									@{currentUser.tag}
-								</p>
+				{isLogin && (
+					<div className={styles["main__info-column"]}>
+						<div className={styles.main__profile}>
+							<div className={styles["main__profile-face"]}>
+								<div
+									className={styles["main__profile-avatar"]}
+									style={{ backgroundImage: `url(${currentUser.avatar})` }}
+								></div>
+								<div className={styles["main__profile-info"]}>
+									<h3 className={styles["main__profile-name"]}>
+										{currentUser.username}
+									</h3>
+									{/* <p className={styles["main__profile-tag"]}>
+										@{currentUser.tag}
+									</p> */}
+								</div>
 							</div>
 						</div>
-						{/* <div className={styles["main__profile-stats"]}>
+					</div>
+				)}
+				{/* <div className={styles["main__profile-stats"]}>
 							<div className={styles["main__profile-stats-item"]}>
 								<p className={styles["main__profile-stats-name"]}>Posts</p>
 							</div>
@@ -41,12 +59,17 @@ export default function NewsFeed() {
 								<p className={styles["main__profile-stats-name"]}>Following</p>
 							</div>
 						</div> */}
-					</div>
-				</div>
 				<div className={styles["main__posts-column"]}>
-					<div className={styles.main__posts}>
-						<Post />
-					</div>
+					{error && <p style={{ color: "red" }}>{error}</p>}
+					{status === "loading" ? (
+						<p>Loading...</p>
+					) : (
+						<div className={styles.main__posts}>
+							{posts.map(post => (
+								<Post key={post.id} currentPost={post} />
+							))}
+						</div>
+					)}
 				</div>
 			</section>
 		</>

@@ -1,33 +1,21 @@
 "use client";
 
-// import { useRouter } from "next/navigation";
-// import { signIn } from "next-auth/react";
-// import { FormEventHandler } from "react";
-// import { GoogleButton } from "@/components/GoogleButton";
 import Link from "next/link";
 import styles from "@/styles/Signin.module.scss";
 import Header from "@/components/Header";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "@/redux/actions";
 
 function Login() {
-	// const router = useRouter();
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const dispatch: any = useDispatch();
 
-	// const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
-	// 	event.preventDefault();
-
-	// 	const formData = new FormData(event.currentTarget);
-
-	// 	const res = await signIn("credentials", {
-	// 		email: formData.get("email"),
-	// 		password: formData.get("password"),
-	// 		redirect: false
-	// 	});
-
-	// 	if (res && !res.error) {
-	// 		router.push("/profile");
-	// 	} else {
-	// 		console.log(res);
-	// 	}
-	// };
+	const handleLogin = () => {
+		dispatch(loginUser({ email, password }));
+	};
 
 	return (
 		<>
@@ -37,10 +25,7 @@ function Login() {
 					<Link className={styles["login__logo-link"]} href="/" />
 					<h2 className={styles.login__title}>Welcome back</h2>
 					{/* <GoogleButton></GoogleButton> */}
-					<form
-						className={styles.login__form}
-						//  onSubmit={handleSubmit}
-					>
+					<form className={styles.login__form} onSubmit={handleLogin}>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="email" className={styles.login__label}>
 								Email
@@ -50,6 +35,7 @@ function Login() {
 								name="email"
 								id="email"
 								type="email"
+								onChange={e => setEmail(e.target.value)}
 								required
 							/>
 						</div>
@@ -62,6 +48,7 @@ function Login() {
 								name="password"
 								id="password"
 								type="password"
+								onChange={e => setPassword(e.target.value)}
 								required
 							/>
 						</div>
@@ -83,3 +70,23 @@ function Login() {
 }
 
 export default Login;
+
+// const router = useRouter();
+
+// const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+// 	event.preventDefault();
+
+// 	const formData = new FormData(event.currentTarget);
+
+// 	const res = await signIn("credentials", {
+// 		email: formData.get("email"),
+// 		password: formData.get("password"),
+// 		redirect: false
+// 	});
+
+// 	if (res && !res.error) {
+// 		router.push("/profile");
+// 	} else {
+// 		console.log(res);
+// 	}
+// };

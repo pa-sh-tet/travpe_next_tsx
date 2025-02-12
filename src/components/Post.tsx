@@ -1,10 +1,20 @@
 import styles from "@/styles/Post.module.scss";
-import { currentPost } from "@/data/data";
+// import { currentPost } from "@/data/data";
 import { useRouter } from "next/router";
+import { PostData } from "@/redux/slices/postSlice";
 
-export default function Post() {
+export default function Post({ currentPost }: { currentPost: PostData }) {
 	const router = useRouter();
 	const isLiked = true;
+
+	// const postAuthor = "dsa";	
+
+	const date = new Date(currentPost.createdAt);
+	const formattedDate = date.toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "long",
+		day: "numeric"
+	});
 
 	return router.pathname === "/" ? (
 		<div className={styles.post}>
@@ -14,17 +24,17 @@ export default function Post() {
 				style={{ backgroundImage: `url(${currentPost.image})` }}
 			></div>
 			<div className={styles.post__container}>
-				<p className={styles.post__description}>{currentPost.description}</p>
+				<p className={styles.post__description}>{currentPost.content}</p>
 				<div className={styles.post__info}>
 					<div className={styles.post__about}>
-						<p className={styles.post__about_author}>{currentPost.author}</p>
-						<p className={styles.post__about_date}>{currentPost.date}</p>
+						<p className={styles.post__about_author}>{currentPost.userId}</p>
+						<p className={styles.post__about_date}>{formattedDate}</p>
 					</div>
 					<div className={styles.post__location}>
 						<div className={styles.post__location_icon}></div>
-						<p className={styles.post__location_value}>
-							{currentPost.placeLocation}
-						</p>
+						{/* <p className={styles.post__location_value}>
+							{currentPost.location}
+						</p> */}
 					</div>
 					<div className={styles.post__like}>
 						<button
@@ -46,10 +56,12 @@ export default function Post() {
 			></div>
 			<div className={styles["profile__post-container"]}>
 				<p className={styles["profile__post-description"]}>
-					{currentPost.description}
+					{currentPost.content}
 				</p>
 				<div className={styles["profile__post-info"]}>
-					<p className={styles["profile__post-date"]}>{currentPost.date}</p>
+					<p className={styles["profile__post-date"]}>
+						{currentPost.createdAt}
+					</p>
 					<div className={styles["profile__post-like"]}>
 						<button
 							className={`${styles["profile__post-like-button"]} ${

@@ -1,14 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import userReducer from "@/redux/slices/userSlice";
-// import authReducer from "@/redux/slices/authSlice";
+import authReducer from "@/redux/slices/authSlice";
 import { postReducer } from "@/redux/slices/postSlice";
 
 export const store = configureStore({
 	reducer: {
-		// auth: authReducer,
-		// user: userReducer,
+		auth: authReducer,
 		posts: postReducer
-		// likes: likesReducer
 	},
 	devTools: true
 });

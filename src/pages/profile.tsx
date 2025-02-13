@@ -6,13 +6,25 @@ import {
 	currentUser
 	// userPosts
 } from "@/data/data";
+import { useDispatch } from "react-redux";
 // import Post from "@/components/Post";
-// import { useSelector } from "react-redux";
 // import { RootState } from "@/redux/store";
+// import { redirect } from "next/navigation";
+import { logoutUser } from "@/redux/slices/authSlice";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export default function Profile() {
-	// const currentUser = useSelector((state: RootState) => state.user);
-	// const userPosts = useSelector((state: RootState) => state.posts);
+function Profile() {
+	// const { userToken } = useSelector((state: RootState) => state.auth);
+	const dispatch = useDispatch();
+	const router = useRouter();
+
+	useEffect(() => {
+		const userToken = localStorage.getItem("userToken");
+		if (!userToken) {
+			router.push("/signin");
+		}
+	}, [router]);
 
 	return (
 		<div>
@@ -29,7 +41,7 @@ export default function Profile() {
 							{/* <p className={styles.profile__tag}>@{currentUser.tag}</p> */}
 							{/* <p className={styles.profile__summary}>{currentUser.summary}</p> */}
 						</div>
-						<button>LOGOUT</button>
+						<button onClick={() => dispatch(logoutUser())}>LOGOUT</button>
 					</div>
 					{/* <ul className={styles.profile__stats}>
 						<li className={styles["profile__stats-item"]}>
@@ -123,6 +135,8 @@ export default function Profile() {
 		</div>
 	);
 }
+
+export default Profile;
 
 // import React from "react";
 // import Post from "../Post/Post";

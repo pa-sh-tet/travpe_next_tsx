@@ -1,52 +1,75 @@
-// import { userPosts } from "@/data/data";
-import { createSlice } from "@reduxjs/toolkit";
-import {
-	loginUser,
-	registerUser,
-	logoutUser,
-	checkAuth
-} from "../thunks/authThunks";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// TODO : Разобраться с типами
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { registerUser, loginUser } from "../actions/authActions";
 
-export 
+interface AuthState {
+	loading: boolean;
+	userInfo: object;
+	userToken: string | null;
+	error: string | null; // Или более конкретный тип, если возможно
+	success: boolean;
+}
 
-const initialState = {
-	user: null,
-	token: null,
-	status: "idle",
-	error: null
+// const userToken =
+// 	typeof window !== "undefined"
+// 		? localStorage.getItem("userToken")
+// 			? localStorage.getItem("userToken")
+// 			: null
+// 		: null;
+
+const initialState: AuthState = {
+	loading: false,
+	userInfo: {},
+	userToken: null,
+	error: null,
+	success: false
 };
 
 const authSlice = createSlice({
 	name: "auth",
 	initialState,
 	reducers: {
-		// setAuthState: (state, action) => {
-			
-		// }
+		logoutUser: state => {
+			localStorage.removeItem("userToken");
+			state.userToken = null;
+			state.userInfo = {};
+			state.loading = false;
+			state.error = null;
+		},
+		setUserToken: (state, action: PayloadAction<string | null>) => {
+			state.userToken = action.payload;
+		}
 	},
 	extraReducers: builder => {
 		builder
-			.addCase(registerUser.fulfilled, (state, action) => {
-				state.status = "succeded";
-				state.user = action.payload.user;
-				state.token = action.payload.token;
+			.addCase(registerUser.pending, state => {
+				state.loading = true;
+				state.error = null;
 			})
-			.addCase(loginUser.fulfilled, (state, action) => {
-				state.status = "succeded";
-				state.user = action.payload.user;
-				state.token = action.payload.token;
+			.addCase(registerUser.fulfilled, state => {
+				state.loading = false;
+				state.success = true;
 			})
-			.addCase(logoutUser.fulfilled, state => {
-				state.status = "idle";
-				state.user = null;
-				state.token = null;
+			.addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
+				state.loading = false;
+				state.error = action.payload;
 			})
-			.addCase(checkAuth.fulfilled, (state, action) => {
-				state.status = "succeded";
-				state.user = action.payload.user;
+			.addCase(loginUser.pending, state => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(loginUser.fulfilled, (state, action: PayloadAction<any>) => {
+				state.loading = false;
+				state.userInfo = action.payload;
+				state.userToken = action.payload.userToken;
+			})
+			.addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
+				state.loading = false;
+				state.error = action.payload;
 			});
 	}
 });
 
-// export 
+export const { logoutUser, setUserToken } = authSlice.actions;
 export default authSlice.reducer;

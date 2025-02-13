@@ -3,18 +3,31 @@
 import Link from "next/link";
 import styles from "@/styles/Signin.module.scss";
 import Header from "@/components/Header";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { loginUser } from "@/redux/actions";
+import React, { useEffect, useState, FormEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "@/redux/actions/authActions";
+import { RootState } from "@/redux/store";
+import { useRouter } from "next/navigation";
 
 function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const dispatch: any = useDispatch();
+	const { loading, userToken } = useSelector((state: RootState) => state.auth);
+	const router = useRouter();
 
-	const handleLogin = () => {
-		dispatch(loginUser({ email, password }));
+	useEffect(() => {
+		if (userToken !== null) {
+			router.push("/");
+			console.log(userToken);
+		}
+	}, [router, userToken]);
+
+	const handleLogin = (e: FormEvent) => {
+		// Укажите тип для события FormEvent
+		e.preventDefault(); // Предотвращаем перезагрузку страницы
+		dispatch(loginUser({ email, password })); // Вызываем loginUser с email и password
 	};
 
 	return (
@@ -24,7 +37,6 @@ function Login() {
 				<div className={styles.login__container}>
 					<Link className={styles["login__logo-link"]} href="/" />
 					<h2 className={styles.login__title}>Welcome back</h2>
-					{/* <GoogleButton></GoogleButton> */}
 					<form className={styles.login__form} onSubmit={handleLogin}>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="email" className={styles.login__label}>
@@ -52,8 +64,12 @@ function Login() {
 								required
 							/>
 						</div>
-						<button className={styles.login__button} type="submit">
-							Sign in
+						<button
+							className={styles.login__button}
+							type="submit"
+							disabled={loading}
+						>
+							{loading ? "loading..." : "Sign in"}
 						</button>
 						<p className={styles.login__text}>Forgot your password?</p>
 					</form>

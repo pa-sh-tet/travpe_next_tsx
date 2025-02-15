@@ -5,23 +5,16 @@ import { registerUser, loginUser } from "../actions/authActions";
 
 interface AuthState {
 	loading: boolean;
-	userInfo: object;
 	userToken: string | null;
+	// userId: number | null;
 	error: string | null; // Или более конкретный тип, если возможно
 	success: boolean;
 }
 
-// const userToken =
-// 	typeof window !== "undefined"
-// 		? localStorage.getItem("userToken")
-// 			? localStorage.getItem("userToken")
-// 			: null
-// 		: null;
-
 const initialState: AuthState = {
 	loading: false,
-	userInfo: {},
 	userToken: null,
+	// userId: null,
 	error: null,
 	success: false
 };
@@ -33,12 +26,19 @@ const authSlice = createSlice({
 		logoutUser: state => {
 			localStorage.removeItem("userToken");
 			state.userToken = null;
-			state.userInfo = {};
+			// state.userId = null;
 			state.loading = false;
 			state.error = null;
 		},
-		setUserToken: (state, action: PayloadAction<string | null>) => {
+		setUserToken: (state, action: PayloadAction<any>) => {
 			state.userToken = action.payload;
+		},
+		getToken: state => {
+			if (localStorage.getItem("userToken")) {
+				state.userToken = localStorage.getItem("userToken");
+			} else {
+				state.userToken = null;
+			}
 		}
 	},
 	extraReducers: builder => {
@@ -61,8 +61,7 @@ const authSlice = createSlice({
 			})
 			.addCase(loginUser.fulfilled, (state, action: PayloadAction<any>) => {
 				state.loading = false;
-				state.userInfo = action.payload;
-				state.userToken = action.payload.userToken;
+				state.userToken = action.payload.token;
 			})
 			.addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
 				state.loading = false;
@@ -71,5 +70,5 @@ const authSlice = createSlice({
 	}
 });
 
-export const { logoutUser, setUserToken } = authSlice.actions;
-export default authSlice.reducer;
+export const { logoutUser, setUserToken, getToken } = authSlice.actions;
+export const authReducer = authSlice.reducer;

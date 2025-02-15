@@ -7,8 +7,6 @@ export default function Post({ currentPost }: { currentPost: PostData }) {
 	const router = useRouter();
 	const isLiked = true;
 
-	// const postAuthor = "dsa";	
-
 	const date = new Date(currentPost.createdAt);
 	const formattedDate = date.toLocaleDateString("en-US", {
 		year: "numeric",
@@ -18,11 +16,11 @@ export default function Post({ currentPost }: { currentPost: PostData }) {
 
 	return router.pathname === "/" ? (
 		<div className={styles.post}>
-			<div
+			{/* <div
 				className={styles.post__image}
 				// TODO: при несоответствии картинки и блока, на фоне дублировать размытую картинку
 				style={{ backgroundImage: `url(${currentPost.image})` }}
-			></div>
+			></div> */}
 			<div className={styles.post__container}>
 				<p className={styles.post__description}>{currentPost.content}</p>
 				<div className={styles.post__info}>
@@ -30,12 +28,12 @@ export default function Post({ currentPost }: { currentPost: PostData }) {
 						<p className={styles.post__about_author}>{currentPost.userId}</p>
 						<p className={styles.post__about_date}>{formattedDate}</p>
 					</div>
-					<div className={styles.post__location}>
+					{/* <div className={styles.post__location}>
 						<div className={styles.post__location_icon}></div>
-						{/* <p className={styles.post__location_value}>
+						<p className={styles.post__location_value}>
 							{currentPost.location}
-						</p> */}
-					</div>
+						</p>
+					</div> */}
 					<div className={styles.post__like}>
 						<button
 							className={`${styles.post__like_button} ${

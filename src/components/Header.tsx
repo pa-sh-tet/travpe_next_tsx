@@ -2,25 +2,25 @@ import Link from "next/link";
 import styles from "@/styles/Header.module.scss";
 
 import { usePathname } from "next/navigation";
-// import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
+import { logoutUser } from "@/redux/slices/authSlice";
 
 function Header() {
 	const pathname = usePathname();
 	const { userToken } = useSelector((state: RootState) => state.auth);
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-	// const [isLogin] = useState(false);
+	// console.log("Токен в хедере:", userToken);
 
 	return (
 		<header className={styles.nav}>
-			{userToken !== null ? (
-				<div className={styles.nav__container}>
-					<div className={styles.nav__logo}>
-						<div className={styles["nav__logo-icon"]}></div>
-						<div className={styles["nav__logo-text"]}>TravPe</div>
-					</div>
+			<div className={styles.nav__container}>
+				<Link href="/" className={styles.nav__logo}>
+					<div className={styles["nav__logo-icon"]}></div>
+					<div className={styles["nav__logo-text"]}>TravPe</div>
+				</Link>
+				{userToken !== null ? (
 					<div className={styles.nav__links}>
 						<Link
 							href="/"
@@ -48,33 +48,42 @@ function Header() {
 							/>
 							Profile
 						</Link>
+						<Link
+							href="/login"
+							className={`${styles.nav__link} ${
+								pathname === "/login" ? styles.nav__link_active : ""
+							}`}
+							onClick={() => dispatch(logoutUser())}
+						>
+							<div
+								className={`${styles["nav__link-icon"]} ${styles.logout_icon} ${
+									pathname === "/login" ? styles.nav__link_active : ""
+								}`}
+							/>
+							Logout
+						</Link>
 					</div>
-				</div>
-			) : (
-				<div className={styles.nav__container}>
-					<div className={styles.nav__logo}>
-						<div className={styles["nav__logo-icon"]}></div>
-						<div className={styles["nav__logo-text"]}>TravPe</div>
-					</div>
+				) : (
 					<div className={styles.nav__links}>
 						<Link
-							href="/signin"
+							href="/login"
 							className={`${styles.nav__link} ${
-								pathname === "/signin" ? styles.nav__link_active : ""
+								pathname === "/login" ? styles.nav__link_active : ""
 							}`}
 						>
 							<div
 								className={`${styles["nav__link-icon"]} ${styles.login_icon} ${
-									pathname === "/signin" ? styles.nav__link_active : ""
+									pathname === "/login" ? styles.nav__link_active : ""
 								}`}
 							/>
 							Login
 						</Link>
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 		</header>
 	);
+					console.log("🚀 ~ Header ~ styles:", styles)
 }
 
 export default Header;

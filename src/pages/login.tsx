@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import styles from "@/styles/Signin.module.scss";
+import styles from "@/styles/Login.module.scss";
 import Header from "@/components/Header";
 import React, { useEffect, useState, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,13 +20,11 @@ function Login() {
 	useEffect(() => {
 		if (userToken !== null) {
 			router.push("/");
-			console.log(userToken);
 		}
 	}, [router, userToken]);
 
 	const handleLogin = (e: FormEvent) => {
-		// Укажите тип для события FormEvent
-		e.preventDefault(); // Предотвращаем перезагрузку страницы
+		e.preventDefault();
 		dispatch(loginUser({ email, password })); // Вызываем loginUser с email и password
 	};
 
@@ -49,6 +47,7 @@ function Login() {
 								type="email"
 								onChange={e => setEmail(e.target.value)}
 								required
+								autoComplete="email"
 							/>
 						</div>
 						<div className={styles["login__form-item"]}>
@@ -61,6 +60,7 @@ function Login() {
 								id="password"
 								type="password"
 								onChange={e => setPassword(e.target.value)}
+								autoComplete="current-password"
 								required
 							/>
 						</div>

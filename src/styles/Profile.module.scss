@@ -1,4 +1,4 @@
-@import "./mixins";
+@use "./mixins" as *;
 $profile__block-padding: 30px;
 
 .profile {

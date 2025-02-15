@@ -1,7 +1,5 @@
-// import { fetchPosts } from "./../actions";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-const API_URL = "http://localhost:5000/posts";
+import { fetchPosts } from "@/redux/actions/postActions";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface PostData {
 	id: string;
@@ -10,23 +8,6 @@ export interface PostData {
 	userId: number;
 	createdAt: string;
 }
-
-export const fetchPosts = createAsyncThunk(
-	"posts/fetchPosts",
-	async (_, { rejectWithValue }) => {
-		try {
-			const response = await fetch(API_URL);
-			const data = await response.json();
-
-			if (!response.ok)
-				throw new Error(data.message || "Ошибка загрузки постов");
-
-			return data;
-		} catch (error) {
-			return rejectWithValue(error);
-		}
-	}
-);
 
 const postsSlice = createSlice({
 	name: "posts",

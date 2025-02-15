@@ -1,4 +1,4 @@
-@import "./mixins";
+@use "./mixins" as *;
 
 .post {
 	display: flex;
@@ -63,7 +63,7 @@
 		&_icon {
 			width: 18px;
 			height: 18px;
-			background-image: url("../../public/images/pinIcon.png");
+			// background-image: url("../../public/images/pinIcon.png");
 			background-size: cover;
 			background-position: center;
 		}

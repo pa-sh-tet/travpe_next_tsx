@@ -1,4 +1,4 @@
-@import "./mixins";
+@use "./mixins" as *;
 
 .nav {
 	background-color: #fff;
@@ -44,7 +44,7 @@
 	&__links {
 		display: flex;
 		flex-direction: row;
-		justify-content: end;
+		justify-content: flex-end;
 		width: 250px;
 		gap: 30px;
 	}
@@ -65,26 +65,29 @@
 		}
 
 		&-icon {
-			width: 20px;
-			height: 20px;
+			width: 25px;
+			height: 25px;
 			background-size: cover;
 			background-position: center;
 			margin-bottom: 3px;
+			margin: auto 0;
 
 			&.home_icon {
 				background-image: url("/images/homeIcon.svg");
+				width: 25px;
+				height: 25px;
 			}
 
 			&.home_icon_active {
-				background-image: url("/images/homeIconFilled.png");
+				background-image: url("/images/homeIconFilled.svg");
 			}
 
 			&.profile_icon {
-				background-image: url("/images/profileIcon.png");
+				background-image: url("/images/profileIcon.svg");
 			}
 
 			&.profile_icon_active {
-				background-image: url("/images/profileIconFilled.png");
+				background-image: url("/images/profileIconFilled.svg");
 			}
 
 			&.settings_icon {
@@ -96,8 +99,11 @@
 			}
 
 			&.login_icon {
-				background-image: url("/images/LoginIcon.png");
-				// margin-right: 5px;
+				background-image: url("/images/loginIcon.svg");
+			}
+
+			&.logout_icon {
+				background-image: url("/images/logoutIcon.svg");
 			}
 		}
 	}

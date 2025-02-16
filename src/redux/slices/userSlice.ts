@@ -1,16 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-	fetchUserInfo
-	// getUserInfo
-} from "../actions/userActions";
-
-interface IUser {
-	id: number;
-	username: string;
-	email: string;
-	password: string;
-	avatar: string;
-}
+import { fetchUserInfo } from "../actions/userActions";
+import { IUser } from "@/types/User";
 
 interface UserState {
 	user: IUser | null;

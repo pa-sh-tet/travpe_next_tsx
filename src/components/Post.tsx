@@ -1,9 +1,9 @@
 import styles from "@/styles/Post.module.scss";
+import { IPost } from "@/types/Post";
 // import { currentPost } from "@/data/data";
 import { useRouter } from "next/router";
-import { PostData } from "@/redux/slices/postSlice";
 
-export default function Post({ currentPost }: { currentPost: PostData }) {
+export default function Post({ currentPost }: { currentPost: IPost }) {
 	const router = useRouter();
 	const isLiked = true;
 
@@ -16,11 +16,15 @@ export default function Post({ currentPost }: { currentPost: PostData }) {
 
 	return router.pathname === "/" ? (
 		<div className={styles.post}>
-			{/* <div
-				className={styles.post__image}
-				// TODO: при несоответствии картинки и блока, на фоне дублировать размытую картинку
-				style={{ backgroundImage: `url(${currentPost.image})` }}
-			></div> */}
+			{currentPost.image !== null && (
+				<div
+					className={styles.post__image}
+					// TODO: при несоответствии картинки и блока, на фоне дублировать размытую картинку
+					style={{ backgroundImage: `url(${currentPost.image})` }}
+					role="image"
+					aria-label="post image"
+				></div>
+			)}
 			<div className={styles.post__container}>
 				<p className={styles.post__description}>{currentPost.content}</p>
 				<div className={styles.post__info}>

@@ -6,7 +6,7 @@ import Post from "@/components/Post";
 // import { currentUser } from "@/data/data";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "@/redux/actions/postActions";
+import { fetchAllPosts } from "@/redux/actions/postActions";
 import { RootState, AppDispatch } from "@/redux/store";
 import {
 	// getUserInfo
@@ -25,7 +25,7 @@ export default function NewsFeed() {
 		if (userToken !== null) {
 			dispatch(fetchUserInfo());
 		}
-		dispatch(fetchPosts());
+		dispatch(fetchAllPosts());
 	}, [dispatch, userToken]);
 
 	return (

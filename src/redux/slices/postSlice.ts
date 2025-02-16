@@ -1,33 +1,46 @@
-import { fetchPosts } from "@/redux/actions/postActions";
+import {
+	fetchAllPosts,
+	createPost,
+	deletePost
+} from "@/redux/actions/postActions";
+import { IPost } from "@/types/Post";
 import { createSlice } from "@reduxjs/toolkit";
-
-export interface PostData {
-	id: string;
-	content: string;
-	image?: string;
-	userId: number;
-	createdAt: string;
-}
 
 const postsSlice = createSlice({
 	name: "posts",
-	initialState: { posts: [] as PostData[], status: "idle", error: null },
+	initialState: { posts: [] as IPost[], status: "idle", error: null },
 	reducers: {},
 	extraReducers: builder => {
 		builder
-			.addCase(fetchPosts.pending, state => {
+			.addCase(fetchAllPosts.pending, state => {
 				state.status = "loading";
 			})
-			.addCase(fetchPosts.fulfilled, (state, action) => {
+			.addCase(fetchAllPosts.fulfilled, (state, action) => {
 				state.status = "succeded";
 				state.posts = action.payload;
 			})
-			.addCase(fetchPosts.rejected, state => {
+			.addCase(fetchAllPosts.rejected, state => {
 				state.status = "failed";
-				// state.error = action.payload;
+			})
+			.addCase(createPost.pending, state => {
+				state.status = "loading";
+			})
+			.addCase(createPost.fulfilled, state => {
+				state.status = "succeded";
+			})
+			.addCase(createPost.rejected, state => {
+				state.status = "failed";
+			})
+			.addCase(deletePost.pending, state => {
+				state.status = "loading";
+			})
+			.addCase(deletePost.fulfilled, state => {
+				state.status = "succeded";
+			})
+			.addCase(deletePost.rejected, state => {
+				state.status = "failed";
 			});
 	}
 });
 
-// export const { setPosts, addPost } = postsSlice.actions;
 export const postReducer = postsSlice.reducer;

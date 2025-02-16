@@ -6,15 +6,13 @@ import { registerUser, loginUser } from "../actions/authActions";
 interface AuthState {
 	loading: boolean;
 	userToken: string | null;
-	// userId: number | null;
-	error: string | null; // Или более конкретный тип, если возможно
+	error: string | null;
 	success: boolean;
 }
 
 const initialState: AuthState = {
 	loading: false,
 	userToken: null,
-	// userId: null,
 	error: null,
 	success: false
 };
@@ -26,19 +24,11 @@ const authSlice = createSlice({
 		logoutUser: state => {
 			localStorage.removeItem("userToken");
 			state.userToken = null;
-			// state.userId = null;
 			state.loading = false;
 			state.error = null;
 		},
 		setUserToken: (state, action: PayloadAction<any>) => {
 			state.userToken = action.payload;
-		},
-		getToken: state => {
-			if (localStorage.getItem("userToken")) {
-				state.userToken = localStorage.getItem("userToken");
-			} else {
-				state.userToken = null;
-			}
 		}
 	},
 	extraReducers: builder => {
@@ -70,5 +60,5 @@ const authSlice = createSlice({
 	}
 });
 
-export const { logoutUser, setUserToken, getToken } = authSlice.actions;
+export const { logoutUser, setUserToken } = authSlice.actions;
 export const authReducer = authSlice.reducer;

@@ -8,20 +8,23 @@ import {
 } from "@/data/data";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-// import { useSelector } from "react-redux";
-// import { RootState } from "@/redux/store";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "@/redux/store";
+import { fetchUserInfo } from "@/redux/actions/userActions";
 
 function Profile() {
 	const router = useRouter();
-
-	// const { userInfo } = useSelector((state: RootState) => state.auth);
+	const dispatch = useDispatch<AppDispatch>();
+	const { user } = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		const userToken = localStorage.getItem("userToken");
 		if (!userToken) {
 			router.push("/login");
+		} else {
+			dispatch(fetchUserInfo());
 		}
-	}, [router]);
+	}, [router, dispatch]);
 
 	return (
 		<div>
@@ -34,7 +37,12 @@ function Profile() {
 							style={{ backgroundImage: `url(${currentUser.avatar})` }}
 						></div>
 						<div className={styles.profile__info}>
-							<h2 className={styles.profile__name}>{currentUser.username}</h2>
+							<h2 className={styles.profile__name}>
+								{user !== null ? user.username : "нет пользователя"}
+							</h2>
+							<p className={styles.profile__name}>
+								{user !== null ? user.email : "нет пользователя"}
+							</p>
 							{/* <p className={styles.profile__tag}>@{currentUser.tag}</p> */}
 							{/* <p className={styles.profile__summary}>{currentUser.summary}</p> */}
 						</div>

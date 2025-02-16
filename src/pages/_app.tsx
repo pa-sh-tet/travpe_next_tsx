@@ -11,7 +11,7 @@ import { setUserToken } from "@/redux/slices/authSlice";
 // export default function App({ Component, pageProps, router }: AppProps) {
 // 	return (
 // 		<Provider store={store}>
-// 			<Component {...pageProps} router={router} />;
+// 			<Component {...pageProps} router={router} />
 // 		</Provider>
 // 	);
 // }

@@ -83,7 +83,6 @@ function Header() {
 			</div>
 		</header>
 	);
-					console.log("🚀 ~ Header ~ styles:", styles)
 }
 
 export default Header;

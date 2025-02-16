@@ -19,35 +19,35 @@ export default function NewsFeed() {
 		(state: RootState) => state.posts
 	);
 	const { userToken } = useSelector((state: RootState) => state.auth);
-	const { userInfo } = useSelector((state: RootState) => state.user);
+	const { user } = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
-		dispatch(fetchUserInfo());
+		if (userToken !== null) {
+			dispatch(fetchUserInfo());
+		}
 		dispatch(fetchPosts());
-	}, [dispatch]);
+	}, [dispatch, userToken]);
 
 	return (
 		<>
 			<Header />
 			<section className={styles.main}>
 				{userToken &&
-					(userInfo !== null ? (
+					(user !== null ? (
 						<div className={styles["main__info-column"]}>
 							<div className={styles.main__profile}>
 								<div className={styles["main__profile-face"]}>
 									<div
 										className={styles["main__profile-avatar"]}
 										style={{
-											backgroundImage: `url(${userInfo.avatar})`
+											backgroundImage: `url(${user.avatar})`
 										}}
 									></div>
 									<div className={styles["main__profile-info"]}>
 										<h3 className={styles["main__profile-name"]}>
-											{userInfo.username}
+											{user.username}
 										</h3>
-										<p className={styles["main__profile-name"]}>
-											{userInfo.email}
-										</p>
+										<p className={styles["main__profile-name"]}>{user.email}</p>
 									</div>
 								</div>
 							</div>

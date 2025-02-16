@@ -1,11 +1,10 @@
-// import { getUserInfo } from "@/redux/slices/userSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
 	fetchUserInfo
 	// getUserInfo
 } from "../actions/userActions";
 
-interface UserInfo {
+interface IUser {
 	id: number;
 	username: string;
 	email: string;
@@ -14,13 +13,13 @@ interface UserInfo {
 }
 
 interface UserState {
-	userInfo: UserInfo | null;
+	user: IUser | null;
 	loading: boolean;
 	error: string | null;
 }
 
 const initialState: UserState = {
-	userInfo: null,
+	user: null,
 	loading: false,
 	error: null
 };
@@ -29,14 +28,14 @@ const userSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-		setUserInfo: (state, action: PayloadAction<UserInfo>) => {
-			state.userInfo = action.payload;
+		setUserInfo: (state, action: PayloadAction<IUser>) => {
+			state.user = action.payload;
 		},
 		clearUserInfo: state => {
-			state.userInfo = null;
+			state.user = null;
 		},
-		getUserInfo: (state, action: PayloadAction<UserInfo>) => {
-			state.userInfo = action.payload;
+		getUserInfo: (state, action: PayloadAction<IUser>) => {
+			state.user = action.payload;
 		}
 	},
 	extraReducers: builder => {
@@ -47,7 +46,7 @@ const userSlice = createSlice({
 			})
 			.addCase(fetchUserInfo.fulfilled, (state, action) => {
 				state.loading = false;
-				state.userInfo = action.payload;
+				state.user = action.payload;
 			})
 			.addCase(fetchUserInfo.rejected, (state, action) => {
 				state.loading = false;

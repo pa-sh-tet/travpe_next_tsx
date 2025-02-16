@@ -55,15 +55,3 @@ export const loginUser = createAsyncThunk<void, LoginData>(
 		}
 	}
 );
-
-export const logoutUser = createAsyncThunk<void, void>(
-	"auth/logout",
-	async (_, { rejectWithValue }) => {
-		try {
-			await axios.post(`${API_URL}/logout`);
-			localStorage.removeItem("userToken");
-		} catch (error) {
-			return rejectWithValue(error);
-		}
-	}
-);

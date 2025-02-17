@@ -38,20 +38,22 @@ export const fetchAllUserPosts = createAsyncThunk<IPost[], number>(
 	}
 );
 
-export const createPost = createAsyncThunk<void, IPost>(
+export const createPost = createAsyncThunk<IPost, Partial<IPost>>(
 	"posts/createPost",
 	async ({ content, image, userId }, { rejectWithValue }) => {
 		try {
-			const config = {
-				headers: {
-					"Content-Type": "application/json"
-				}
-			};
-			await fetch(API_URL, {
+			const response = await fetch(API_URL, {
 				method: "POST",
-				body: JSON.stringify({ content, image, userId }),
-				...config
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ content, image, userId })
 			});
+
+			if (!response.ok) {
+				throw new Error("Ошибка при создании поста");
+			}
+
+			const newPost = await response.json(); // Получаем созданный пост с сервера
+			return newPost; // Возвращаем его для обновления состояния
 		} catch (error) {
 			return rejectWithValue(error);
 		}

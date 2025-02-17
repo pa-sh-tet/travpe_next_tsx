@@ -44,9 +44,14 @@ const postsSlice = createSlice({
 			.addCase(createPost.pending, state => {
 				state.status = "loading";
 			})
-			.addCase(createPost.fulfilled, state => {
+			.addCase(createPost.fulfilled, (state, action) => {
 				state.status = "succeded";
+				if (action.payload) {
+					state.allPosts.unshift(action.payload);
+					state.userPosts.unshift(action.payload);
+				}
 			})
+
 			.addCase(createPost.rejected, state => {
 				state.status = "failed";
 			})

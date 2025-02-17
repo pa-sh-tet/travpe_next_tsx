@@ -1,13 +1,13 @@
 import styles from "@/styles/Post.module.scss";
 import { IPost } from "@/types/Post";
-// import { currentPost } from "@/data/data";
+// import { post } from "@/data/data";
 import { useRouter } from "next/router";
 
-export default function Post({ currentPost }: { currentPost: IPost }) {
+export default function Post({ post }: { post: IPost }) {
 	const router = useRouter();
 	const isLiked = true;
 
-	const date = new Date(currentPost.createdAt);
+	const date = new Date(post.createdAt);
 	const formattedDate = date.toLocaleDateString("en-US", {
 		year: "numeric",
 		month: "long",
@@ -16,26 +16,26 @@ export default function Post({ currentPost }: { currentPost: IPost }) {
 
 	return router.pathname === "/" ? (
 		<div className={styles.post}>
-			{currentPost.image !== null && (
+			{post.image !== null && (
 				<div
 					className={styles.post__image}
 					// TODO: при несоответствии картинки и блока, на фоне дублировать размытую картинку
-					style={{ backgroundImage: `url(${currentPost.image})` }}
+					style={{ backgroundImage: `url(${post.image})` }}
 					role="image"
 					aria-label="post image"
 				></div>
 			)}
 			<div className={styles.post__container}>
-				<p className={styles.post__description}>{currentPost.content}</p>
+				<p className={styles.post__description}>{post.content}</p>
 				<div className={styles.post__info}>
 					<div className={styles.post__about}>
-						<p className={styles.post__about_author}>{currentPost.userId}</p>
+						<p className={styles.post__about_author}>{post.user.username}</p>
 						<p className={styles.post__about_date}>{formattedDate}</p>
 					</div>
 					{/* <div className={styles.post__location}>
 						<div className={styles.post__location_icon}></div>
 						<p className={styles.post__location_value}>
-							{currentPost.location}
+							{post.location}
 						</p>
 					</div> */}
 					<div className={styles.post__like}>
@@ -54,16 +54,12 @@ export default function Post({ currentPost }: { currentPost: IPost }) {
 		<li className={styles["profile__post"]}>
 			<div
 				className={styles["profile__post-image"]}
-				style={{ backgroundImage: "url(" + currentPost.image + ")" }}
+				style={{ backgroundImage: "url(" + post.image + ")" }}
 			></div>
 			<div className={styles["profile__post-container"]}>
-				<p className={styles["profile__post-description"]}>
-					{currentPost.content}
-				</p>
+				<p className={styles["profile__post-description"]}>{post.content}</p>
 				<div className={styles["profile__post-info"]}>
-					<p className={styles["profile__post-date"]}>
-						{currentPost.createdAt}
-					</p>
+					<p className={styles["profile__post-date"]}>{formattedDate}</p>
 					<div className={styles["profile__post-like"]}>
 						<button
 							className={`${styles["profile__post-like-button"]} ${
@@ -72,7 +68,7 @@ export default function Post({ currentPost }: { currentPost: IPost }) {
 							// onClick={handleLikeClick}
 						></button>
 						<p className={styles["profile__post-like-value"]}>
-							{/* {currentPost.likes.length} */}5
+							{/* {post.likes.length} */}5
 						</p>
 					</div>
 				</div>

@@ -1,3 +1,4 @@
+// import { fetchUser } from "./userActions";
 import { IPost } from "@/types/Post";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -12,6 +13,23 @@ export const fetchAllPosts = createAsyncThunk(
 
 			if (!response.ok)
 				throw new Error(data.message || "Ошибка загрузки постов");
+
+			return data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const fetchAllUserPosts = createAsyncThunk<IPost[], number>(
+	"posts/fetchAllUserPosts",
+	async (userId, { rejectWithValue }) => {
+		try {
+			const response = await fetch(`${API_URL}/user/${userId}`);
+			const data = await response.json();
+
+			if (!response.ok)
+				throw new Error(data.message || "Ошибка загрузки постов пользователя");
 
 			return data;
 		} catch (error) {

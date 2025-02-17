@@ -15,7 +15,7 @@ import {
 
 export default function NewsFeed() {
 	const dispatch = useDispatch<AppDispatch>();
-	const { posts, status, error } = useSelector(
+	const { allPosts, status, error } = useSelector(
 		(state: RootState) => state.posts
 	);
 	const { userToken } = useSelector((state: RootState) => state.auth);
@@ -71,8 +71,8 @@ export default function NewsFeed() {
 						<p>Loading...</p>
 					) : (
 						<div className={styles.main__posts}>
-							{posts.map(post => (
-								<Post key={post.id} currentPost={post} />
+							{allPosts.map(post => (
+								<Post key={post.id} post={post} />
 							))}
 						</div>
 					)}

@@ -1,14 +1,23 @@
 import {
 	fetchAllPosts,
+	fetchAllUserPosts,
 	createPost,
 	deletePost
 } from "@/redux/actions/postActions";
-import { IPost } from "@/types/Post";
+import {
+	IPost
+	// IFetchPost
+} from "@/types/Post";
 import { createSlice } from "@reduxjs/toolkit";
 
 const postsSlice = createSlice({
 	name: "posts",
-	initialState: { posts: [] as IPost[], status: "idle", error: null },
+	initialState: {
+		allPosts: [] as IPost[],
+		userPosts: [] as IPost[],
+		status: "idle",
+		error: null
+	},
 	reducers: {},
 	extraReducers: builder => {
 		builder
@@ -17,9 +26,19 @@ const postsSlice = createSlice({
 			})
 			.addCase(fetchAllPosts.fulfilled, (state, action) => {
 				state.status = "succeded";
-				state.posts = action.payload;
+				state.allPosts = action.payload;
 			})
 			.addCase(fetchAllPosts.rejected, state => {
+				state.status = "failed";
+			})
+			.addCase(fetchAllUserPosts.pending, state => {
+				state.status = "loading";
+			})
+			.addCase(fetchAllUserPosts.fulfilled, (state, action) => {
+				state.status = "succeded";
+				state.userPosts = action.payload;
+			})
+			.addCase(fetchAllUserPosts.rejected, state => {
 				state.status = "failed";
 			})
 			.addCase(createPost.pending, state => {

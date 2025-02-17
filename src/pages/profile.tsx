@@ -12,20 +12,28 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/redux/store";
 import { fetchUserInfo } from "@/redux/actions/userActions";
 import { openCreatePostPopup } from "@/redux/slices/popupSlice";
+import Post from "@/components/Post";
+import { fetchAllUserPosts } from "@/redux/actions/postActions";
 
 function Profile() {
 	const router = useRouter();
 	const dispatch = useDispatch<AppDispatch>();
 	const { user } = useSelector((state: RootState) => state.user);
+	const { userPosts } = useSelector((state: RootState) => state.posts);
+	// console.log("🚀 ~ Profile ~ userPosts:", userPosts);
 
 	useEffect(() => {
 		const userToken = localStorage.getItem("userToken");
 		if (!userToken) {
 			router.push("/login");
 		} else {
-			dispatch(fetchUserInfo());
+			if (!user) {
+				dispatch(fetchUserInfo());
+			} else {
+				dispatch(fetchAllUserPosts(user.id));
+			}
 		}
-	}, [router, dispatch]);
+	}, [router, dispatch, user]);
 
 	return (
 		<div>
@@ -134,9 +142,9 @@ function Profile() {
 								Add New Post
 							</p>
 						</button>
-						{/* {userPosts.map((post, index) => (
-							<Post key={index} {...post} />
-						))} */}
+						{userPosts.map((post, index) => (
+							<Post key={index} post={post} />
+						))}
 					</ul>
 				</div>
 			</section>

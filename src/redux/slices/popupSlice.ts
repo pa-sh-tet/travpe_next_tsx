@@ -1,17 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PopupState {
 	isCreatePostPopupOpen: boolean;
 	isEditPostPopupOpen: boolean;
 	isDeletePostPopupOpen: boolean;
 	isEditUserPopupOpen: boolean;
+	postIdToDelete: number | null;
 }
 
 const initialState: PopupState = {
 	isCreatePostPopupOpen: false,
 	isEditPostPopupOpen: false,
 	isDeletePostPopupOpen: false,
-	isEditUserPopupOpen: false
+	isEditUserPopupOpen: false,
+	postIdToDelete: null
 };
 
 const popupSlice = createSlice({
@@ -30,11 +32,13 @@ const popupSlice = createSlice({
 		closeEditPostPopup: state => {
 			state.isEditPostPopupOpen = false;
 		},
-		openDeletePostPopup: state => {
+		openDeletePostPopup: (state, action: PayloadAction<number>) => {
 			state.isDeletePostPopupOpen = true;
+			state.postIdToDelete = action.payload;
 		},
 		closeDeletePostPopup: state => {
 			state.isDeletePostPopupOpen = false;
+			state.postIdToDelete = null;
 		},
 		openEditUserPopup: state => {
 			state.isEditUserPopupOpen = true;

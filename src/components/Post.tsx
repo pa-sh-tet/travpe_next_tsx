@@ -1,11 +1,27 @@
+import { AppDispatch, RootState } from "@/redux/store";
 import styles from "@/styles/Post.module.scss";
 import { IPost } from "@/types/Post";
 // import { post } from "@/data/data";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { openDeletePostPopup } from "@/redux/slices/popupSlice";
+import {
+	fetchLikesByPost,
+	likePost,
+	unlikePost
+} from "@/redux/actions/likeActions";
+import { useEffect, useState } from "react";
+import { ILike } from "@/types/Like";
+// import DeletePostPopup from "./popups/DeletePostPopup";
 
 export default function Post({ post }: { post: IPost }) {
 	const router = useRouter();
-	const isLiked = true;
+	// const isLiked = likes.length > 0 ? true : false;
+	const dispatch = useDispatch<AppDispatch>();
+	const { user } = useSelector((state: RootState) => state.user);
+	const [likes, setLikes] = useState<ILike[]>([]);
+	if (user === null) return null;
+	const isLiked = likes.some(like => like.userId === user.id);
 
 	const date = new Date(post.createdAt);
 	const formattedDate = date.toLocaleDateString("en-US", {
@@ -13,6 +29,43 @@ export default function Post({ post }: { post: IPost }) {
 		month: "long",
 		day: "numeric"
 	});
+
+	useEffect(() => {
+		const fetchLikes = async () => {
+			try {
+				const result = await dispatch(fetchLikesByPost(post.id));
+				// console.log(result)
+				if (fetchLikesByPost.fulfilled.match(result)) {
+					setLikes(result.payload || []); // Обновляем state с массивом лайков
+				} else {
+					// Обработка ошибки, если action не выполнился успешно
+					console.error("Failed to fetch likes:", result.error);
+				}
+			} catch (error) {
+				console.error("Error fetching likes:", error);
+			}
+		};
+
+		fetchLikes();
+	}, [dispatch, post.id]);
+
+	const handleLikePost = () => {
+		if (user !== null) {
+			dispatch(likePost({ userId: user.id, postId: post.id }));
+		}
+	};
+
+	const handleUnLikePost = () => {
+		dispatch(unlikePost({ likeId: post.id, postId: post.id }));
+	};
+
+	const handleToggleLike = () => {
+		if (isLiked) {
+			handleUnLikePost();
+		} else {
+			handleLikePost();
+		}
+	};
 
 	return router.pathname === "/" ? (
 		<div className={styles.post}>
@@ -39,13 +92,13 @@ export default function Post({ post }: { post: IPost }) {
 						</p>
 					</div> */}
 					<div className={styles.post__like}>
+						<p className={styles.post__likes_value}>{likes.length}</p>
 						<button
 							className={`${styles.post__like_button} ${
 								isLiked ? styles.post__like_button_active : ""
 							}`}
-							// onClick={handleLikeClick}
+							onClick={handleToggleLike}
 						></button>
-						<p className={styles.post__likes_value}>{/* {likes.length} */}5</p>
 					</div>
 				</div>
 			</div>
@@ -67,15 +120,13 @@ export default function Post({ post }: { post: IPost }) {
 							}`}
 							// onClick={handleLikeClick}
 						></button>
-						<p className={styles["profile__post-like-value"]}>
-							{/* {post.likes.length} */}5
-						</p>
+						<p className={styles["profile__post-like-value"]}>{likes.length}</p>
 					</div>
 				</div>
 			</div>
 			<button
 				className={styles["profile__post-delete"]}
-				// onClick={handleDeleteClick}
+				onClick={() => dispatch(openDeletePostPopup(post.id))}
 			></button>
 		</li>
 	);

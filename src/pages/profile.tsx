@@ -15,6 +15,7 @@ import { openCreatePostPopup } from "@/redux/slices/popupSlice";
 import Post from "@/components/Post";
 import { fetchAllUserPosts } from "@/redux/actions/postActions";
 import CreatePostPopup from "@/components/popups/CreatePostPopup";
+import DeletePostPopup from "@/components/popups/DeletePostPopup";
 
 function Profile() {
 	const router = useRouter();
@@ -150,6 +151,7 @@ function Profile() {
 				</div>
 			</section>
 			<CreatePostPopup />
+			<DeletePostPopup />
 		</div>
 	);
 }

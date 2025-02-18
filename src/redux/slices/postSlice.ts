@@ -46,20 +46,26 @@ const postsSlice = createSlice({
 			})
 			.addCase(createPost.fulfilled, (state, action) => {
 				state.status = "succeded";
-				if (action.payload) {
+				if (action.payload && action.payload.id) {
+					// Проверяем, есть ли данные
 					state.allPosts.unshift(action.payload);
 					state.userPosts.unshift(action.payload);
 				}
 			})
-
 			.addCase(createPost.rejected, state => {
 				state.status = "failed";
 			})
 			.addCase(deletePost.pending, state => {
 				state.status = "loading";
 			})
-			.addCase(deletePost.fulfilled, state => {
-				state.status = "succeded";
+			.addCase(deletePost.fulfilled, (state, action) => {
+				state.status = "succeeded";
+				state.allPosts = state.allPosts.filter(
+					post => post.id !== action.meta.arg
+				);
+				state.userPosts = state.userPosts.filter(
+					post => post.id !== action.meta.arg
+				);
 			})
 			.addCase(deletePost.rejected, state => {
 				state.status = "failed";

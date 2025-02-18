@@ -1,12 +1,11 @@
-// import styles from "@/styles/CreatePostPopup.module.scss";
+import styles from "@/styles/PopupWithForm.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import PopupWithForm from "./PopupWithForm";
-import { createPost } from "@/redux/actions/postActions";
+import { createPost, fetchAllUserPosts } from "@/redux/actions/postActions";
 import { useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeCreatePostPopup } from "@/redux/slices/popupSlice";
 import { IPost } from "@/types/Post";
-
 
 function CreatePostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -25,7 +24,7 @@ function CreatePostPopup() {
 		setLink(e.target.value);
 	}
 
-	const handleCreatePost = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleCreatePost = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if (!user || !user.id) return;
@@ -36,21 +35,23 @@ function CreatePostPopup() {
 			image: link
 		};
 
-		dispatch(createPost(newPost));
+		await dispatch(createPost(newPost));
 		dispatch(closeCreatePostPopup());
+		dispatch(fetchAllUserPosts(user.id));
 	};
 
 	return (
 		<PopupWithForm
-			title="Новый пост"
+			title="New Post"
 			name="post"
-			buttonText="Создать"
+			buttonText="POST"
 			isOpen={isCreatePostPopupOpen}
 			onSubmit={handleCreatePost}
 			onClose={() => dispatch(closeCreatePostPopup())}
 		>
 			<input
-				placeholder="Название места"
+				className={styles.popup__input}
+				placeholder="Content"
 				id="place-input"
 				name="name"
 				type="text"
@@ -59,7 +60,8 @@ function CreatePostPopup() {
 			/>
 			<span className="popup__input-error place-input-error popup__input-error_active"></span>
 			<input
-				placeholder="Ссылка на картинку"
+				className={styles.popup__input}
+				placeholder="Image link"
 				id="link-input"
 				name="link"
 				type="url"

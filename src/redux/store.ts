@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "@/redux/slices/authSlice";
 import { postReducer } from "@/redux/slices/postSlice";
-import { likeReducer } from "@/redux/slices/likeSlice";
+import { likesReducer } from "@/redux/slices/likeSlice";
 import { userReducer } from "@/redux/slices/userSlice";
 import { popupReduser } from "./slices/popupSlice";
 
@@ -9,7 +9,7 @@ export const store = configureStore({
 	reducer: {
 		auth: authReducer,
 		posts: postReducer,
-		likes: likeReducer,
+		likes: likesReducer,
 		user: userReducer,
 		popup: popupReduser
 	},

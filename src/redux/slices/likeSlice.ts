@@ -1,73 +1,63 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-	// likePost, unlikePost,
-	fetchLikesByPost
-} from "../actions/likeActions";
-import { ILike } from "@/types/Like";
+import { fetchLikesByPost, likePost, unlikePost } from "../actions/likeActions";
 
-interface LikeState {
-	likesByPost: Record<number, ILike[]>; // Объект { postId: массив ILike }
-	status: "idle" | "loading" | "succeeded" | "failed";
+interface Like {
+	id: number;
+	userId: number;
+	postId: number;
+}
+
+interface LikesState {
+	likesByPost: Record<number, Like[]>; // например, { 2: [ { id: 5, userId: 1, postId: 2 }, ... ] }
+	loading: boolean;
 	error: string | null;
 }
 
-const initialState: LikeState = {
+const initialState: LikesState = {
 	likesByPost: {},
-	status: "idle",
+	loading: false,
 	error: null
 };
 
-const likeSlice = createSlice({
+const likesSlice = createSlice({
 	name: "likes",
 	initialState,
 	reducers: {},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchLikesByPost.pending, state => {
-				state.status = "loading";
+				state.loading = true;
+				state.error = null;
 			})
 			.addCase(
 				fetchLikesByPost.fulfilled,
-				(state, action: PayloadAction<ILike[]>) => {
-					state.status = "succeeded";
-
-					// Проверяем, есть ли лайки
-					if (action.payload.length > 0) {
-						const postId = action.payload[0].postId;
-						state.likesByPost[postId] = action.payload;
-					} else {
-						console.warn("⚠ Нет лайков для поста, сохраняем пустой массив.");
-					}
+				(state, action: PayloadAction<{ postId: number; likes: Like[] }>) => {
+					state.loading = false;
+					state.likesByPost[action.payload.postId] = action.payload.likes;
 				}
 			)
-
-			.addCase(fetchLikesByPost.rejected, (state, action) => {
-				state.status = "failed";
-				state.error = action.payload as string;
+			.addCase(fetchLikesByPost.rejected, state => {
+				state.loading = false;
+				// state.error = action.payload;
+			})
+			.addCase(likePost.fulfilled, (state, action: PayloadAction<Like>) => {
+				const { postId } = action.payload;
+				if (state.likesByPost[postId]) {
+					state.likesByPost[postId].push(action.payload);
+				} else {
+					state.likesByPost[postId] = [action.payload];
+				}
+			})
+			.addCase(unlikePost.fulfilled, (state, action: PayloadAction<number>) => {
+				// action.payload – это likeId, но нам надо узнать постId,
+				// здесь можно реализовать поиск лайка по id, если необходимо
+				Object.keys(state.likesByPost).forEach(key => {
+					state.likesByPost[Number(key)] = state.likesByPost[
+						Number(key)
+					].filter(like => like.id !== action.payload);
+				});
 			});
-		// .addCase(
-		// 	likePost.fulfilled,
-		// 	(state, action: PayloadAction<{ postId: number; like: ILike }>) => {
-		// 		const { postId, like } = action.payload;
-		// 		if (state.likesByPost[postId]) {
-		// 			state.likesByPost[postId].push(like);
-		// 		} else {
-		// 			state.likesByPost[postId] = [like];
-		// 		}
-		// 	}
-		// )
-		// .addCase(
-		// 	unlikePost.fulfilled,
-		// 	(state, action: PayloadAction<{ postId: number; likeId: number }>) => {
-		// 		const { postId, likeId } = action.payload;
-		// 		if (state.likesByPost[postId]) {
-		// 			state.likesByPost[postId] = state.likesByPost[postId].filter(
-		// 				like => like.id !== likeId
-		// 			);
-		// 		}
-		// 	}
-		// );
 	}
 });
 
-export const likeReducer = likeSlice.reducer;
+export const likesReducer = likesSlice.reducer;

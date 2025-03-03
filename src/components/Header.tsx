@@ -11,8 +11,6 @@ function Header() {
 	const { userToken } = useSelector((state: RootState) => state.auth);
 	const dispatch = useDispatch();
 
-	// console.log("Токен в хедере:", userToken);
-
 	return (
 		<header className={styles.nav}>
 			<div className={styles.nav__container}>

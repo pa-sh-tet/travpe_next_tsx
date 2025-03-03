@@ -1,62 +1,59 @@
-// import { ILike } from "@/types/Like";
-import { ILike } from "@/types/Like";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const API_URL = "http://localhost:5000/likes";
 
-export const likePost = createAsyncThunk<
-	number,
-	{ userId: number; postId: number }
->("likes/likePost", async ({ userId, postId }, { rejectWithValue }) => {
-	try {
-		const response = await fetch(API_URL, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ userId, postId })
-		});
-
-		if (!response.ok) {
-			throw new Error("Ошибка при добавлении лайка");
-		}
-
-		return postId;
-	} catch (error) {
-		return rejectWithValue(error);
-	}
-});
-
-export const unlikePost = createAsyncThunk<
-	number,
-	{ likeId: number; postId: number }
->("likes/unlikePost", async ({ likeId, postId }, { rejectWithValue }) => {
-	try {
-		const response = await fetch(`${API_URL}/${likeId}`, {
-			method: "DELETE"
-		});
-
-		if (!response.ok) {
-			throw new Error("Ошибка при удалении лайка");
-		}
-
-		return postId;
-	} catch (error) {
-		return rejectWithValue(error);
-	}
-});
-
-export const fetchLikesByPost = createAsyncThunk<ILike[], number>(
+export const fetchLikesByPost = createAsyncThunk(
 	"likes/fetchLikesByPost",
-	async (postId, { rejectWithValue }) => {
+	async (postId: number, { rejectWithValue }) => {
 		try {
-			const response = await fetch(`${API_URL}/${postId}`);
-			const data = await response.json();
-			if (!response.ok) {
-				const errorText = await response.text(); // Получаем тело ошибки
-				console.error("Ошибка с сервера:", errorText);
-				throw new Error(`Ошибка при получении лайков: ${response.status}`);
-			}
+			const res = await fetch(`${API_URL}/${postId}`);
+			const data = await res.json();
+			if (!res.ok) throw new Error(data.error || "Ошибка при получении лайков");
+			return { postId, likes: data }; // data – это массив лайков
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
 
-			return data;
+export const likePost = createAsyncThunk(
+	"likes/likePost",
+	async (
+		{ userId, postId }: { userId: number; postId: number },
+		{ rejectWithValue }
+	) => {
+		try {
+			const res = await fetch(`${API_URL}`, {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({ userId, postId })
+			});
+			const data = await res.json();
+			if (!res.ok) throw new Error(data.error || "Ошибка при добавлении лайка");
+			return data; // возвращаем объект лайка
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const unlikePost = createAsyncThunk(
+	"likes/unlikePost",
+	async (likeId: number, { rejectWithValue }) => {
+		try {
+			const res = await fetch(`${API_URL}/${likeId}`, {
+				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+					"Content-Type": "application/json"
+				}
+			});
+			const data = await res.json();
+			if (!res.ok) throw new Error(data.error || "Ошибка при удалении лайка");
+			return likeId;
 		} catch (error) {
 			return rejectWithValue(error);
 		}

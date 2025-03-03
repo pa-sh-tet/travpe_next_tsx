@@ -22,18 +22,14 @@ function Profile() {
 	const dispatch = useDispatch<AppDispatch>();
 	const { user } = useSelector((state: RootState) => state.user);
 	const { userPosts } = useSelector((state: RootState) => state.posts);
-	// console.log("🚀 ~ Profile ~ userPosts:", userPosts);
 
 	useEffect(() => {
 		const userToken = localStorage.getItem("userToken");
-		if (!userToken) {
+		if (!userToken || !user) {
 			router.push("/login");
 		} else {
-			if (!user) {
-				dispatch(fetchUserInfo());
-			} else {
-				dispatch(fetchAllUserPosts(user.id));
-			}
+			dispatch(fetchUserInfo());
+			dispatch(fetchAllUserPosts(user.id));
 		}
 	}, [router, dispatch, user]);
 

@@ -25,7 +25,7 @@
 		&-face {
 			display: flex;
 			flex-direction: row;
-			justify-content: space-between;
+			// justify-content: space-between;
 		}
 
 		&-avatar {
@@ -35,13 +35,13 @@
 			border-radius: 50%;
 			background-size: cover;
 			background-position: center;
-			margin-right: 20px;
 		}
 
 		&-info {
 			display: flex;
 			flex-direction: column;
 			justify-content: space-evenly;
+			margin-left: 20px;
 		}
 
 		&-name {
@@ -49,7 +49,7 @@
 		}
 
 		&-tag {
-			font-size: 13px;
+			font-size: 15px;
 			color: rgba(0, 0, 0, 0.6);
 		}
 
@@ -134,7 +134,7 @@
 	}
 
 	&__posts-column {
-		width: 780px;
+		width: 700px;
 		display: flex;
 		flex-direction: column;
 		gap: 40px;

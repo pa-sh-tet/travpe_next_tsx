@@ -3,6 +3,7 @@ import styles from "@/styles/PopupWithForm.module.scss";
 interface PopupWithFormProps {
 	title: string;
 	name: string;
+	status: string;
 	children: React.ReactNode;
 	buttonText: string;
 	isOpen: boolean;
@@ -13,6 +14,7 @@ interface PopupWithFormProps {
 function PopupWithForm({
 	title,
 	name,
+	status,
 	children,
 	buttonText,
 	isOpen,
@@ -25,7 +27,18 @@ function PopupWithForm({
 				<h3 className={styles.popup__title}>{title}</h3>
 				<form name={name} className={styles.popup__form} onSubmit={onSubmit}>
 					{children}
-					<button className={styles.popup__button_submit}>{buttonText}</button>
+					{status === "loading" ? (
+						<div className={styles["popup__button-loader"]}>
+							<div className={styles["popup__button-loader-inner"]}></div>
+						</div>
+					) : (
+						<button
+							className={styles.popup__button_submit}
+							disabled={status === "loading"}
+						>
+							{buttonText}
+						</button>
+					)}
 				</form>
 				<button
 					onClick={onClose}

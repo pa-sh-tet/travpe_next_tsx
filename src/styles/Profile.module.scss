@@ -36,7 +36,6 @@ $profile__block-padding: 30px;
 		background-image: url("https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=580&q=80");
 		background-size: cover;
 		background-position: center;
-		margin-right: 20px;
 	}
 
 	&__info {
@@ -45,6 +44,7 @@ $profile__block-padding: 30px;
 		max-width: 600px;
 		padding: 20px 0;
 		justify-content: space-between;
+		margin-left: 20px;
 	}
 
 	&__name {
@@ -190,6 +190,7 @@ $profile__block-padding: 30px;
 			justify-content: center;
 			align-items: center;
 			gap: 5px;
+			height: 300px;
 
 			&-logo {
 				background-image: url("/images/AddIcon.svg");

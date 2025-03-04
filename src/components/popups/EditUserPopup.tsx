@@ -4,10 +4,10 @@ import PopupWithForm from "./PopupWithForm";
 import { createPost, fetchAllUserPosts } from "@/redux/actions/postActions";
 import { useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
-import { closeCreatePostPopup } from "@/redux/slices/popupSlice";
+import { closeEditUserPopup } from "@/redux/slices/popupSlice";
 import { IPost } from "@/types/Post";
 
-function CreatePostPopup() {
+function EditUserPopup() {
 	const dispatch = useDispatch<AppDispatch>();
 	const [link, setLink] = useState("");
 	const [content, setContent] = useState("");
@@ -37,7 +37,7 @@ function CreatePostPopup() {
 		};
 
 		await dispatch(createPost(newPost));
-		dispatch(closeCreatePostPopup());
+		dispatch(closeEditUserPopup());
 		dispatch(fetchAllUserPosts(user.id));
 	};
 
@@ -49,7 +49,7 @@ function CreatePostPopup() {
 			buttonText="POST"
 			isOpen={isCreatePostPopupOpen}
 			onSubmit={handleCreatePost}
-			onClose={() => dispatch(closeCreatePostPopup())}
+			onClose={() => dispatch(closeEditUserPopup())}
 		>
 			<input
 				className={styles.popup__input}
@@ -75,4 +75,4 @@ function CreatePostPopup() {
 	);
 }
 
-export default CreatePostPopup;
+export default EditUserPopup;

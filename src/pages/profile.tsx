@@ -2,10 +2,6 @@
 
 import Header from "@/components/Header";
 import styles from "@/styles/Profile.module.scss";
-// import {
-// 	currentUser
-// 	// userPosts
-// } from "@/data/data";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,20 +12,25 @@ import Post from "@/components/Post";
 import { fetchAllUserPosts } from "@/redux/actions/postActions";
 import CreatePostPopup from "@/components/popups/CreatePostPopup";
 import DeletePostPopup from "@/components/popups/DeletePostPopup";
+import PostSkeleton from "@/components/PostSkeleton";
+import Skeleton from "react-loading-skeleton";
 
 function Profile() {
 	const router = useRouter();
 	const dispatch = useDispatch<AppDispatch>();
-	const { user } = useSelector((state: RootState) => state.user);
-	const { userPosts } = useSelector((state: RootState) => state.posts);
+	const { user, loading } = useSelector((state: RootState) => state.user);
+	const { userPosts, status } = useSelector((state: RootState) => state.posts);
 
 	useEffect(() => {
 		const userToken = localStorage.getItem("userToken");
 		if (!userToken || !user) {
 			router.push("/login");
 		} else {
-			dispatch(fetchUserInfo());
-			dispatch(fetchAllUserPosts(user.id));
+			if (!user) {
+				dispatch(fetchUserInfo());
+			} else {
+				dispatch(fetchAllUserPosts(user.id));
+			}
 		}
 	}, [router, dispatch, user]);
 
@@ -39,22 +40,32 @@ function Profile() {
 			<section className={styles.profile}>
 				<div className={`${styles.profile__above} ${styles.profile__block}`}>
 					<div className={styles.profile__face}>
-						<div
-							className={styles.profile__avatar}
-							style={{
-								backgroundImage: `url(${user !== null && user.avatar})`
-							}}
-						></div>
-						<div className={styles.profile__info}>
-							<h2 className={styles.profile__name}>
-								{user !== null ? user.username : "нет пользователя"}
-							</h2>
-							<p className={styles.profile__name}>
-								{user !== null ? user.email : "нет пользователя"}
-							</p>
-							{/* <p className={styles.profile__tag}>@{user.tag}</p> */}
-							{/* <p className={styles.profile__summary}>{user.summary}</p> */}
-						</div>
+						{loading ? (
+							<>
+								<Skeleton height={120} width={120} circle={true} />
+								<div className={styles.profile__info}>
+									<Skeleton height={30} width={200} />
+									<Skeleton height={30} width={150} />
+								</div>
+							</>
+						) : (
+							<>
+								<div
+									className={styles.profile__avatar}
+									style={{
+										backgroundImage: `url(${user !== null && user.avatar})`
+									}}
+								></div>
+								<div className={styles.profile__info}>
+									<h2 className={styles.profile__name}>
+										{user !== null ? user.username : "нет пользователя"}
+									</h2>
+									<p className={styles.profile__name}>
+										{user !== null ? user.email : "нет пользователя"}
+									</p>
+								</div>
+							</>
+						)}
 					</div>
 					{/* <ul className={styles.profile__stats}>
 						<li className={styles["profile__stats-item"]}>
@@ -140,9 +151,21 @@ function Profile() {
 								Add New Post
 							</p>
 						</button>
-						{userPosts.map((post, index) => (
-							<Post key={index} post={post} />
-						))}
+						{status === "loading" ? (
+							<>
+								<PostSkeleton />
+								<PostSkeleton />
+								<PostSkeleton />
+								<PostSkeleton />
+								<PostSkeleton />
+							</>
+						) : (
+							<>
+								{userPosts.map((post, index) => (
+									<Post key={index} post={post} />
+								))}
+							</>
+						)}
 					</ul>
 				</div>
 			</section>

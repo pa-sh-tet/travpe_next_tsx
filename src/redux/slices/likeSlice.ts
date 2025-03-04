@@ -40,7 +40,12 @@ const likesSlice = createSlice({
 				state.loading = false;
 				// state.error = action.payload;
 			})
+			.addCase(likePost.pending, state => {
+				state.loading = true;
+				state.error = null;
+			})
 			.addCase(likePost.fulfilled, (state, action: PayloadAction<Like>) => {
+				state.loading = false;
 				const { postId } = action.payload;
 				if (state.likesByPost[postId]) {
 					state.likesByPost[postId].push(action.payload);
@@ -48,9 +53,12 @@ const likesSlice = createSlice({
 					state.likesByPost[postId] = [action.payload];
 				}
 			})
+			.addCase(unlikePost.pending, state => {
+				state.loading = true;
+				state.error = null;
+			})
 			.addCase(unlikePost.fulfilled, (state, action: PayloadAction<number>) => {
-				// action.payload – это likeId, но нам надо узнать постId,
-				// здесь можно реализовать поиск лайка по id, если необходимо
+				state.loading = false;
 				Object.keys(state.likesByPost).forEach(key => {
 					state.likesByPost[Number(key)] = state.likesByPost[
 						Number(key)

@@ -4,10 +4,7 @@ import {
 	createPost,
 	deletePost
 } from "@/redux/actions/postActions";
-import {
-	IPost
-	// IFetchPost
-} from "@/types/Post";
+import { IPost } from "@/types/Post";
 import { createSlice } from "@reduxjs/toolkit";
 
 const postsSlice = createSlice({
@@ -47,7 +44,6 @@ const postsSlice = createSlice({
 			.addCase(createPost.fulfilled, (state, action) => {
 				state.status = "succeded";
 				if (action.payload && action.payload.id) {
-					// Проверяем, есть ли данные
 					state.allPosts.unshift(action.payload);
 					state.userPosts.unshift(action.payload);
 				}

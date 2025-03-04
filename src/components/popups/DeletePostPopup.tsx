@@ -10,19 +10,22 @@ function DeletePostPopup() {
 		(state: RootState) => state.popup
 	);
 
-	const handleDeletePost = async(e: React.FormEvent<HTMLFormElement>) => {
+	const { status } = useSelector((state: RootState) => state.posts);
+
+	const handleDeletePost = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		if (postIdToDelete !== null) {
 			await dispatch(deletePost(postIdToDelete));
 		}
 		dispatch(closeDeletePostPopup());
-	}
+	};
 
 	return (
 		<PopupWithForm
 			name="deletePost"
 			title="Delete Post"
+			status={status}
 			buttonText="Delete"
 			isOpen={isDeletePostPopupOpen}
 			onSubmit={handleDeletePost}

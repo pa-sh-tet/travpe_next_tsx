@@ -53,3 +53,28 @@ export const fetchUserInfo = createAsyncThunk(
 		return await res.json();
 	}
 );
+
+export const updateUser = createAsyncThunk(
+	"users/updateUser",
+	// TODO add type
+	async (user: unknown, { rejectWithValue }) => {
+		try {
+			const response = await fetch(`${API_URL}/users/me`, {
+				method: "PUT",
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(user)
+			});
+			const data = await response.json();
+
+			if (!response.ok)
+				throw new Error(data.message || "Ошибка обновления пользователя");
+
+			return data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);

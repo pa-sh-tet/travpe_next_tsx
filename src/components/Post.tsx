@@ -12,6 +12,7 @@ export default function Post({ post }: { post: IPost }) {
 	const { likes, isLiked, currentUserId } = useLikes(post.id);
 	const dispatch = useDispatch<AppDispatch>();
 	const { userToken } = useSelector((state: RootState) => state.auth);
+	const { loading } = useSelector((state: RootState) => state.likes);
 
 	const date = new Date(post.createdAt);
 	const formattedDate = date.toLocaleDateString("en-US", {
@@ -51,13 +52,22 @@ export default function Post({ post }: { post: IPost }) {
 						<p className={styles.post__about_date}>{formattedDate}</p>
 					</div>
 					<div className={styles.post__like}>
-						<p className={styles.post__likes_value}>{likes.length}</p>
-						<button
-							className={`${styles.post__like_button} ${
-								userToken && isLiked ? styles.post__like_button_active : ""
-							}`}
-							onClick={handleLikeClick}
-						></button>
+						{loading ? (
+							<div className={styles.post__like_loader}></div>
+						) : (
+							<>
+								<p className={styles.post__like_value}>
+									{likes.length === 0 ? "" : likes.length}
+								</p>
+								<button
+									className={`${styles.post__like_button} ${
+										userToken && isLiked ? styles.post__like_button_active : ""
+									}`}
+									onClick={handleLikeClick}
+									disabled={loading}
+								/>
+							</>
+						)}
 					</div>
 				</div>
 			</div>
@@ -73,14 +83,21 @@ export default function Post({ post }: { post: IPost }) {
 				<div className={styles["profile__post-info"]}>
 					<p className={styles["profile__post-date"]}>{formattedDate}</p>
 					<div className={styles["profile__post-like"]}>
-						<p className={styles.post__likes_value}>{likes.length}</p>
-						<button
-							className={`${styles["profile__post-like-button"]} ${
-								isLiked ? styles["profile__post-like-button_active"] : ""
-							}`}
-							onClick={handleLikeClick}
-						></button>
-						{/* <p className={styles["profile__post-like-value"]}>{likes.length}</p> */}
+						{loading ? (
+							<div className={styles["profile__post-like-loader"]}></div>
+						) : (
+							<>
+								<p className={styles["profile__post-like-value"]}>
+									{likes.length === 0 ? "" : likes.length}
+								</p>
+								<button
+									className={`${styles["profile__post-like-button"]} ${
+										isLiked ? styles["profile__post-like-button_active"] : ""
+									}`}
+									onClick={handleLikeClick}
+								></button>
+							</>
+						)}
 					</div>
 				</div>
 			</div>

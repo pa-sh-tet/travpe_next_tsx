@@ -34,7 +34,7 @@ function PopupWithForm({
 					) : (
 						<button
 							className={styles.popup__button_submit}
-							disabled={status === "loading"}
+							disabled={status === "loading" || !isOpen}
 						>
 							{buttonText}
 						</button>

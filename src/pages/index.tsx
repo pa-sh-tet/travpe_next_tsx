@@ -72,7 +72,6 @@ export default function NewsFeed() {
 					{status === "loading" ? (
 						<>
 							<PostSkeleton />
-							<PostSkeleton />
 						</>
 					) : (
 						<div className={styles.main__posts}>

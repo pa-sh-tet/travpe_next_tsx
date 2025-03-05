@@ -7,13 +7,17 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/redux/store";
 import { fetchUserInfo } from "@/redux/actions/userActions";
-import { openCreatePostPopup } from "@/redux/slices/popupSlice";
+import {
+	openCreatePostPopup,
+	openEditUserPopup
+} from "@/redux/slices/popupSlice";
 import Post from "@/components/Post";
 import { fetchAllUserPosts } from "@/redux/actions/postActions";
 import CreatePostPopup from "@/components/popups/CreatePostPopup";
 import DeletePostPopup from "@/components/popups/DeletePostPopup";
 import PostSkeleton from "@/components/PostSkeleton";
 import Skeleton from "react-loading-skeleton";
+import EditUserPopup from "@/components/popups/EditUserPopup";
 
 function Profile() {
 	const router = useRouter();
@@ -40,7 +44,7 @@ function Profile() {
 			<section className={styles.profile}>
 				<div className={`${styles.profile__above} ${styles.profile__block}`}>
 					<div className={styles.profile__face}>
-						{loading ? (
+						{loading || user === null ? (
 							<>
 								<Skeleton height={120} width={120} circle={true} />
 								<div className={styles.profile__info}>
@@ -57,13 +61,13 @@ function Profile() {
 									}}
 								></div>
 								<div className={styles.profile__info}>
-									<h2 className={styles.profile__name}>
-										{user !== null ? user.username : "нет пользователя"}
-									</h2>
-									<p className={styles.profile__name}>
-										{user !== null ? user.email : "нет пользователя"}
-									</p>
+									<h2 className={styles.profile__name}>{user.username}</h2>
+									<p className={styles.profile__name}>{user.email}</p>
 								</div>
+								<button
+									className={styles.profile__edit}
+									onClick={() => dispatch(openEditUserPopup())}
+								></button>
 							</>
 						)}
 					</div>
@@ -155,9 +159,6 @@ function Profile() {
 							<>
 								<PostSkeleton />
 								<PostSkeleton />
-								<PostSkeleton />
-								<PostSkeleton />
-								<PostSkeleton />
 							</>
 						) : (
 							<>
@@ -171,6 +172,7 @@ function Profile() {
 			</section>
 			<CreatePostPopup />
 			<DeletePostPopup />
+			<EditUserPopup />
 		</div>
 	);
 }

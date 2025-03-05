@@ -38,6 +38,17 @@ $profile__block-padding: 30px;
 		background-position: center;
 	}
 
+	&__edit {
+		width: 30px;
+		height: 30px;
+		background-image: url("/images/EditUserIcon.svg");
+		background-size: cover;
+		background-position: center;
+		border: none;
+		background-color: transparent;
+		margin: 10px 0 0 10px;
+	}
+
 	&__info {
 		display: flex;
 		flex-direction: column;

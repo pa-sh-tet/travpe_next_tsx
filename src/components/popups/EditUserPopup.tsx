@@ -1,75 +1,106 @@
 import styles from "@/styles/PopupWithForm.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import PopupWithForm from "./PopupWithForm";
-import { createPost, fetchAllUserPosts } from "@/redux/actions/postActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeEditUserPopup } from "@/redux/slices/popupSlice";
-import { IPost } from "@/types/Post";
+import { fetchUserInfo, updateUser } from "@/redux/actions/userActions";
+import { IUser } from "@/types/User";
 
 function EditUserPopup() {
 	const dispatch = useDispatch<AppDispatch>();
-	const [link, setLink] = useState("");
-	const [content, setContent] = useState("");
-	const { user } = useSelector((state: RootState) => state.user);
-	const { isCreatePostPopupOpen } = useSelector(
+	const { user, loading } = useSelector((state: RootState) => state.user);
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [avatar, setAvatar] = useState("");
+	const { isEditUserPopupOpen } = useSelector(
 		(state: RootState) => state.popup
 	);
-	const { status } = useSelector((state: RootState) => state.posts);
 
-	function handleContentChange(e: React.ChangeEvent<HTMLInputElement>) {
-		setContent(e.target.value);
+	useEffect(() => {
+		setName(user?.username || "");
+		setEmail(user?.email || "");
+		setAvatar(user?.avatar || "");
+	}, [user]);
+
+	const status = loading ? "loading" : "";
+
+	function resetForm() {
+		setName(user?.username || "");
+		setEmail(user?.email || "");
+		setAvatar(user?.avatar || "");
 	}
 
-	function handleLinkChange(e: React.ChangeEvent<HTMLInputElement>) {
-		setLink(e.target.value);
+	useEffect(() => {
+		resetForm();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isEditUserPopupOpen]);
+
+	function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+		setName(e.target.value);
 	}
 
-	const handleCreatePost = async (event: React.FormEvent<HTMLFormElement>) => {
+	function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>) {
+		setEmail(e.target.value);
+	}
+
+	function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+		setAvatar(e.target.value);
+	}
+
+	const handleEditUser = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (!user || !user.id) return;
-
-		const newPost: Partial<IPost> = {
-			userId: user.id,
-			content,
-			image: link
+		const newUserData: Partial<IUser> = {
+			username: name,
+			email,
+			avatar
 		};
 
-		await dispatch(createPost(newPost));
+		await dispatch(updateUser(newUserData));
 		dispatch(closeEditUserPopup());
-		dispatch(fetchAllUserPosts(user.id));
+		dispatch(fetchUserInfo());
 	};
 
 	return (
 		<PopupWithForm
-			title="New Post"
-			name="post"
+			title="Edit user data"
+			name="edit-user"
 			status={status}
-			buttonText="POST"
-			isOpen={isCreatePostPopupOpen}
-			onSubmit={handleCreatePost}
+			buttonText="SAVE"
+			isOpen={isEditUserPopupOpen}
+			onSubmit={handleEditUser}
 			onClose={() => dispatch(closeEditUserPopup())}
 		>
 			<input
 				className={styles.popup__input}
-				placeholder="Content"
-				id="place-input"
+				placeholder="Name"
+				id="name-input"
 				name="name"
 				type="text"
-				value={content}
-				onChange={handleContentChange}
+				required
+				value={name}
+				onChange={handleNameChange}
 			/>
-			<span className="popup__input-error place-input-error popup__input-error_active"></span>
 			<input
 				className={styles.popup__input}
-				placeholder="Image link"
-				id="link-input"
-				name="link"
+				placeholder="Email"
+				id="email-input"
+				name="email"
+				type="email"
+				required
+				value={email}
+				onChange={handleEmailChange}
+			/>
+			<input
+				className={styles.popup__input}
+				placeholder="Avatar URL"
+				id="avatar-input"
+				name="avatar"
 				type="url"
 				required
-				value={link}
-				onChange={handleLinkChange}
+				value={avatar}
+				onChange={handleAvatarChange}
 			/>
 		</PopupWithForm>
 	);

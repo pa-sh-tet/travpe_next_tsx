@@ -2,7 +2,7 @@ import styles from "@/styles/PopupWithForm.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import PopupWithForm from "./PopupWithForm";
 import { createPost, fetchAllUserPosts } from "@/redux/actions/postActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeCreatePostPopup } from "@/redux/slices/popupSlice";
 import { IPost } from "@/types/Post";
@@ -24,6 +24,15 @@ function CreatePostPopup() {
 	function handleLinkChange(e: React.ChangeEvent<HTMLInputElement>) {
 		setLink(e.target.value);
 	}
+
+	function resetForm() {
+		setContent("");
+		setLink("");
+	}
+
+	useEffect(() => {
+		resetForm();
+	}, [isCreatePostPopupOpen]);
 
 	const handleCreatePost = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();

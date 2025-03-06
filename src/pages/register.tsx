@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import styles from "@/styles/Login.module.scss";
-import Header from "@/components/Header";
 import React, { useState, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "@/redux/actions/authActions";
@@ -26,11 +25,11 @@ function Login() {
 
 	return (
 		<>
-			<Header />
+			{/* <Header /> */}
 			<section className={styles.login}>
 				<div className={styles.login__container}>
 					<Link className={styles["login__logo-link"]} href="/" />
-					<h2 className={styles.login__title}>Welcome back</h2>
+					<h2 className={styles.login__title}>Welcome!</h2>
 					<form className={styles.login__form} onSubmit={handleRegister}>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="name" className={styles.login__label}>

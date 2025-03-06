@@ -33,7 +33,7 @@ function Login() {
 			<section className={styles.login}>
 				<div className={styles.login__container}>
 					<Link className={styles["login__logo-link"]} href="/" />
-					<h2 className={styles.login__title}>Welcome back</h2>
+					<h2 className={styles.login__title}>Glad to see you!</h2>
 					<form className={styles.login__form} onSubmit={handleLogin}>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="email" className={styles.login__label}>

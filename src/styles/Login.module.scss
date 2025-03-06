@@ -4,7 +4,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	max-width: 1280px;
+	width: 100%;
+	// max-width: 1280px;
 	height: 100vh;
 
 	&__container {
@@ -17,8 +18,7 @@
 		align-items: center;
 
 		@include respond-to(450px) {
-			width: 280px;
-			// margin: 0 auto;
+			width: 250px;
 			padding: 15px;
 		}
 	}

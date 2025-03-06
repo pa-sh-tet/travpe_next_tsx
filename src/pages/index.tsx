@@ -9,6 +9,7 @@ import { RootState, AppDispatch } from "@/redux/store";
 import { fetchUserInfo } from "@/redux/actions/userActions";
 import PostSkeleton from "@/components/PostSkeleton";
 import Skeleton from "react-loading-skeleton";
+import Footer from "@/components/Footer";
 
 export default function NewsFeed() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -82,6 +83,7 @@ export default function NewsFeed() {
 					)}
 				</div>
 			</section>
+			<Footer />
 		</>
 	);
 }

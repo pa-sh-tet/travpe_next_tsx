@@ -156,6 +156,10 @@
 	}
 }
 
+//
+//
+//
+
 .profile__post {
 	background-color: #fff;
 	border-radius: 10px;
@@ -163,18 +167,42 @@
 	display: flex;
 	flex-direction: column;
 	position: relative;
+	width: 100%;
+	height: auto;
+
+	@include respond-to(500px) {
+		max-width: 290px;
+		margin: 0 auto;
+	}
 
 	&-image {
 		background-image: url("https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=580&q=80");
 		background-size: cover;
 		background-position: center;
-		width: 100%;
+		// width: 300px;
 		height: 200px;
 		border-radius: 10px 10px 0 0;
+
+		@include respond-to(950px) {
+			height: 170px;
+		}
+
+		@include respond-to(tablet) {
+			height: 200px;
+		}
+
+		@include respond-to(tablet) {
+			height: 150px;
+		}
 	}
 
 	&-container {
+		flex: 1;
 		padding: 18px 15px 15px;
+
+		@include respond-to(500px) {
+			padding: 12px 10px 10px;
+		}
 	}
 
 	&-title {
@@ -184,11 +212,15 @@
 
 	&-description {
 		max-height: 44px;
-		overflow: auto; /* TODO доделать переполнение текста */
+		overflow: auto;
 		scrollbar-width: 1px;
 		line-height: 20px;
 		font-size: 16px;
 		overflow: hidden;
+
+		@include respond-to(500px) {
+			font-size: 13px;
+		}
 	}
 
 	&-info {
@@ -196,12 +228,20 @@
 		flex-direction: row;
 		justify-content: space-between;
 		margin-top: 15px;
+
+		@include respond-to(500px) {
+			margin-top: 8px;
+		}
 	}
 
 	&-date {
 		color: #6b7280;
 		font-size: 13px;
 		line-height: 20px;
+
+		@include respond-to(500px) {
+			font-size: 11px;
+		}
 	}
 
 	&-like {

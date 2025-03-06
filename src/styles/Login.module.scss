@@ -14,9 +14,13 @@
 		padding: 30px;
 		display: flex;
 		flex-direction: column;
-		/* justify-content: space-between; */
 		align-items: center;
-		/* gap: 30px; */
+
+		@include respond-to(450px) {
+			width: 280px;
+			// margin: 0 auto;
+			padding: 15px;
+		}
 	}
 
 	&__logo-link {
@@ -33,6 +37,11 @@
 	&__title {
 		margin-bottom: 30px;
 		font-size: 20px;
+
+		@include respond-to(450px) {
+			font-size: 16px;
+			margin-bottom: 20px;
+		}
 	}
 
 	&__form {
@@ -78,6 +87,10 @@
 		color: #374151;
 		text-align: center;
 		margin: 25px 0 30px;
+
+		@include respond-to(450px) {
+			margin: 15px 0 20px;
+		}
 	}
 
 	&__link {

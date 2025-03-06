@@ -1,5 +1,6 @@
 "use client";
 
+import { logoutUser } from "@/redux/slices/authSlice";
 import { closeMenuPopup } from "@/redux/slices/popupSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import styles from "@/styles/Menu.module.scss";
@@ -41,9 +42,12 @@ export default function Menu() {
 					{/* Profile */}
 				</Link>
 				<Link
-					href="/settings"
+					href="/login"
 					className={styles.menu__link}
-					onClick={() => dispatch(closeMenuPopup())}
+					onClick={() => {
+						dispatch(closeMenuPopup());
+						dispatch(logoutUser());
+					}}
 				>
 					<div
 						className={`${styles["menu__link-icon"]} ${styles["menu__link-icon-logout"]}`}

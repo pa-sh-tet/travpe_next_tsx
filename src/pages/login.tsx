@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import styles from "@/styles/Login.module.scss";
-import Header from "@/components/Header";
 import React, { useEffect, useState, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "@/redux/actions/authActions";
@@ -30,7 +29,7 @@ function Login() {
 
 	return (
 		<>
-			<Header />
+			{/* <Header /> */}
 			<section className={styles.login}>
 				<div className={styles.login__container}>
 					<Link className={styles["login__logo-link"]} href="/" />

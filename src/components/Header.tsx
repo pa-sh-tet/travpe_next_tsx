@@ -72,7 +72,7 @@ function Header() {
 					<div className={styles.header__links}>
 						<Link
 							href="/login"
-							className={`${styles.header__link} ${
+							className={`${styles.header__link} ${styles.header__link_menu} ${
 								pathname === "/login" ? styles.header__link_active : ""
 							}`}
 						>

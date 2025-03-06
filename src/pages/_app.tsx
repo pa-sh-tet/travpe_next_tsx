@@ -8,14 +8,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUserToken } from "@/redux/slices/authSlice";
 
-// export default function App({ Component, pageProps, router }: AppProps) {
-// 	return (
-// 		<Provider store={store}>
-// 			<Component {...pageProps} router={router} />
-// 		</Provider>
-// 	);
-// }
-
 function AppContent({ Component, pageProps, router }: AppProps) {
 	const dispatch = useDispatch();
 

@@ -23,6 +23,7 @@ function PopupWithForm({
 }: PopupWithFormProps) {
 	return (
 		<section className={`${styles.popup} ${isOpen ? styles.popup_active : ""}`}>
+			<div className={styles.popup__overlay} onClick={onClose}></div>
 			<div className={styles.popup__container}>
 				<h3 className={styles.popup__title}>{title}</h3>
 				<form name={name} className={styles.popup__form} onSubmit={onSubmit}>

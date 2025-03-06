@@ -5,6 +5,7 @@ interface PopupState {
 	isEditPostPopupOpen: boolean;
 	isDeletePostPopupOpen: boolean;
 	isEditUserPopupOpen: boolean;
+	isMenuPopupOpen: boolean;
 	postIdToDelete: number | null;
 }
 
@@ -13,6 +14,7 @@ const initialState: PopupState = {
 	isEditPostPopupOpen: false,
 	isDeletePostPopupOpen: false,
 	isEditUserPopupOpen: false,
+	isMenuPopupOpen: false,
 	postIdToDelete: null
 };
 
@@ -45,6 +47,12 @@ const popupSlice = createSlice({
 		},
 		closeEditUserPopup: state => {
 			state.isEditUserPopupOpen = false;
+		},
+		openMenuPopup: state => {
+			state.isMenuPopupOpen = true;
+		},
+		closeMenuPopup: state => {
+			state.isMenuPopupOpen = false;
 		}
 	}
 });
@@ -57,7 +65,9 @@ export const {
 	openDeletePostPopup,
 	closeDeletePostPopup,
 	openEditUserPopup,
-	closeEditUserPopup
+	closeEditUserPopup,
+	openMenuPopup,
+	closeMenuPopup
 } = popupSlice.actions;
 
 export const popupReduser = popupSlice.reducer;

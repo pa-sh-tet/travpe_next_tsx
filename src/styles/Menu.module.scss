@@ -1,0 +1,71 @@
+.menu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: white;
+	z-index: 1000;
+
+	&__content {
+		position: relative;
+		background: white;
+		padding: 20px;
+		width: 300px;
+		border-radius: 10px;
+		text-align: center;
+	}
+
+	&__close {
+		background-image: url("/images/closeIcon.svg");
+		background-size: cover;
+		position: absolute;
+		top: 10px;
+		right: 45px;
+		border: none;
+		// outline: 1px solid red;
+		width: 30px;
+		height: 30px;
+		background-color: transparent;
+	}
+
+	&__nav {
+		display: flex;
+		flex-direction: column;
+		gap: 25px;
+	}
+
+	&__link {
+		text-decoration: none;
+		font-size: 18px;
+		color: black;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+
+		&-icon {
+			width: 30px;
+			height: 30px;
+			background-size: cover;
+			background-position: center;
+			margin-bottom: 3px;
+			margin: auto 0;
+
+      &-home {
+        background-image: url("/images/homeIcon.svg");
+      }
+
+      &-profile {
+        background-image: url("/images/profileIcon.svg");
+      }
+
+      &-logout {
+        background-image: url("/images/logoutIcon.svg");
+      }
+		}
+	}
+}

@@ -1,23 +1,37 @@
 @use "./mixins" as *;
+@use "./variables" as *;
 
-.nav {
+.header {
 	background-color: #fff;
 	width: 100%;
+	// min-width: 1280px;
 	height: calc(50px - 2 * 10px);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 10px 0;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	// outline: 1px solid red;
 
 	&__container {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		width: calc(1280px - 2 * 90px);
+		// width: calc(1280px - 180px);
+		width: 100%;
+		max-width: 1100px;
 		padding: 0 90px;
 		height: 30px;
+		// outline: 1px solid red;
 		align-items: center;
+
+		@include respond-to(tablet) {
+			padding: 0 45px;
+		}
+
+		@include respond-to(mobile) {
+			padding: 0 20px;
+		}
 	}
 
 	&__logo {
@@ -45,8 +59,27 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: flex-end;
-		width: 250px;
+		// width: 250px;
 		gap: 30px;
+
+		@include respond-to(tablet) {
+			width: 30px;
+		}
+	}
+
+	&__burger {
+		display: none;
+		background-image: url("/images/burgerMenuIcon.svg");
+		background-size: cover;
+		background-position: center;
+		width: 30px;
+		height: 30px;
+		border: none;
+		background-color: transparent;
+
+		@include respond-to(tablet) {
+			display: flex;
+		}
 	}
 
 	&__link {
@@ -59,6 +92,10 @@
 		text-decoration: none;
 		color: #000;
 		font-weight: normal;
+
+		@include respond-to(tablet) {
+			display: none;
+		}
 
 		&__link_active {
 			font-weight: bold;

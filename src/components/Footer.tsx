@@ -1,27 +1,27 @@
 "use client";
 
 import styles from "@/styles/Footer.module.scss";
-import Link from "next/link";
+// import Link from "next/link";
 
 export default function Footer() {
 	return (
 		<footer className={styles.footer}>
 			<div className={styles.footer__container}>
-				{/* <div className={styles.footer__socials}>
-						<ul>
-							<li className={styles.icon_content}>
-								<a
-									data-social="telegram"
-									aria-label="Telegram"
-									href="https://t.me/alta_pov"
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									<div className={styles.filled}></div>
-									<svg viewBox="0 0 100 100" version="1.1">
-										<path
-											fill="currentColor"
-											d="M95,9.9c-1.3-1.1-3.4-1.2-7-0.1c0,0,0,0,0,0c-2.5,0.8-24.7,9.2-44.3,17.3c-17.6,7.3-31.9,13.7-33.6,14.5  
+				<div className={styles.footer__socials}>
+					<ul>
+						<li className={styles.icon_content}>
+							<a
+								data-social="telegram"
+								aria-label="Telegram"
+								href="https://t.me/alta_pov"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<div className={styles.filled}></div>
+								<svg viewBox="0 0 100 100" version="1.1">
+									<path
+										fill="currentColor"
+										d="M95,9.9c-1.3-1.1-3.4-1.2-7-0.1c0,0,0,0,0,0c-2.5,0.8-24.7,9.2-44.3,17.3c-17.6,7.3-31.9,13.7-33.6,14.5  
                     c-1.9,0.6-6,2.4-6.2,5.2c-0.1,1.8,1.4,3.4,4.3,4.7c3.1,1.6,16.8,6.2,19.7,7.1c1,3.4,6.9,23.3,7.2,24.5c0.4,1.8,1.6,2.8,2.2,3.2  
                     c0.1,0.1,0.3,0.3,0.5,0.4c0.3,0.2,0.7,0.3,1.2,0.3c0.7,0,1.5-0.3,2.2-0.8c3.7-3,10.1-9.7,11.9-11.6c7.9,6.2,16.5,13.1,17.3,13.9  
                     c0,0,0.1,0.1,0.1,0.1c1.9,1.6,3.9,2.5,5.7,2.5c0.6,0,1.2-0.1,1.8-0.3c2.1-0.7,3.6-2.7,4.1-5.4c0-0.1,0.1-0.5,0.3-1.2  
@@ -29,14 +29,37 @@ export default function Footer() {
                     c0.1-0.1,0.3-0.2,0.4-0.3c0,0,0,0,0,0c0.1,0,0.1-0.1,0.2-0.1c0.1,0,0.1,0,0.2-0.1c-0.1,0.1-0.2,0.4-0.4,0.6L66,38.1  
                     c-8.4,7.7-19.4,17.8-26.7,24.4c0,0,0,0,0,0.1c0,0-0.1,0.1-0.1,0.1c0,0,0,0.1-0.1,0.1c0,0.1,0,0.1-0.1,0.2c0,0,0,0.1,0,0.1  
                     c0,0,0,0,0,0.1c-0.5,5.6-1.4,15.2-1.8,19.5c0,0,0,0,0-0.1C36.8,81.4,31.2,62.3,30,58.3z"
-										></path>
-									</svg>
-								</a>
-								<div className={styles.tooltip}>Telegram</div>
-							</li>
-						</ul>
-					</div> */}
-				<Link
+									></path>
+								</svg>
+							</a>
+							<div className={styles.tooltip}>Telegram</div>
+						</li>
+						<li className={styles.icon_content}>
+							<a
+								href="https://www.github.com/"
+								aria-label="GitHub"
+								data-social="github"
+							>
+								<div className={styles.filled}></div>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="16"
+									height="16"
+									fill="currentColor"
+									viewBox="0 0 16 16"
+									// xml:space="preserve"
+								>
+									<path
+										d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+										fill="currentColor"
+									></path>
+								</svg>
+							</a>
+							<div className={styles.tooltip}>GitHub</div>
+						</li>
+					</ul>
+				</div>
+				{/* <Link
 					href={"https://t.me/alta_pov"}
 					target="_blank"
 					className={styles.footer__link}
@@ -57,7 +80,7 @@ export default function Footer() {
 					</button>
 				</Link>
 				<Link
-					href="https://github.com/travpe"
+					href="https://github.com/pa-sh-tet"
 					target="_blank"
 					className={styles.footer__link}
 				>
@@ -74,9 +97,9 @@ export default function Footer() {
 								fill="white"
 							></path>
 						</svg>
-						<p className={styles.text_github}>Click me</p>
+						<p className={styles.text_github}>GitHub</p>
 					</button>
-				</Link>
+				</Link> */}
 				<p className={styles.footer__copyright}>©2025 Travpe</p>
 			</div>
 		</footer>

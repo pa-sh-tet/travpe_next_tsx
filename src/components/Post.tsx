@@ -47,6 +47,12 @@ export default function Post({ post }: { post: IPost }) {
 			<div className={styles.post__container}>
 				<p className={styles.post__description}>{post.content}</p>
 				<div className={styles.post__info}>
+					<div
+						className={styles.post__avatar}
+						style={{
+							backgroundImage: `url(${post.user.avatar})`
+						}}
+					></div>
 					<div className={styles.post__about}>
 						<p className={styles.post__about_author}>{post.user.username}</p>
 						<p className={styles.post__about_date}>{formattedDate}</p>

@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "@/styles/PopupWithForm.module.scss";
 
 interface PopupWithFormProps {

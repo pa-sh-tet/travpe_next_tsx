@@ -1,4 +1,5 @@
 "use client";
+
 import Header from "@/components/Header";
 import styles from "@/styles/NewsFeed.module.scss";
 import Post from "@/components/Post";
@@ -29,7 +30,7 @@ export default function NewsFeed() {
 	return (
 		<>
 			<Header />
-			<section className={styles.main}>
+			<section className={`${styles.main} `}>
 				{loading ? (
 					<div className={styles["main__info-column"]}>
 						<div className={styles.main__profile}>
@@ -68,7 +69,9 @@ export default function NewsFeed() {
 						)}
 					</>
 				)}
-				<div className={styles["main__posts-column"]}>
+				<div
+					className={`${styles["main__posts-column"]} ${!userToken ? styles["main__posts-column_no-auth"] : ""}`}
+				>
 					{error && <p style={{ color: "red" }}>{error}</p>}
 					{status === "loading" ? (
 						<>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import styles from "@/styles/Login.module.scss";
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "@/redux/actions/authActions";
 import { RootState } from "@/redux/store";
@@ -14,7 +14,7 @@ function Login() {
 	const [password, setPassword] = useState("");
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const dispatch: any = useDispatch();
-	const { loading } = useSelector((state: RootState) => state.auth);
+	const { loading, userToken } = useSelector((state: RootState) => state.auth);
 	const router = useRouter();
 
 	const handleRegister = (e: FormEvent) => {
@@ -22,6 +22,16 @@ function Login() {
 		dispatch(registerUser({ username, email, password }));
 		router.push("/login");
 	};
+
+	useEffect(() => {
+		if (userToken !== null) {
+			router.push("/");
+		}
+	}, [router, userToken]);
+
+	if (userToken !== null) {
+		return null;
+	}
 
 	return (
 		<>

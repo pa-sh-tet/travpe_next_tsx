@@ -29,7 +29,6 @@ function Login() {
 
 	return (
 		<>
-			{/* <Header /> */}
 			<section className={styles.login}>
 				<div className={styles.login__container}>
 					<Link className={styles["login__logo-link"]} href="/" />
@@ -85,23 +84,3 @@ function Login() {
 }
 
 export default Login;
-
-// const router = useRouter();
-
-// const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
-// 	event.preventDefault();
-
-// 	const formData = new FormData(event.currentTarget);
-
-// 	const res = await signIn("credentials", {
-// 		email: formData.get("email"),
-// 		password: formData.get("password"),
-// 		redirect: false
-// 	});
-
-// 	if (res && !res.error) {
-// 		router.push("/profile");
-// 	} else {
-// 		console.log(res);
-// 	}
-// };

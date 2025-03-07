@@ -56,10 +56,21 @@
 		justify-content: space-between;
 	}
 
+	&__avatar {
+		width: 40px;
+		height: 40px;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		border-radius: 50%;
+		margin-right: 10px;
+	}
+
 	&__about {
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
+		flex: 1;
 
 		&_author {
 			font-size: 16px;

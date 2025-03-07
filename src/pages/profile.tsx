@@ -144,32 +144,36 @@ function Profile() {
 						</ul>
 					</div>
 				</div> */}
-				<div className={styles.profile__content}>
-					<h2 className={styles["profile__content-title"]}>Recent Posts</h2>
-					<ul className={styles["profile__content-list"]}>
-						<button
-							className={`${styles["profile__content-add-button"]} ${styles.profile__block}`}
-							onClick={() => dispatch(openCreatePostPopup())}
-						>
-							<div className={styles["profile__content-add-button-logo"]}></div>
-							<p className={styles["profile__content-add-button-text"]}>
-								Add New Post
-							</p>
-						</button>
-						{status === "loading" ? (
-							<>
-								<PostSkeleton />
-								<PostSkeleton />
-							</>
-						) : (
-							<>
-								{userPosts.map((post, index) => (
-									<Post key={index} post={post} />
-								))}
-							</>
-						)}
-					</ul>
-				</div>
+				{user !== null && (
+					<div className={styles.profile__content}>
+						<h2 className={styles["profile__content-title"]}>Recent Posts</h2>
+						<ul className={styles["profile__content-list"]}>
+							<button
+								className={`${styles["profile__content-add-button"]} ${styles.profile__block}`}
+								onClick={() => dispatch(openCreatePostPopup())}
+							>
+								<div
+									className={styles["profile__content-add-button-logo"]}
+								></div>
+								<p className={styles["profile__content-add-button-text"]}>
+									Add New Post
+								</p>
+							</button>
+							{status === "loading" ? (
+								<>
+									<PostSkeleton />
+									<PostSkeleton />
+								</>
+							) : (
+								<>
+									{userPosts.map((post, index) => (
+										<Post key={index} post={post} />
+									))}
+								</>
+							)}
+						</ul>
+					</div>
+				)}
 			</section>
 			<Footer />
 			<CreatePostPopup />

@@ -1,8 +1,10 @@
 import {
 	fetchAllPosts,
 	fetchAllUserPosts,
+	fetchPostById,
 	createPost,
-	deletePost
+	deletePost,
+	updatePost
 } from "@/redux/actions/postActions";
 import { IPost } from "@/types/Post";
 import { createSlice } from "@reduxjs/toolkit";
@@ -12,6 +14,7 @@ const postsSlice = createSlice({
 	initialState: {
 		allPosts: [] as IPost[],
 		userPosts: [] as IPost[],
+		postDataById: null as IPost | null,
 		status: "idle",
 		error: null
 	},
@@ -38,6 +41,16 @@ const postsSlice = createSlice({
 			.addCase(fetchAllUserPosts.rejected, state => {
 				state.status = "failed";
 			})
+			.addCase(fetchPostById.pending, state => {
+				state.status = "loading";
+			})
+			.addCase(fetchPostById.fulfilled, (state, action) => {
+				state.status = "succeded";
+				state.postDataById = action.payload;
+			})
+			.addCase(fetchPostById.rejected, state => {
+				state.status = "failed";
+			})
 			.addCase(createPost.pending, state => {
 				state.status = "loading";
 			})
@@ -49,6 +62,24 @@ const postsSlice = createSlice({
 				}
 			})
 			.addCase(createPost.rejected, state => {
+				state.status = "failed";
+			})
+			.addCase(updatePost.pending, state => {
+				state.status = "loading";
+			})
+			.addCase(updatePost.fulfilled, (state, action) => {
+				state.status = "succeded";
+				const updatedPost = action.payload;
+				if (updatedPost && updatedPost.id) {
+					state.allPosts = state.allPosts.map(post =>
+						post.id === updatedPost.id ? updatedPost : post
+					);
+					state.userPosts = state.userPosts.map(post =>
+						post.id === updatedPost.id ? updatedPost : post
+					);
+				}
+			})
+			.addCase(updatePost.rejected, state => {
 				state.status = "failed";
 			})
 			.addCase(deletePost.pending, state => {

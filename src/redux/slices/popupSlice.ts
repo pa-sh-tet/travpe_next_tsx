@@ -7,6 +7,7 @@ interface PopupState {
 	isEditUserPopupOpen: boolean;
 	isMenuPopupOpen: boolean;
 	postIdToDelete: number | null;
+	postIdToUpdate: number | null;
 }
 
 const initialState: PopupState = {
@@ -15,7 +16,8 @@ const initialState: PopupState = {
 	isDeletePostPopupOpen: false,
 	isEditUserPopupOpen: false,
 	isMenuPopupOpen: false,
-	postIdToDelete: null
+	postIdToDelete: null,
+	postIdToUpdate: null
 };
 
 const popupSlice = createSlice({
@@ -28,11 +30,13 @@ const popupSlice = createSlice({
 		closeCreatePostPopup: state => {
 			state.isCreatePostPopupOpen = false;
 		},
-		openEditPostPopup: state => {
+		openEditPostPopup: (state, action: PayloadAction<number>) => {
 			state.isEditPostPopupOpen = true;
+			state.postIdToUpdate = action.payload;
 		},
 		closeEditPostPopup: state => {
 			state.isEditPostPopupOpen = false;
+			state.postIdToUpdate = null;
 		},
 		openDeletePostPopup: (state, action: PayloadAction<number>) => {
 			state.isDeletePostPopupOpen = true;

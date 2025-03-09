@@ -19,6 +19,7 @@ import PostSkeleton from "@/components/PostSkeleton";
 import Skeleton from "react-loading-skeleton";
 import EditUserPopup from "@/components/popups/EditUserPopup";
 import Footer from "@/components/Footer";
+import EditPostPopup from "@/components/popups/EditPostPopup";
 
 function Profile() {
 	const router = useRouter();
@@ -177,6 +178,7 @@ function Profile() {
 			</section>
 			<Footer />
 			<CreatePostPopup />
+			<EditPostPopup />
 			<DeletePostPopup />
 			<EditUserPopup />
 		</div>

@@ -61,7 +61,7 @@
 	&__edit {
 		width: 30px;
 		height: 30px;
-		background-image: url("/images/EditUserIcon.svg");
+		background-image: url("/images/editIcon.svg");
 		background-size: cover;
 		background-position: center;
 		border: none;
@@ -215,7 +215,7 @@
 
 		&-title {
 			font-size: 22px;
-		
+
 			@include respond-to(tablet) {
 				font-size: 18px;
 			}

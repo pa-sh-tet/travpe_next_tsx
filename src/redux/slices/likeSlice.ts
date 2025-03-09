@@ -38,7 +38,6 @@ const likesSlice = createSlice({
 			)
 			.addCase(fetchLikesByPost.rejected, state => {
 				state.loading = false;
-				// state.error = action.payload;
 			})
 			.addCase(likePost.pending, state => {
 				state.loading = true;

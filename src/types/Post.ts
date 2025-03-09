@@ -1,7 +1,7 @@
 export interface IPost {
 	id: number;
 	content: string;
-	image?: string;
+	image: string;
 	userId: number;
 	user: {
 		id: number;
@@ -10,11 +10,3 @@ export interface IPost {
 	};
 	createdAt: string;
 }
-
-// export interface IPost {
-// 	id: string;
-// 	content: string;
-// 	image?: string;
-// 	userId: number;
-// 	createdAt: string;
-// }

@@ -1,4 +1,3 @@
-// import { fetchUser } from "./userActions";
 import { IPost } from "@/types/Post";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -35,6 +34,23 @@ export const fetchAllUserPosts = createAsyncThunk<IPost[], number>(
 
 			if (!response.ok)
 				throw new Error(data.message || "Ошибка загрузки постов пользователя");
+
+			return data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const fetchPostById = createAsyncThunk<IPost, number>(
+	"posts/fetchPostById",
+	async (id, { rejectWithValue }) => {
+		try {
+			const response = await fetch(`${API_URL}/${id}`);
+			const data = await response.json();
+
+			if (!response.ok)
+				throw new Error(data.message || "Ошибка загрузки поста");
 
 			return data;
 		} catch (error) {
@@ -84,12 +100,6 @@ export const deletePost = createAsyncThunk<void, number>(
 		}
 	}
 );
-
-// TODO для UPdatePost тоже сделать
-// headers: {
-// 	Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-// 	"Content-Type": "application/json"
-// }
 
 export const updatePost = createAsyncThunk<IPost, Partial<IPost>>(
 	"posts/updatePost",

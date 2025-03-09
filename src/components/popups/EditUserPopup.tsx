@@ -9,10 +9,10 @@ import { IUser } from "@/types/User";
 
 function EditUserPopup() {
 	const dispatch = useDispatch<AppDispatch>();
-	const { user, loading } = useSelector((state: RootState) => state.user);
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [avatar, setAvatar] = useState("");
+	const { user, loading } = useSelector((state: RootState) => state.user);
 	const { isEditUserPopupOpen } = useSelector(
 		(state: RootState) => state.popup
 	);
@@ -33,7 +33,7 @@ function EditUserPopup() {
 
 	useEffect(() => {
 		resetForm();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isEditUserPopupOpen]);
 
 	function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {

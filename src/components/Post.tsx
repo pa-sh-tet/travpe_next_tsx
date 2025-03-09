@@ -3,9 +3,13 @@ import styles from "@/styles/Post.module.scss";
 import { IPost } from "@/types/Post";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { openDeletePostPopup } from "@/redux/slices/popupSlice";
+import {
+	openDeletePostPopup,
+	openEditPostPopup
+} from "@/redux/slices/popupSlice";
 import { useLikes } from "@/hooks/useLikes";
 import { likePost, unlikePost } from "@/redux/actions/likeActions";
+import { useState } from "react";
 
 export default function Post({ post }: { post: IPost }) {
 	const router = useRouter();
@@ -13,6 +17,7 @@ export default function Post({ post }: { post: IPost }) {
 	const dispatch = useDispatch<AppDispatch>();
 	const { userToken } = useSelector((state: RootState) => state.auth);
 	const { loading } = useSelector((state: RootState) => state.likes);
+	const [isKebabMenuOpen, setIsKebabMenuOpen] = useState(false);
 
 	const date = new Date(post.createdAt);
 	const formattedDate = date.toLocaleDateString("en-US", {
@@ -107,10 +112,26 @@ export default function Post({ post }: { post: IPost }) {
 					</div>
 				</div>
 			</div>
-			<button
-				className={styles["profile__post-delete"]}
-				onClick={() => dispatch(openDeletePostPopup(post.id))}
-			></button>
+			<div className={styles["profile__post-icons"]}>
+				<button
+					className={`${styles["profile__post-kebab"]} ${styles["profile__post-menu-icon"]} ${isKebabMenuOpen ? styles["profile__post-kebab_active"] : ""}`}
+					onClick={() => setIsKebabMenuOpen(!isKebabMenuOpen)}
+				/>
+				<div
+					className={`${styles["profile__post-etc"]} ${isKebabMenuOpen ? styles["profile__post-etc_active"] : ""}`}
+				>
+					<button
+						className={`${styles["profile__post-edit"]} ${styles["profile__post-menu-icon"]}`}
+						onClick={() => {
+							dispatch(openEditPostPopup(post.id));
+						}}
+					></button>
+					<button
+						className={`${styles["profile__post-delete"]} ${styles["profile__post-menu-icon"]}`}
+						onClick={() => dispatch(openDeletePostPopup(post.id))}
+					></button>
+				</div>
+			</div>
 		</li>
 	);
 }

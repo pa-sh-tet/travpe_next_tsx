@@ -7,6 +7,7 @@ interface RegisterData {
 	username: string;
 	email: string;
 	password: string;
+	avatar: string | null;
 }
 
 interface LoginData {
@@ -16,7 +17,7 @@ interface LoginData {
 
 export const registerUser = createAsyncThunk<void, RegisterData>(
 	"auth/register",
-	async ({ username, email, password }, { rejectWithValue }) => {
+	async ({ username, email, password, avatar }, { rejectWithValue }) => {
 		try {
 			const config = {
 				headers: {
@@ -25,7 +26,7 @@ export const registerUser = createAsyncThunk<void, RegisterData>(
 			};
 			await axios.post(
 				`${API_URL}/register`,
-				{ username, email, password },
+				{ username, email, password, avatar },
 				config
 			);
 		} catch (error) {

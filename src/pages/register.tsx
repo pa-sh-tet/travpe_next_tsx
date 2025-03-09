@@ -12,6 +12,7 @@ function Login() {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [avatar, setAvatar] = useState("");
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const dispatch: any = useDispatch();
 	const { loading, userToken } = useSelector((state: RootState) => state.auth);
@@ -19,7 +20,7 @@ function Login() {
 
 	const handleRegister = (e: FormEvent) => {
 		e.preventDefault();
-		dispatch(registerUser({ username, email, password }));
+		dispatch(registerUser({ username, email, password, avatar }));
 		router.push("/login");
 	};
 
@@ -47,6 +48,7 @@ function Login() {
 							</label>
 							<input
 								className={styles.login__input}
+								placeholder="Enter your name"
 								name="name"
 								id="name"
 								type="name"
@@ -61,6 +63,7 @@ function Login() {
 							</label>
 							<input
 								className={styles.login__input}
+								placeholder="Enter your email"
 								name="email"
 								id="email"
 								type="email"
@@ -70,11 +73,26 @@ function Login() {
 							/>
 						</div>
 						<div className={styles["login__form-item"]}>
+							<label htmlFor="avatar" className={styles.login__label}>
+								Avatar* (optionally)
+							</label>
+							<input
+								placeholder="Enter your avatar URL"
+								className={styles.login__input}
+								name="avatar"
+								id="avatar"
+								type="url"
+								onChange={e => setAvatar(e.target.value)}
+								autoComplete="avatar"
+							/>
+						</div>
+						<div className={styles["login__form-item"]}>
 							<label htmlFor="password" className={styles.login__label}>
 								Password
 							</label>
 							<input
 								className={styles.login__input}
+								placeholder="Enter your password"
 								name="password"
 								id="password"
 								type="password"

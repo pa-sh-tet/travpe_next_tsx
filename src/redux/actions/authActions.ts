@@ -1,7 +1,8 @@
+import { api_url } from "@/api";
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const API_URL = "http://localhost:5000/auth";
+const API_URL = `${api_url}/auth`;
 
 interface RegisterData {
 	username: string;
@@ -44,6 +45,7 @@ export const loginUser = createAsyncThunk<void, LoginData>(
 					"Content-Type": "application/json"
 				}
 			};
+
 			const { data } = await axios.post(
 				`${API_URL}/login`,
 				{ email, password },
@@ -51,8 +53,12 @@ export const loginUser = createAsyncThunk<void, LoginData>(
 			);
 			localStorage.setItem("userToken", data.token);
 			return data;
-		} catch (error) {
-			return rejectWithValue(error);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			if (error.response && error.response.data.error) {
+				return rejectWithValue(error.response.data.error);
+			}
+			return rejectWithValue("Ошибка при авторизации");
 		}
 	}
 );

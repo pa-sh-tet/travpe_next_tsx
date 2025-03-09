@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { api_url } from "@/api";
 
-const API_URL = "http://localhost:5000/likes";
+const API_URL = `${api_url}/likes`;
 
 export const fetchLikesByPost = createAsyncThunk(
 	"likes/fetchLikesByPost",

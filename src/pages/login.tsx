@@ -7,10 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "@/redux/actions/authActions";
 import { RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
+import { isEmailAvailable } from "@/redux/actions/userActions";
 
 function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const [emailError, setEmailError] = useState("");
+	const [passwordError, setPasswordError] = useState("");
+	const [loginError, setLoginError] = useState("");
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const dispatch: any = useDispatch();
 	const { loading, userToken } = useSelector((state: RootState) => state.auth);
@@ -22,9 +27,46 @@ function Login() {
 		}
 	}, [router, userToken]);
 
-	const handleLogin = (e: FormEvent) => {
+	const handleLogin = async (e: FormEvent) => {
 		e.preventDefault();
-		dispatch(loginUser({ email, password })); // Вызываем loginUser с email и password
+		let isValid = true;
+
+		if (!email) {
+			setEmailError("Email is required");
+			isValid = false;
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			setEmailError("Invalid email format");
+			isValid = false;
+		} else if (email.length < 2) {
+			setEmailError("Email must be at least 2 characters");
+			isValid = false;
+		} else if (!isEmailAvailable(email)) {
+			setEmailError("There is no user with this email address.");
+			isValid = false;
+		} else {
+			setEmailError("");
+		}
+
+		if (!password) {
+			setPasswordError("Password is required");
+			isValid = false;
+		} else if (password.length < 4) {
+			setPasswordError("Password must be at least 4 characters");
+			isValid = false;
+		} else {
+			setPasswordError("");
+		}
+
+		if (!isValid) return;
+
+		try {
+			setLoginError("");
+			const result = await dispatch(loginUser({ email, password })).unwrap();
+
+			console.log("Успешный вход:", result);
+		} catch (error) {
+			setLoginError(error as string);
+		}
 	};
 
 	return (
@@ -47,6 +89,9 @@ function Login() {
 								required
 								autoComplete="email"
 							/>
+							{emailError && (
+								<p className={styles.login__error}>{emailError}</p>
+							)}
 						</div>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="password" className={styles.login__label}>
@@ -61,6 +106,9 @@ function Login() {
 								autoComplete="current-password"
 								required
 							/>
+							{passwordError && (
+								<span className={styles.login__error}>{passwordError}</span>
+							)}
 						</div>
 						<button
 							className={styles.login__button}
@@ -69,6 +117,14 @@ function Login() {
 						>
 							{loading ? "loading..." : "Sign in"}
 						</button>
+						{loginError && (
+							<span
+								style={{ margin: "10px auto 0 auto" }}
+								className={styles.login__error}
+							>
+								{loginError}
+							</span>
+						)}
 						<p className={styles.login__text}>Forgot your password?</p>
 					</form>
 					<p className={styles.login__register}>

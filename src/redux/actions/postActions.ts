@@ -1,7 +1,8 @@
 import { IPost } from "@/types/Post";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { api_url } from "@/api";
 
-const API_URL = "http://localhost:5000/posts";
+const API_URL = `${api_url}/posts`;
 
 export const fetchAllPosts = createAsyncThunk(
 	"posts/fetchAllPosts",
@@ -105,23 +106,53 @@ export const updatePost = createAsyncThunk<IPost, Partial<IPost>>(
 	"posts/updatePost",
 	async ({ id, content, image }, { rejectWithValue }) => {
 		try {
+			const updatedData: Partial<IPost> = {};
+			if (content !== undefined) updatedData.content = content;
+			if (image !== undefined) updatedData.image = image;
+
 			const response = await fetch(`${API_URL}/${id}`, {
-				method: "PUT",
+				method: "PATCH",
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
 					"Content-Type": "application/json"
 				},
-				body: JSON.stringify({ content, image })
+				body: JSON.stringify(updatedData)
 			});
 
 			if (!response.ok) {
 				throw new Error("Ошибка при обновлении поста");
 			}
 
-			const updatedPost = await response.json(); // Получаем обновленный пост с сервера
-			return updatedPost; // Возвращаем его для обновления состояния
+			const updatedPost = await response.json();
+
+			return updatedPost;
 		} catch (error) {
 			return rejectWithValue(error);
 		}
 	}
 );
+
+// export const updatePost = createAsyncThunk<IPost, Partial<IPost>>(
+// 	"posts/updatePost",
+// 	async ({ id, content, image }, { rejectWithValue }) => {
+// 		try {
+// 			const response = await fetch(`${API_URL}/${id}`, {
+// 				method: "PATCH",
+// 				headers: {
+// 					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+// 					"Content-Type": "application/json"
+// 				},
+// 				body: JSON.stringify({ content, image })
+// 			});
+
+// 			if (!response.ok) {
+// 				throw new Error("Ошибка при обновлении поста");
+// 			}
+
+// 			const updatedPost = await response.json(); // Получаем обновленный пост с сервера
+// 			return updatedPost; // Возвращаем его для обновления состояния
+// 		} catch (error) {
+// 			return rejectWithValue(error);
+// 		}
+// 	}
+// );

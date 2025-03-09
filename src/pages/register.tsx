@@ -7,21 +7,79 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "@/redux/actions/authActions";
 import { RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
+import {
+	isUsernameAvailable,
+	isEmailAvailable
+} from "@/redux/actions/userActions";
 
 function Login() {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [avatar, setAvatar] = useState("");
+
+	const [usernameError, setUsernameError] = useState("");
+	const [emailError, setEmailError] = useState("");
+	const [passwordError, setPasswordError] = useState("");
+	const [registerError, setRegisterError] = useState("");
+
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const dispatch: any = useDispatch();
 	const { loading, userToken } = useSelector((state: RootState) => state.auth);
 	const router = useRouter();
 
-	const handleRegister = (e: FormEvent) => {
+	const handleRegister = async (e: FormEvent) => {
 		e.preventDefault();
-		dispatch(registerUser({ username, email, password, avatar }));
-		router.push("/login");
+		let isValid = true;
+
+		if (!username) {
+			setUsernameError("Name is required");
+			isValid = false;
+		} else if (username.length < 2 || username.length > 40) {
+			setUsernameError("Name must be between 2 and 40 characters");
+			isValid = false;
+		} else if (isUsernameAvailable(username)) {
+			setUsernameError("This name is already taken");
+			isValid = false;
+		} else {
+			setUsernameError("");
+		}
+
+		if (!email) {
+			setEmailError("Email is required");
+			isValid = false;
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			setEmailError("Invalid email format");
+			isValid = false;
+		} else if (email.length < 2) {
+			setEmailError("Email must be at least 2 characters");
+			isValid = false;
+		} else if (isEmailAvailable(email)) {
+			setEmailError("This email has already been registered");
+			isValid = false;
+		} else {
+			setEmailError("");
+		}
+
+		if (!password) {
+			setPasswordError("Password is required");
+			isValid = false;
+		} else if (password.length < 4) {
+			setPasswordError("Password must be at least 4 characters");
+			isValid = false;
+		} else {
+			setPasswordError("");
+		}
+
+		if (!isValid) return;
+
+		try {
+			await dispatch(registerUser({ username, email, password, avatar }));
+			router.push("/login");
+		} catch (error) {
+			setRegisterError("Registration failed");
+			console.error("Ошибка при регистрации:", error);
+		}
 	};
 
 	useEffect(() => {
@@ -36,12 +94,15 @@ function Login() {
 
 	return (
 		<>
-			{/* <Header /> */}
 			<section className={styles.login}>
 				<div className={styles.login__container}>
 					<Link className={styles["login__logo-link"]} href="/" />
 					<h2 className={styles.login__title}>Welcome!</h2>
-					<form className={styles.login__form} onSubmit={handleRegister}>
+					<form
+						className={styles.login__form}
+						onSubmit={handleRegister}
+						noValidate
+					>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="name" className={styles.login__label}>
 								Name
@@ -52,10 +113,15 @@ function Login() {
 								name="name"
 								id="name"
 								type="name"
+								minLength={2}
+								maxLength={40}
 								onChange={e => setUsername(e.target.value)}
 								required
 								autoComplete="name"
 							/>
+							{usernameError && (
+								<span className={styles.login__error}>{usernameError}</span>
+							)}
 						</div>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="email" className={styles.login__label}>
@@ -67,10 +133,14 @@ function Login() {
 								name="email"
 								id="email"
 								type="email"
+								minLength={2}
 								onChange={e => setEmail(e.target.value)}
 								required
 								autoComplete="email"
 							/>
+							{emailError && (
+								<span className={styles.login__error}>{emailError}</span>
+							)}
 						</div>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="avatar" className={styles.login__label}>
@@ -96,10 +166,15 @@ function Login() {
 								name="password"
 								id="password"
 								type="password"
+								minLength={2}
+								maxLength={40}
 								onChange={e => setPassword(e.target.value)}
 								autoComplete="current-password"
 								required
 							/>
+							{passwordError && (
+								<span className={styles.login__error}>{passwordError}</span>
+							)}
 						</div>
 						<button
 							className={styles.login__button}
@@ -108,6 +183,7 @@ function Login() {
 						>
 							{loading ? "loading..." : "Sign up"}
 						</button>
+						<span className={styles.login__error}>{registerError}</span>
 						<p className={styles.login__text}>Forgot your password?</p>
 					</form>
 					<p className={styles.login__register}>

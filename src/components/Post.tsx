@@ -26,6 +26,10 @@ export default function Post({ post }: { post: IPost }) {
 		day: "numeric"
 	});
 
+	// if (router.pathname === "/") {
+	// 	console.log("-------" + post.user);
+	// }
+
 	const handleLikeClick = () => {
 		if (!userToken || !currentUserId) return;
 		if (isLiked) {
@@ -60,6 +64,7 @@ export default function Post({ post }: { post: IPost }) {
 					></div>
 					<div className={styles.post__about}>
 						<p className={styles.post__about_author}>{post.user.username}</p>
+
 						<p className={styles.post__about_date}>{formattedDate}</p>
 					</div>
 					<div className={styles.post__like}>

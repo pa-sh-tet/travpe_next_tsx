@@ -87,6 +87,7 @@ function Login() {
 							</label>
 							<input
 								className={styles.login__input}
+								placeholder="Enter your Email"
 								name="email"
 								id="email"
 								type="email"
@@ -104,6 +105,7 @@ function Login() {
 							</label>
 							<input
 								className={styles.login__input}
+								placeholder="Enter your Password"
 								name="password"
 								id="password"
 								type="password"
@@ -120,11 +122,7 @@ function Login() {
 							type="submit"
 							disabled={loading}
 						>
-							{loading ? (
-								<div className={styles.loader}></div>
-							) : (
-								"Sign in"
-							)}
+							{loading ? <div className={styles.loader}></div> : "Sign in"}
 						</button>
 						{loginError && (
 							<span

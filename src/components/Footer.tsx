@@ -36,7 +36,8 @@ export default function Footer() {
 						</li>
 						<li className={styles.icon_content}>
 							<a
-								href="https://www.github.com/"
+								href="https://github.com/pa-sh-tet"
+								target="_blank"
 								aria-label="GitHub"
 								data-social="github"
 							>

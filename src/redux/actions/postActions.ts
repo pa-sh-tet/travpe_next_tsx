@@ -1,6 +1,6 @@
 import { IPost } from "@/types/Post";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { api_url } from "@/api";
+import { api_url } from "@/utils/api";
 
 const API_URL = `${api_url}/posts`;
 

@@ -29,7 +29,11 @@ function Login() {
 
 	const handleLogin = async (e: FormEvent) => {
 		e.preventDefault();
+
 		let isValid = true;
+		setEmailError("");
+		setPasswordError("");
+		setLoginError("");
 
 		if (!email) {
 			setEmailError("Email is required");
@@ -40,11 +44,12 @@ function Login() {
 		} else if (email.length < 2) {
 			setEmailError("Email must be at least 2 characters");
 			isValid = false;
-		} else if (!isEmailAvailable(email)) {
-			setEmailError("There is no user with this email address.");
-			isValid = false;
 		} else {
-			setEmailError("");
+			const available = await dispatch(isEmailAvailable(email)).unwrap();
+			if (available) {
+				setEmailError("There is no user with this email address");
+				isValid = false;
+			}
 		}
 
 		if (!password) {
@@ -53,17 +58,13 @@ function Login() {
 		} else if (password.length < 4) {
 			setPasswordError("Password must be at least 4 characters");
 			isValid = false;
-		} else {
-			setPasswordError("");
 		}
 
 		if (!isValid) return;
 
 		try {
 			setLoginError("");
-			const result = await dispatch(loginUser({ email, password })).unwrap();
-
-			console.log("Успешный вход:", result);
+			await dispatch(loginUser({ email, password })).unwrap();
 		} catch (error) {
 			setLoginError(error as string);
 		}
@@ -75,7 +76,11 @@ function Login() {
 				<div className={styles.login__container}>
 					<Link className={styles["login__logo-link"]} href="/" />
 					<h2 className={styles.login__title}>Glad to see you!</h2>
-					<form className={styles.login__form} onSubmit={handleLogin}>
+					<form
+						className={styles.login__form}
+						onSubmit={handleLogin}
+						noValidate
+					>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="email" className={styles.login__label}>
 								Email

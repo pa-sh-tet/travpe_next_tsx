@@ -20,6 +20,7 @@ function Login() {
 
 	const [usernameError, setUsernameError] = useState("");
 	const [emailError, setEmailError] = useState("");
+	const [avatarError, setAvatarError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
 	const [registerError, setRegisterError] = useState("");
 
@@ -32,17 +33,32 @@ function Login() {
 		e.preventDefault();
 		let isValid = true;
 
+		const isValidUrl = (url: string): boolean => {
+			try {
+				new URL(url);
+				return true;
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			} catch (error) {
+				return false;
+			}
+		};
+
+		setUsernameError("");
+		setEmailError("");
+		setPasswordError("");
+
 		if (!username) {
 			setUsernameError("Name is required");
 			isValid = false;
 		} else if (username.length < 2 || username.length > 40) {
 			setUsernameError("Name must be between 2 and 40 characters");
 			isValid = false;
-		} else if (isUsernameAvailable(username)) {
-			setUsernameError("This name is already taken");
-			isValid = false;
 		} else {
-			setUsernameError("");
+			const available = await dispatch(isUsernameAvailable(username)).unwrap();
+			if (!available) {
+				setUsernameError("This name is already taken");
+				isValid = false;
+			}
 		}
 
 		if (!email) {
@@ -54,11 +70,22 @@ function Login() {
 		} else if (email.length < 2) {
 			setEmailError("Email must be at least 2 characters");
 			isValid = false;
-		} else if (isEmailAvailable(email)) {
-			setEmailError("This email has already been registered");
-			isValid = false;
 		} else {
-			setEmailError("");
+			const available = await dispatch(isEmailAvailable(email)).unwrap();
+			if (!available) {
+				setEmailError("This email has already been registered");
+				isValid = false;
+			}
+		}
+
+		if (avatar) {
+			if (avatar.length < 4) {
+				setAvatarError("Avatar must be at least 4 characters");
+				isValid = false;
+			} else if (!isValidUrl(avatar)) {
+				setAvatarError("Avatar must be a valid URL");
+				isValid = false;
+			}
 		}
 
 		if (!password) {
@@ -67,8 +94,6 @@ function Login() {
 		} else if (password.length < 4) {
 			setPasswordError("Password must be at least 4 characters");
 			isValid = false;
-		} else {
-			setPasswordError("");
 		}
 
 		if (!isValid) return;
@@ -155,6 +180,9 @@ function Login() {
 								onChange={e => setAvatar(e.target.value)}
 								autoComplete="avatar"
 							/>
+							{avatarError && (
+								<span className={styles.login__error}>{avatarError}</span>
+							)}
 						</div>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="password" className={styles.login__label}>

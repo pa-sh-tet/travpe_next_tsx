@@ -28,7 +28,12 @@ function PopupWithForm({
 			<div className={styles.popup__overlay} onClick={onClose}></div>
 			<div className={styles.popup__container}>
 				<h3 className={styles.popup__title}>{title}</h3>
-				<form name={name} className={styles.popup__form} onSubmit={onSubmit}>
+				<form
+					name={name}
+					className={styles.popup__form}
+					onSubmit={onSubmit}
+					noValidate
+				>
 					{children}
 					{status === "loading" ? (
 						<div className={styles["popup__button-loader"]}>

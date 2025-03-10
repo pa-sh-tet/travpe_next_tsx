@@ -11,6 +11,9 @@ function CreatePostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
 	const [link, setLink] = useState("");
 	const [content, setContent] = useState("");
+
+	const [linkError, setLinkError] = useState("");
+	const [contentError, setContentError] = useState("");
 	const { user } = useSelector((state: RootState) => state.user);
 	const { isCreatePostPopupOpen } = useSelector(
 		(state: RootState) => state.popup
@@ -37,7 +40,38 @@ function CreatePostPopup() {
 	const handleCreatePost = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		if (!user || !user.id) return;
+		let isValid = true;
+
+		const isValidUrl = (url: string): boolean => {
+			try {
+				new URL(url);
+				return true;
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			} catch (error) {
+				return false;
+			}
+		};
+
+		setContentError("");
+		setLinkError("");
+
+		if (!content) {
+			setContentError("Content is required");
+			isValid = false;
+		}
+
+		if (!link) {
+			setLinkError("Link is required");
+			isValid = false;
+		} else if (!isValidUrl(link)) {
+			setLinkError("Link must be a valid URL");
+			isValid = false;
+		} else if (link.length < 4) {
+			setLinkError("Link must be at least 4 characters");
+			isValid = false;
+		}
+
+		if (!user || !user.id || !isValid) return;
 
 		const newPost: Partial<IPost> = {
 			userId: user.id,
@@ -60,26 +94,33 @@ function CreatePostPopup() {
 			onSubmit={handleCreatePost}
 			onClose={() => dispatch(closeCreatePostPopup())}
 		>
-			<input
-				className={styles.popup__input}
-				placeholder="Content"
-				id="place-input"
-				name="name"
-				type="text"
-				value={content}
-				onChange={handleContentChange}
-			/>
-			<span className="popup__input-error place-input-error popup__input-error_active"></span>
-			<input
-				className={styles.popup__input}
-				placeholder="Image link"
-				id="link-input"
-				name="link"
-				type="url"
-				required
-				value={link}
-				onChange={handleLinkChange}
-			/>
+			<div className={styles.popup__item}>
+				<input
+					className={styles.popup__input}
+					placeholder="Content"
+					id="place-input"
+					name="name"
+					type="text"
+					value={content}
+					onChange={handleContentChange}
+				/>
+				{contentError && (
+					<span className={styles.popup__error}>{contentError}</span>
+				)}
+			</div>
+			<div className={styles.popup__item}>
+				<input
+					className={styles.popup__input}
+					placeholder="Image link"
+					id="link-input"
+					name="link"
+					type="url"
+					required
+					value={link}
+					onChange={handleLinkChange}
+				/>
+				{linkError && <span className={styles.popup__error}>{linkError}</span>}
+			</div>
 		</PopupWithForm>
 	);
 }

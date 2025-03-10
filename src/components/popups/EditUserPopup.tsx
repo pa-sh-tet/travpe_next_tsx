@@ -4,7 +4,12 @@ import PopupWithForm from "./PopupWithForm";
 import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeEditUserPopup } from "@/redux/slices/popupSlice";
-import { fetchUserInfo, updateUser } from "@/redux/actions/userActions";
+import {
+	fetchUserInfo,
+	isEmailAvailable,
+	isUsernameAvailable,
+	updateUser
+} from "@/redux/actions/userActions";
 import { IUser } from "@/types/User";
 
 function EditUserPopup() {
@@ -12,6 +17,9 @@ function EditUserPopup() {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [avatar, setAvatar] = useState("");
+	const [usernameError, setUsernameError] = useState("");
+	const [emailError, setEmailError] = useState("");
+	const [avatarError, setAvatarError] = useState("");
 	const { user, loading } = useSelector((state: RootState) => state.user);
 	const { isEditUserPopupOpen } = useSelector(
 		(state: RootState) => state.popup
@@ -51,6 +59,64 @@ function EditUserPopup() {
 	const handleEditUser = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
+		let isValid = true;
+		const isValidUrl = (url: string): boolean => {
+			try {
+				new URL(url);
+				return true;
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			} catch (error) {
+				return false;
+			}
+		};
+
+		setUsernameError("");
+		setEmailError("");
+		setAvatarError("");
+
+		if (!name) {
+			setUsernameError("Name is required");
+			isValid = false;
+		} else if (name.length < 2 || name.length > 40) {
+			setUsernameError("Name must be between 2 and 40 characters");
+			isValid = false;
+		} else if (name !== user?.username) {
+			const available = await dispatch(isUsernameAvailable(name)).unwrap();
+			if (!available) {
+				setUsernameError("This name is already taken");
+				isValid = false;
+			}
+		}
+
+		if (!email) {
+			setEmailError("Email is required");
+			isValid = false;
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			setEmailError("Invalid email format");
+			isValid = false;
+		} else if (email.length < 2) {
+			setEmailError("Email must be at least 2 characters");
+			isValid = false;
+		} else if (email !== user?.email) {
+			const available = await dispatch(isEmailAvailable(email)).unwrap();
+			if (!available) {
+				setEmailError("This email has already been registered");
+				isValid = false;
+			}
+		}
+
+		if (avatar) {
+			if (avatar.length < 4) {
+				setAvatarError("Avatar must be at least 4 characters");
+				isValid = false;
+			} else if (!isValidUrl(avatar)) {
+				setAvatarError("Avatar must be a valid URL");
+				isValid = false;
+			}
+		}
+
+		if (!isValid) return;
+
 		const newUserData: Partial<IUser> = {
 			username: name,
 			email,
@@ -72,36 +138,51 @@ function EditUserPopup() {
 			onSubmit={handleEditUser}
 			onClose={() => dispatch(closeEditUserPopup())}
 		>
-			<input
-				className={styles.popup__input}
-				placeholder="Name"
-				id="name-input"
-				name="name"
-				type="text"
-				required
-				value={name}
-				onChange={handleNameChange}
-			/>
-			<input
-				className={styles.popup__input}
-				placeholder="Email"
-				id="email-input"
-				name="email"
-				type="email"
-				required
-				value={email}
-				onChange={handleEmailChange}
-			/>
-			<input
-				className={styles.popup__input}
-				placeholder="Avatar URL"
-				id="avatar-input"
-				name="avatar"
-				type="url"
-				required
-				value={avatar}
-				onChange={handleAvatarChange}
-			/>
+			<div className={styles.popup__item}>
+				<input
+					className={styles.popup__input}
+					placeholder="Name"
+					id="name-input"
+					name="name"
+					type="text"
+					required
+					value={name}
+					onChange={handleNameChange}
+				/>
+				{usernameError && (
+					<span className={styles.popup__error}>{usernameError}</span>
+				)}
+			</div>
+			<div className={styles.popup__item}>
+				<input
+					className={styles.popup__input}
+					placeholder="Email"
+					id="email-input"
+					name="email"
+					type="email"
+					required
+					value={email}
+					onChange={handleEmailChange}
+				/>
+				{emailError && (
+					<span className={styles.popup__error}>{emailError}</span>
+				)}
+			</div>
+			<div className={styles.popup__item}>
+				<input
+					className={styles.popup__input}
+					placeholder="Avatar URL"
+					id="avatar-input"
+					name="avatar"
+					type="url"
+					required
+					value={avatar}
+					onChange={handleAvatarChange}
+				/>
+				{avatarError && (
+					<span className={styles.popup__error}>{avatarError}</span>
+				)}
+			</div>
 		</PopupWithForm>
 	);
 }

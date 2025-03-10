@@ -85,7 +85,7 @@ export const isUsernameAvailable = createAsyncThunk(
 	async (username: string, { rejectWithValue }) => {
 		try {
 			const response = await fetch(`${API_URL}/check-username`, {
-				method: "get",
+				method: "POST",
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
 					"Content-Type": "application/json"
@@ -97,7 +97,7 @@ export const isUsernameAvailable = createAsyncThunk(
 			if (!response.ok)
 				throw new Error(data.message || "Ошибка проверки имени пользователя");
 
-			return data;
+			return data.available;
 		} catch (error) {
 			return rejectWithValue(error);
 		}
@@ -105,11 +105,11 @@ export const isUsernameAvailable = createAsyncThunk(
 );
 
 export const isEmailAvailable = createAsyncThunk(
-	"users/isUsernameAvailable",
+	"users/isEmailAvailable",
 	async (email: string, { rejectWithValue }) => {
 		try {
 			const response = await fetch(`${API_URL}/check-email`, {
-				method: "get",
+				method: "POST",
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
 					"Content-Type": "application/json"
@@ -121,7 +121,7 @@ export const isEmailAvailable = createAsyncThunk(
 			if (!response.ok)
 				throw new Error(data.message || "Ошибка проверки имени пользователя");
 
-			return data;
+			return data.available;
 		} catch (error) {
 			return rejectWithValue(error);
 		}

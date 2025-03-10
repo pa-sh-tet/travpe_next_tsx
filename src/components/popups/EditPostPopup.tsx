@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeEditPostPopup } from "@/redux/slices/popupSlice";
 import { IPost } from "@/types/Post";
+import { isValidUrl } from "@/utils/functions";
 
 function EditPostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -65,16 +66,6 @@ function EditPostPopup() {
 		event.preventDefault();
 
 		let isValid = true;
-
-		const isValidUrl = (url: string): boolean => {
-			try {
-				new URL(url);
-				return true;
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			} catch (error) {
-				return false;
-			}
-		};
 
 		setContentError("");
 		setLinkError("");

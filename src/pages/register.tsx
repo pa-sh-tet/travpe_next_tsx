@@ -11,6 +11,7 @@ import {
 	isUsernameAvailable,
 	isEmailAvailable
 } from "@/redux/actions/userActions";
+import { isValidUrl } from "@/utils/functions";
 
 function Login() {
 	const [username, setUsername] = useState("");
@@ -32,16 +33,6 @@ function Login() {
 	const handleRegister = async (e: FormEvent) => {
 		e.preventDefault();
 		let isValid = true;
-
-		const isValidUrl = (url: string): boolean => {
-			try {
-				new URL(url);
-				return true;
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			} catch (error) {
-				return false;
-			}
-		};
 
 		setUsernameError("");
 		setEmailError("");

@@ -11,6 +11,7 @@ import {
 	updateUser
 } from "@/redux/actions/userActions";
 import { IUser } from "@/types/User";
+import { isValidUrl } from "@/utils/functions";
 
 function EditUserPopup() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -60,15 +61,6 @@ function EditUserPopup() {
 		event.preventDefault();
 
 		let isValid = true;
-		const isValidUrl = (url: string): boolean => {
-			try {
-				new URL(url);
-				return true;
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			} catch (error) {
-				return false;
-			}
-		};
 
 		setUsernameError("");
 		setEmailError("");

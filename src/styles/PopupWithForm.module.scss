@@ -136,6 +136,11 @@
 			border-radius: 0.5rem;
 			padding: 0.5rem;
 			transition: all 0.3s;
+			// font-family: var(--font-kanit);
+			// letter-spacing: 0.5px;
+			font-family: var(--font-roboto);
+			font-weight: 600;
+			font-size: 16px;
 
 			@include respond-to(500px) {
 				margin-top: 15px;

@@ -2,13 +2,13 @@
 
 import "@/styles/globals.scss";
 import Head from "next/head";
-
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUserToken } from "@/redux/slices/authSlice";
+import { kanit, pacifico, poppins, roboto } from "@/styles/fonts";
 
 function AppContent({ Component, pageProps, router }: AppProps) {
 	const dispatch = useDispatch();
@@ -27,7 +27,15 @@ export default function App({ Component, pageProps, router }: AppProps) {
 			<Head>
 				<link rel="icon" type="image/png" href="/favicon.png" />
 			</Head>
-			<AppContent Component={Component} pageProps={pageProps} router={router} />
+			<main
+				className={`${poppins.variable} ${pacifico.variable} ${kanit.variable} ${roboto.variable}`}
+			>
+				<AppContent
+					Component={Component}
+					pageProps={pageProps}
+					router={router}
+				/>
+			</main>
 		</Provider>
 	);
 }

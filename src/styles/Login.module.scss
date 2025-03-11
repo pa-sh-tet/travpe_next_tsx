@@ -1,4 +1,5 @@
 @use "./mixins" as *;
+@use "./variables" as *;
 
 .login {
 	display: flex;
@@ -35,8 +36,9 @@
 	}
 
 	&__title {
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 		font-size: 20px;
+		font-family: var(--font-poppins);
 
 		@include respond-to(450px) {
 			font-size: 16px;
@@ -76,6 +78,9 @@
 	&__error {
 		font-size: 12px;
 		color: #ef4444;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 
 	&__button {
@@ -84,8 +89,10 @@
 		color: #fff;
 		border: none;
 		border-radius: 5px;
-		padding: 12px 20px;
+		padding: 5px 20px;
 		font-size: 15px;
+		font-family: var(--font-kanit);
+		letter-spacing: 0.5px;
 		height: 40px;
 	}
 

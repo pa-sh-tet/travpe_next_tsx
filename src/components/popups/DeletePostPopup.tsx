@@ -26,7 +26,7 @@ function DeletePostPopup() {
 			name="deletePost"
 			title="Delete Post"
 			status={status}
-			buttonText="Delete"
+			buttonText="DELETE"
 			isOpen={isDeletePostPopupOpen}
 			onSubmit={handleDeletePost}
 			onClose={() => dispatch(closeDeletePostPopup())}

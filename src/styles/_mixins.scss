@@ -28,6 +28,18 @@
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+@mixin overflow_style {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+@mixin overflow_style_disable {
+	text-overflow: unset;
+	white-space: unset;
+	overflow: unset;
+}
+
 @mixin link-style {
 	&:hover {
 		cursor: pointer;

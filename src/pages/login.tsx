@@ -122,7 +122,7 @@ function Login() {
 							type="submit"
 							disabled={loading}
 						>
-							{loading ? <div className={styles.loader}></div> : "Sign in"}
+							{loading ? <div className={styles.loader}></div> : "SIGN IN"}
 						</button>
 						{loginError && (
 							<span

@@ -26,10 +26,6 @@ export default function Post({ post }: { post: IPost }) {
 		day: "numeric"
 	});
 
-	// if (router.pathname === "/") {
-	// 	console.log("-------" + post.user);
-	// }
-
 	const handleLikeClick = () => {
 		if (!userToken || !currentUserId) return;
 		if (isLiked) {

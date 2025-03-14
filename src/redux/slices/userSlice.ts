@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchUserInfo, updateUser } from "../actions/userActions";
-import { IUser } from "@/types/User";
+import { IUser } from "@/interfaces/User";
 
 interface UserState {
 	user: IUser | null;
@@ -28,14 +28,18 @@ const userSlice = createSlice({
 				state.loading = true;
 				state.error = null;
 			})
-			.addCase(fetchUserInfo.fulfilled, (state, action) => {
-				state.loading = false;
-				state.user = action.payload;
-			})
+			.addCase(
+				fetchUserInfo.fulfilled,
+				(state, action: PayloadAction<IUser>) => {
+					state.loading = false;
+					state.user = action.payload;
+				}
+			)
 			.addCase(fetchUserInfo.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload as string;
 			})
+
 			.addCase(updateUser.pending, state => {
 				state.loading = true;
 				state.error = null;
@@ -43,6 +47,10 @@ const userSlice = createSlice({
 			.addCase(updateUser.fulfilled, (state, action) => {
 				state.loading = false;
 				state.user = action.payload;
+			})
+			.addCase(updateUser.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
 			});
 	}
 });

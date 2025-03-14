@@ -10,7 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Menu() {
 	const dispatch = useDispatch<AppDispatch>();
 
-	const { isMenuPopupOpen } = useSelector((state: RootState) => state.popup);
+	const { isMenuPopupOpen }: { isMenuPopupOpen: boolean } = useSelector(
+		(state: RootState) => state.popup
+	);
 
 	if (!isMenuPopupOpen) return null;
 

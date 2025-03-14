@@ -5,21 +5,22 @@ import styles from "@/styles/Login.module.scss";
 import React, { useEffect, useState, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "@/redux/actions/authActions";
-import { RootState } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { isEmailAvailable } from "@/redux/actions/userActions";
 
 function Login() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState<string>("");
+	const [password, setPassword] = useState<string>("");
+	const [emailError, setEmailError] = useState<string>("");
+	const [passwordError, setPasswordError] = useState<string>("");
+	const [loginError, setLoginError] = useState<string>("");
 
-	const [emailError, setEmailError] = useState("");
-	const [passwordError, setPasswordError] = useState("");
-	const [loginError, setLoginError] = useState("");
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const dispatch: any = useDispatch();
-	const { loading, userToken } = useSelector((state: RootState) => state.auth);
+	const { loading, userToken }: { loading: boolean; userToken: string | null } =
+		useSelector((state: RootState) => state.auth);
+
 	const router = useRouter();
+	const dispatch = useDispatch<AppDispatch>();
 
 	useEffect(() => {
 		if (userToken !== null) {
@@ -27,7 +28,7 @@ function Login() {
 		}
 	}, [router, userToken]);
 
-	const handleLogin = async (e: FormEvent) => {
+	const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		let isValid = true;
@@ -45,7 +46,9 @@ function Login() {
 			setEmailError("Email must be at least 2 characters");
 			isValid = false;
 		} else {
-			const available = await dispatch(isEmailAvailable(email)).unwrap();
+			const available: boolean = await dispatch(
+				isEmailAvailable(email)
+			).unwrap();
 			if (available) {
 				setEmailError("There is no user with this email address");
 				isValid = false;
@@ -65,8 +68,12 @@ function Login() {
 		try {
 			setLoginError("");
 			await dispatch(loginUser({ email, password })).unwrap();
-		} catch (error) {
-			setLoginError(error as string);
+		} catch (error: unknown) {
+			if (typeof error === "string") {
+				setLoginError(error);
+			} else {
+				setLoginError("An unknown error occurred");
+			}
 		}
 	};
 

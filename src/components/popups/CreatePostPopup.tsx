@@ -5,21 +5,28 @@ import { createPost, fetchAllUserPosts } from "@/redux/actions/postActions";
 import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeCreatePostPopup } from "@/redux/slices/popupSlice";
-import { IPost } from "@/types/Post";
+import { IPost } from "@/interfaces/Post";
 import { isValidUrl } from "@/utils/functions";
+import { IUser } from "@/interfaces/User";
 
 function CreatePostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
-	const [link, setLink] = useState("");
-	const [content, setContent] = useState("");
+	const [link, setLink] = useState<string>("");
+	const [content, setContent] = useState<string>("");
 
-	const [linkError, setLinkError] = useState("");
-	const [contentError, setContentError] = useState("");
-	const { user } = useSelector((state: RootState) => state.user);
-	const { isCreatePostPopupOpen } = useSelector(
-		(state: RootState) => state.popup
+	const [linkError, setLinkError] = useState<string>("");
+	const [contentError, setContentError] = useState<string>("");
+
+	const { user }: { user: IUser | null } = useSelector(
+		(state: RootState) => state.user
 	);
-	const { status } = useSelector((state: RootState) => state.posts);
+
+	const { isCreatePostPopupOpen }: { isCreatePostPopupOpen: boolean } =
+		useSelector((state: RootState) => state.popup);
+
+	const { status }: { status: string } = useSelector(
+		(state: RootState) => state.posts
+	);
 
 	function handleContentChange(e: React.ChangeEvent<HTMLInputElement>) {
 		setContent(e.target.value);

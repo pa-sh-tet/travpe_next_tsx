@@ -6,11 +6,16 @@ import { deletePost } from "@/redux/actions/postActions";
 
 function DeletePostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
-	const { isDeletePostPopupOpen, postIdToDelete } = useSelector(
-		(state: RootState) => state.popup
-	);
 
-	const { status } = useSelector((state: RootState) => state.posts);
+	const {
+		isDeletePostPopupOpen,
+		postIdToDelete
+	}: { isDeletePostPopupOpen: boolean; postIdToDelete: number | null } =
+		useSelector((state: RootState) => state.popup);
+
+	const { status }: { status: string } = useSelector(
+		(state: RootState) => state.posts
+	);
 
 	const handleDeletePost = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

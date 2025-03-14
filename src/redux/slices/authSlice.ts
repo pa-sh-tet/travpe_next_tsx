@@ -1,7 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// TODO : Разобраться с типами
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { registerUser, loginUser } from "../actions/authActions";
+
+interface UserData {
+	id: number;
+	username: string;
+	email: string;
+	avatar?: string;
+	token: string;
+}
 
 interface AuthState {
 	loading: boolean;
@@ -13,6 +19,7 @@ interface AuthState {
 const initialState: AuthState = {
 	loading: false,
 	userToken: null,
+	// userToken: localStorage.getItem("userToken") || null,
 	error: null,
 	success: false
 };
@@ -27,12 +34,13 @@ const authSlice = createSlice({
 			state.loading = false;
 			state.error = null;
 		},
-		setUserToken: (state, action: PayloadAction<any>) => {
+		setUserToken: (state, action: PayloadAction<string>) => {
 			state.userToken = action.payload;
 		}
 	},
 	extraReducers: builder => {
 		builder
+			// Регистрация
 			.addCase(registerUser.pending, state => {
 				state.loading = true;
 				state.error = null;
@@ -42,22 +50,28 @@ const authSlice = createSlice({
 				state.success = true;
 				state.error = null;
 			})
-			.addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
+			.addCase(registerUser.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload;
+				state.error = action.payload as string;
 			})
+
+			// Авторизация
 			.addCase(loginUser.pending, state => {
 				state.loading = true;
 				state.error = null;
 			})
-			.addCase(loginUser.fulfilled, (state, action: PayloadAction<any>) => {
+			.addCase(
+				loginUser.fulfilled,
+				(state, action: PayloadAction<UserData>) => {
+					state.loading = false;
+					state.userToken = action.payload.token;
+					localStorage.setItem("userToken", action.payload.token);
+					state.error = null;
+				}
+			)
+			.addCase(loginUser.rejected, (state, action) => {
 				state.loading = false;
-				state.userToken = action.payload.token;
-				state.error = null;
-			})
-			.addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
-				state.loading = false;
-				state.error = action.payload;
+				state.error = action.payload as string;
 			});
 	}
 });

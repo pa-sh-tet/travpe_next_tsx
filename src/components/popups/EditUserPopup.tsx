@@ -1,7 +1,7 @@
 import styles from "@/styles/PopupWithForm.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import PopupWithForm from "./PopupWithForm";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeEditUserPopup } from "@/redux/slices/popupSlice";
 import {
@@ -10,19 +10,20 @@ import {
 	isUsernameAvailable,
 	updateUser
 } from "@/redux/actions/userActions";
-import { IUser } from "@/types/User";
+import { IUser } from "@/interfaces/User";
 import { isValidUrl } from "@/utils/functions";
 
 function EditUserPopup() {
 	const dispatch = useDispatch<AppDispatch>();
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [avatar, setAvatar] = useState("");
-	const [usernameError, setUsernameError] = useState("");
-	const [emailError, setEmailError] = useState("");
-	const [avatarError, setAvatarError] = useState("");
-	const { user, loading } = useSelector((state: RootState) => state.user);
-	const { isEditUserPopupOpen } = useSelector(
+	const [name, setName] = useState<string>("");
+	const [email, setEmail] = useState<string>("");
+	const [avatar, setAvatar] = useState<string>("");
+	const [usernameError, setUsernameError] = useState<string>("");
+	const [emailError, setEmailError] = useState<string>("");
+	const [avatarError, setAvatarError] = useState<string>("");
+	const { user, loading }: { user: IUser | null; loading: boolean } =
+		useSelector((state: RootState) => state.user);
+	const { isEditUserPopupOpen }: { isEditUserPopupOpen: boolean } = useSelector(
 		(state: RootState) => state.popup
 	);
 
@@ -34,16 +35,15 @@ function EditUserPopup() {
 
 	const status = loading ? "loading" : "";
 
-	function resetForm() {
+	const resetForm = useCallback(() => {
 		setName(user?.username || "");
 		setEmail(user?.email || "");
 		setAvatar(user?.avatar || "");
-	}
+	}, [user]);
 
 	useEffect(() => {
 		resetForm();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isEditUserPopupOpen]);
+	}, [isEditUserPopupOpen, resetForm]);
 
 	function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
 		setName(e.target.value);

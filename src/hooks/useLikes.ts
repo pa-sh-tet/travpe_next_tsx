@@ -3,11 +3,12 @@ import { RootState, AppDispatch } from "../redux/store";
 import { fetchLikesByPost } from "../redux/actions/likeActions";
 import { useEffect } from "react";
 import { createSelector } from "reselect";
+import { ILike } from "@/interfaces/Like";
 
 const selectLikesByPost = (postId: number) =>
 	createSelector(
 		(state: RootState) => state.likes.likesByPost,
-		likesByPost => likesByPost[postId] || [] 
+		likesByPost => likesByPost[postId] || []
 	);
 
 export const useLikes = (postId: number) => {
@@ -15,14 +16,20 @@ export const useLikes = (postId: number) => {
 	// const likes = useSelector(
 	// 	(state: RootState) => state.likes.likesByPost[postId] || []
 	// );
-	const likes = useSelector(selectLikesByPost(postId));
+	const likes: ILike[] = useSelector(selectLikesByPost(postId));
 
-	const loading = useSelector((state: RootState) => state.likes.loading);
-	const error = useSelector((state: RootState) => state.likes.error);
+	const loading: boolean = useSelector(
+		(state: RootState) => state.likes.loading
+	);
+	const error: string | null = useSelector(
+		(state: RootState) => state.likes.error
+	);
 
-	const currentUserId = useSelector((state: RootState) => state.user.user?.id);
+	const currentUserId: number | undefined = useSelector(
+		(state: RootState) => state.user.user?.id
+	);
 
-	const isLiked = currentUserId
+	const isLiked: boolean = currentUserId
 		? likes.some(like => like.userId === currentUserId)
 		: false;
 

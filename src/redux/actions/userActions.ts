@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api_url } from "@/utils/api";
+import { IUser } from "@/interfaces/User";
 
 const API_URL = `${api_url}/users`;
 
-export const fetchUsers = createAsyncThunk(
+export const fetchUsers = createAsyncThunk<IUser[], void>(
 	"users/fetchUsers",
 	async (_, { rejectWithValue }) => {
 		try {
@@ -20,7 +21,7 @@ export const fetchUsers = createAsyncThunk(
 	}
 );
 
-export const fetchUser = createAsyncThunk(
+export const fetchUser = createAsyncThunk<IUser, number>(
 	"users/fetchUser",
 	async (id: number, { rejectWithValue }) => {
 		try {
@@ -37,7 +38,7 @@ export const fetchUser = createAsyncThunk(
 	}
 );
 
-export const fetchUserInfo = createAsyncThunk(
+export const fetchUserInfo = createAsyncThunk<IUser, void>(
 	"users/fetchUserInfo",
 	async () => {
 		const res = await fetch(`${API_URL}/me`, {
@@ -55,10 +56,10 @@ export const fetchUserInfo = createAsyncThunk(
 	}
 );
 
-export const updateUser = createAsyncThunk(
+// Update user
+export const updateUser = createAsyncThunk<IUser, Partial<IUser>>( // Partial потому что мы можем обновить только часть полей
 	"users/updateUser",
-	// TODO add type
-	async (user: unknown, { rejectWithValue }) => {
+	async (user: Partial<IUser>, { rejectWithValue }) => {
 		try {
 			const response = await fetch(`${API_URL}/me`, {
 				method: "PUT",
@@ -80,7 +81,7 @@ export const updateUser = createAsyncThunk(
 	}
 );
 
-export const isUsernameAvailable = createAsyncThunk(
+export const isUsernameAvailable = createAsyncThunk<boolean, string>(
 	"users/isUsernameAvailable",
 	async (username: string, { rejectWithValue }) => {
 		try {
@@ -104,7 +105,7 @@ export const isUsernameAvailable = createAsyncThunk(
 	}
 );
 
-export const isEmailAvailable = createAsyncThunk(
+export const isEmailAvailable = createAsyncThunk<boolean, string>(
 	"users/isEmailAvailable",
 	async (email: string, { rejectWithValue }) => {
 		try {

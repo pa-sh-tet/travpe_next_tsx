@@ -11,19 +11,35 @@ import { fetchUserInfo } from "@/redux/actions/userActions";
 import PostSkeleton from "@/components/PostSkeleton";
 import Skeleton from "react-loading-skeleton";
 import Footer from "@/components/Footer";
+import { IUser } from "@/interfaces/User";
+import { IPost } from "@/interfaces/Post";
 
 export default function NewsFeed() {
 	const dispatch = useDispatch<AppDispatch>();
-	const { allPosts, status, error } = useSelector(
+
+	const {
+		allPosts,
+		status,
+		error
+	}: { allPosts: IPost[]; status: string; error: string | null } = useSelector(
 		(state: RootState) => state.posts
 	);
-	const { userToken } = useSelector((state: RootState) => state.auth);
-	const { user, loading } = useSelector((state: RootState) => state.user);
+
+	const { userToken }: { userToken: string | null } = useSelector(
+		(state: RootState) => state.auth
+	);
+
+	const { user, loading }: { user: IUser | null; loading: boolean } =
+		useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
 		if (userToken !== null) {
 			dispatch(fetchUserInfo());
 		}
+		
+		// TODO Разобраться с user и userToken
+		// console.log("🚀 ~ useEffect ~ userToken:", userToken);
+		// console.log("🚀 ~ NewsFeed ~ user:", user);
 		dispatch(fetchAllPosts());
 	}, [dispatch, userToken]);
 

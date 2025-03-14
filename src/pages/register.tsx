@@ -5,7 +5,7 @@ import styles from "@/styles/Login.module.scss";
 import React, { useState, FormEvent, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "@/redux/actions/authActions";
-import { RootState } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import {
 	isUsernameAvailable,
@@ -14,20 +14,20 @@ import {
 import { isValidUrl } from "@/utils/functions";
 
 function Login() {
-	const [username, setUsername] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [avatar, setAvatar] = useState("");
+	const [username, setUsername] = useState<string>("");
+	const [email, setEmail] = useState<string>("");
+	const [password, setPassword] = useState<string>("");
+	const [avatar, setAvatar] = useState<string>("");
 
-	const [usernameError, setUsernameError] = useState("");
-	const [emailError, setEmailError] = useState("");
-	const [avatarError, setAvatarError] = useState("");
-	const [passwordError, setPasswordError] = useState("");
-	const [registerError, setRegisterError] = useState("");
+	const [usernameError, setUsernameError] = useState<string>("");
+	const [emailError, setEmailError] = useState<string>("");
+	const [avatarError, setAvatarError] = useState<string>("");
+	const [passwordError, setPasswordError] = useState<string>("");
+	const [registerError, setRegisterError] = useState<string>("");
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const dispatch: any = useDispatch();
-	const { loading, userToken } = useSelector((state: RootState) => state.auth);
+	const dispatch = useDispatch<AppDispatch>();
+	const { loading, userToken }: { loading: boolean; userToken: string | null } =
+		useSelector((state: RootState) => state.auth);
 	const router = useRouter();
 
 	const handleRegister = async (e: FormEvent) => {

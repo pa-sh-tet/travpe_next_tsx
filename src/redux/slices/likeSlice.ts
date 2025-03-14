@@ -25,6 +25,8 @@ const likesSlice = createSlice({
 	reducers: {},
 	extraReducers: builder => {
 		builder
+
+			// Загрузка лайков на конкретном посте
 			.addCase(fetchLikesByPost.pending, state => {
 				state.loading = true;
 				state.error = null;
@@ -36,9 +38,12 @@ const likesSlice = createSlice({
 					state.likesByPost[action.payload.postId] = action.payload.likes;
 				}
 			)
-			.addCase(fetchLikesByPost.rejected, state => {
+			.addCase(fetchLikesByPost.rejected, (state, action) => {
 				state.loading = false;
+				state.error = action.payload as string;
 			})
+
+			// Лайк поста
 			.addCase(likePost.pending, state => {
 				state.loading = true;
 				state.error = null;
@@ -52,6 +57,12 @@ const likesSlice = createSlice({
 					state.likesByPost[postId] = [action.payload];
 				}
 			})
+			.addCase(likePost.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
+			})
+
+			// Удаление лайка
 			.addCase(unlikePost.pending, state => {
 				state.loading = true;
 				state.error = null;
@@ -63,6 +74,10 @@ const likesSlice = createSlice({
 						Number(key)
 					].filter(like => like.id !== action.payload);
 				});
+			})
+			.addCase(unlikePost.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload as string;
 			});
 	}
 });

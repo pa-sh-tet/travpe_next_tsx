@@ -8,12 +8,20 @@ interface RegisterData {
 	username: string;
 	email: string;
 	password: string;
-	avatar: string | null;
+	avatar?: string;
 }
 
 interface LoginData {
 	email: string;
 	password: string;
+}
+
+interface UserData {
+	id: number;
+	username: string;
+	email: string;
+	avatar?: string;
+	token: string;
 }
 
 export const registerUser = createAsyncThunk<void, RegisterData>(
@@ -25,6 +33,7 @@ export const registerUser = createAsyncThunk<void, RegisterData>(
 					"Content-Type": "application/json"
 				}
 			};
+
 			await axios.post(
 				`${API_URL}/register`,
 				{ username, email, password, avatar },
@@ -36,7 +45,7 @@ export const registerUser = createAsyncThunk<void, RegisterData>(
 	}
 );
 
-export const loginUser = createAsyncThunk<void, LoginData>(
+export const loginUser = createAsyncThunk<UserData, LoginData>(
 	"auth/login",
 	async ({ email, password }, { rejectWithValue }) => {
 		try {
@@ -46,19 +55,17 @@ export const loginUser = createAsyncThunk<void, LoginData>(
 				}
 			};
 
-			const { data } = await axios.post(
+			const { data } = await axios.post<UserData>(
 				`${API_URL}/login`,
 				{ email, password },
 				config
 			);
-			localStorage.setItem("userToken", data.token);
+
+			// localStorage.setItem("userToken", data.token);
+
 			return data;
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		} catch (error: any) {
-			if (error.response && error.response.data.error) {
-				return rejectWithValue(error.response.data.error);
-			}
-			return rejectWithValue("Ошибка при авторизации");
+		} catch (error) {
+			return rejectWithValue(error);
 		}
 	}
 );

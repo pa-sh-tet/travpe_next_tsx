@@ -15,7 +15,7 @@ function AppContent({ Component, pageProps, router }: AppProps) {
 
 	useEffect(() => {
 		const token = localStorage.getItem("userToken");
-		dispatch(setUserToken(token));
+		if (token) dispatch(setUserToken(token));
 	}, [dispatch]);
 
 	return <Component {...pageProps} router={router} />;

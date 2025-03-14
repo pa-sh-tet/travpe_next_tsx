@@ -1,6 +1,6 @@
 import { AppDispatch, RootState } from "@/redux/store";
 import styles from "@/styles/Post.module.scss";
-import { IPost } from "@/types/Post";
+import { IPost } from "@/interfaces/Post";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,11 +13,20 @@ import { useState } from "react";
 
 export default function Post({ post }: { post: IPost }) {
 	const router = useRouter();
-	const { likes, isLiked, currentUserId } = useLikes(post.id);
 	const dispatch = useDispatch<AppDispatch>();
-	const { userToken } = useSelector((state: RootState) => state.auth);
-	const { loading } = useSelector((state: RootState) => state.likes);
-	const [isKebabMenuOpen, setIsKebabMenuOpen] = useState(false);
+
+	const { likes, isLiked, currentUserId }: ReturnType<typeof useLikes> =
+		useLikes(post.id);
+
+	const { userToken }: { userToken: string | null } = useSelector(
+		(state: RootState) => state.auth
+	);
+
+	const { loading }: { loading: boolean } = useSelector(
+		(state: RootState) => state.likes
+	);
+
+	const [isKebabMenuOpen, setIsKebabMenuOpen] = useState<boolean>(false);
 
 	const date = new Date(post.createdAt);
 	const formattedDate = date.toLocaleDateString("en-US", {

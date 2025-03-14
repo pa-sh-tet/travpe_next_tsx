@@ -11,7 +11,9 @@ import { openMenuPopup } from "@/redux/slices/popupSlice";
 
 function Header() {
 	const pathname = usePathname();
-	const { userToken } = useSelector((state: RootState) => state.auth);
+	const { userToken }: { userToken: string | null } = useSelector(
+		(state: RootState) => state.auth
+	);
 	const dispatch = useDispatch();
 
 	return (

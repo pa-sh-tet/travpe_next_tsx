@@ -6,7 +6,7 @@ import {
 	deletePost,
 	updatePost
 } from "@/redux/actions/postActions";
-import { IPost } from "@/types/Post";
+import { IPost } from "@/interfaces/Post";
 import { createSlice } from "@reduxjs/toolkit";
 
 const postsSlice = createSlice({

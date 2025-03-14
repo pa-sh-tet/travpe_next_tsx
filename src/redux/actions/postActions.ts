@@ -1,10 +1,11 @@
-import { IPost } from "@/types/Post";
+import { IPost } from "@/interfaces/Post";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api_url } from "@/utils/api";
 
 const API_URL = `${api_url}/posts`;
 
-export const fetchAllPosts = createAsyncThunk(
+// Получение всех постов
+export const fetchAllPosts = createAsyncThunk<IPost[], void>(
 	"posts/fetchAllPosts",
 	async (_, { rejectWithValue }) => {
 		try {
@@ -21,6 +22,7 @@ export const fetchAllPosts = createAsyncThunk(
 	}
 );
 
+// Получение всех постов пользователя
 export const fetchAllUserPosts = createAsyncThunk<IPost[], number>(
 	"posts/fetchAllUserPosts",
 	async (userId, { rejectWithValue }) => {
@@ -89,13 +91,17 @@ export const deletePost = createAsyncThunk<void, number>(
 	"posts/deletePost",
 	async (id, { rejectWithValue }) => {
 		try {
-			await fetch(`${API_URL}/${id}`, {
+			const response = await fetch(`${API_URL}/${id}`, {
 				method: "DELETE",
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
 					"Content-Type": "application/json"
 				}
 			});
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.message || "Ошибка при удалении поста");
+			}
 		} catch (error) {
 			return rejectWithValue(error);
 		}
@@ -131,28 +137,3 @@ export const updatePost = createAsyncThunk<IPost, Partial<IPost>>(
 		}
 	}
 );
-
-// export const updatePost = createAsyncThunk<IPost, Partial<IPost>>(
-// 	"posts/updatePost",
-// 	async ({ id, content, image }, { rejectWithValue }) => {
-// 		try {
-// 			const response = await fetch(`${API_URL}/${id}`, {
-// 				method: "PATCH",
-// 				headers: {
-// 					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-// 					"Content-Type": "application/json"
-// 				},
-// 				body: JSON.stringify({ content, image })
-// 			});
-
-// 			if (!response.ok) {
-// 				throw new Error("Ошибка при обновлении поста");
-// 			}
-
-// 			const updatedPost = await response.json(); // Получаем обновленный пост с сервера
-// 			return updatedPost; // Возвращаем его для обновления состояния
-// 		} catch (error) {
-// 			return rejectWithValue(error);
-// 		}
-// 	}
-// );

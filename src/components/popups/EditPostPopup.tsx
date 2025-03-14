@@ -6,26 +6,36 @@ import {
 	fetchPostById,
 	updatePost
 } from "@/redux/actions/postActions";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeEditPostPopup } from "@/redux/slices/popupSlice";
-import { IPost } from "@/types/Post";
+import { IPost } from "@/interfaces/Post";
 import { isValidUrl } from "@/utils/functions";
+import { IUser } from "@/interfaces/User";
 
 function EditPostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
-	const [link, setLink] = useState("");
-	const [content, setContent] = useState("");
+	const [link, setLink] = useState<string>("");
+	const [content, setContent] = useState<string>("");
+	const [linkError, setLinkError] = useState<string>("");
+	const [contentError, setContentError] = useState<string>("");
 
-	const [linkError, setLinkError] = useState("");
-	const [contentError, setContentError] = useState("");
-	const { user } = useSelector((state: RootState) => state.user);
-	const { status, postDataById } = useSelector(
+	const { user }: { user: IUser | null } = useSelector(
+		(state: RootState) => state.user
+	);
+
+	const {
+		status,
+		postDataById
+	}: { status: string; postDataById: IPost | null } = useSelector(
 		(state: RootState) => state.posts
 	);
-	const { isEditPostPopupOpen, postIdToUpdate } = useSelector(
-		(state: RootState) => state.popup
-	);
+
+	const {
+		isEditPostPopupOpen,
+		postIdToUpdate
+	}: { isEditPostPopupOpen: boolean; postIdToUpdate: number | null } =
+		useSelector((state: RootState) => state.popup);
 
 	useEffect(() => {
 		if (isEditPostPopupOpen && postIdToUpdate) {
@@ -40,17 +50,16 @@ function EditPostPopup() {
 		}
 	}, [postDataById]);
 
-	function resetForm() {
+	const resetForm = useCallback(() => {
 		if (postDataById) {
 			setLink(postDataById.image || "");
 			setContent(postDataById.content || "");
 		}
-	}
+	}, [postDataById]);
 
 	useEffect(() => {
 		resetForm();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isEditPostPopupOpen]);
+	}, [isEditPostPopupOpen, resetForm]);
 
 	if (!user || !user.id || !postIdToUpdate) return;
 

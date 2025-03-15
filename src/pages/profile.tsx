@@ -26,14 +26,21 @@ import { IPost } from "@/interfaces/Post";
 function Profile() {
 	const router = useRouter();
 	const dispatch = useDispatch<AppDispatch>();
+
 	const { user, loading }: { user: IUser | null; loading: boolean } =
 		useSelector((state: RootState) => state.user);
+
 	const { userPosts, status }: { userPosts: IPost[]; status: string } =
 		useSelector((state: RootState) => state.posts);
 
+	// const { userToken }: { userToken: string | null } = useSelector(
+	// 	(state: RootState) => state.auth
+	// );
+
 	useEffect(() => {
 		const userToken = localStorage.getItem("userToken");
-		if (!userToken || !user) {
+		console.log("🚀 ~ Profile ~ userToken:", userToken);
+		if (!userToken) {
 			router.push("/login");
 		} else {
 			if (!user) {
@@ -95,6 +102,9 @@ function Profile() {
 							</button>
 							{status === "loading" ? (
 								<>
+									<PostSkeleton />
+									<PostSkeleton />
+									<PostSkeleton />
 									<PostSkeleton />
 									<PostSkeleton />
 								</>

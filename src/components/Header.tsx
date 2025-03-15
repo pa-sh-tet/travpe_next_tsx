@@ -23,7 +23,7 @@ function Header() {
 					<div className={styles["header__logo-icon"]}></div>
 					<div className={styles["header__logo-text"]}>TravPe</div>
 				</Link>
-				{userToken !== null ? (
+				{userToken ? (
 					<div className={styles.header__links}>
 						<Link
 							href="/"

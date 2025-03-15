@@ -34,7 +34,7 @@ const authSlice = createSlice({
 			state.loading = false;
 			state.error = null;
 		},
-		setUserToken: (state, action: PayloadAction<string>) => {
+		setUserToken: (state, action: PayloadAction<string | null>) => {
 			state.userToken = action.payload;
 		}
 	},

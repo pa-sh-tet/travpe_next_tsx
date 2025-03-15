@@ -9,14 +9,37 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUserToken } from "@/redux/slices/authSlice";
 import { kanit, pacifico, poppins, roboto } from "@/styles/fonts";
+import { jwtDecode } from "jwt-decode";
+
+interface DecodedToken {
+	exp: number;
+	userId: number;
+}
+
+// Проверка, истек ли токен
+const isTokenValid = (token: string): boolean => {
+	try {
+		const decoded = jwtDecode<DecodedToken>(token);
+		return decoded.exp * 1000 > Date.now();
+	} catch (error) {
+		console.error("Error decoding token:", error);
+		return false;
+	}
+};
 
 function AppContent({ Component, pageProps, router }: AppProps) {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const token = localStorage.getItem("userToken");
-		if (token) dispatch(setUserToken(token));
-	}, [dispatch]);
+		if (token && isTokenValid(token)) {
+			dispatch(setUserToken(token));
+		} else {
+			dispatch(setUserToken(null));
+			localStorage.removeItem("userToken");
+			router.push("/login");
+		}
+	}, [dispatch, router]);
 
 	return <Component {...pageProps} router={router} />;
 }

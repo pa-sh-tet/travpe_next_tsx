@@ -33,13 +33,9 @@ export default function NewsFeed() {
 		useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
-		if (userToken !== null) {
+		if (userToken) {
 			dispatch(fetchUserInfo());
 		}
-		
-		// TODO Разобраться с user и userToken
-		// console.log("🚀 ~ useEffect ~ userToken:", userToken);
-		// console.log("🚀 ~ NewsFeed ~ user:", user);
 		dispatch(fetchAllPosts());
 	}, [dispatch, userToken]);
 
@@ -91,6 +87,8 @@ export default function NewsFeed() {
 					{error && <p style={{ color: "red" }}>{error}</p>}
 					{status === "loading" ? (
 						<>
+							<PostSkeleton />
+							<PostSkeleton />
 							<PostSkeleton />
 						</>
 					) : (

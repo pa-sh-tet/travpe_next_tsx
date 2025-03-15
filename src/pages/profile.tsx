@@ -33,13 +33,8 @@ function Profile() {
 	const { userPosts, status }: { userPosts: IPost[]; status: string } =
 		useSelector((state: RootState) => state.posts);
 
-	// const { userToken }: { userToken: string | null } = useSelector(
-	// 	(state: RootState) => state.auth
-	// );
-
 	useEffect(() => {
 		const userToken = localStorage.getItem("userToken");
-		console.log("🚀 ~ Profile ~ userToken:", userToken);
 		if (!userToken) {
 			router.push("/login");
 		} else {

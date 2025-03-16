@@ -1,4 +1,4 @@
-# Travpe Frontend
+# Travpe - https://travpe.vercel.app/
 
 ## Интерфейсная часть приложения Travpe - социальной сети для путешественников
 

@@ -13,6 +13,7 @@ import Skeleton from "react-loading-skeleton";
 import Footer from "@/components/Footer";
 import { IUser } from "@/interfaces/User";
 import { IPost } from "@/interfaces/Post";
+import GetToLoginPopup from "@/components/popups/GetToLoginPopup";
 
 export default function NewsFeed() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -40,67 +41,70 @@ export default function NewsFeed() {
 	}, [dispatch, userToken]);
 
 	return (
-		<>
-			<Header />
-			<section className={`${styles.main} `}>
-				{loading ? (
-					<div className={styles["main__info-column"]}>
-						<div className={styles.main__profile}>
-							<div className={styles["main__profile-face"]}>
-								<Skeleton height={60} width={60} circle={true} />
-								<div className={styles["main__profile-info"]}>
-									<Skeleton height={20} width={100} />
-									<Skeleton height={15} width={80} />
-								</div>
-							</div>
-						</div>
-					</div>
-				) : (
-					<>
-						{userToken && user !== null && (
-							<div className={styles["main__info-column"]}>
-								<div className={styles.main__profile}>
-									<div className={styles["main__profile-face"]}>
-										<div
-											className={styles["main__profile-avatar"]}
-											style={{
-												backgroundImage: `url(${user.avatar})`
-											}}
-										></div>
-										<div className={styles["main__profile-info"]}>
-											<h3 className={styles["main__profile-name"]}>
-												{user.username}
-											</h3>
-											<p className={styles["main__profile-tag"]}>
-												{user.email}
-											</p>
-										</div>
+		<div>
+			<div>
+				<Header />
+				<section className={`${styles.main} `}>
+					{loading ? (
+						<div className={styles["main__info-column"]}>
+							<div className={styles.main__profile}>
+								<div className={styles["main__profile-face"]}>
+									<Skeleton height={60} width={60} circle={true} />
+									<div className={styles["main__profile-info"]}>
+										<Skeleton height={20} width={100} />
+										<Skeleton height={15} width={80} />
 									</div>
 								</div>
 							</div>
-						)}
-					</>
-				)}
-				<div
-					className={`${styles["main__posts-column"]} ${!userToken ? styles["main__posts-column_no-auth"] : ""}`}
-				>
-					{error && <p style={{ color: "red" }}>{error}</p>}
-					{status === "loading" ? (
-						<>
-							<PostSkeleton />
-							<PostSkeleton />
-							<PostSkeleton />
-						</>
-					) : (
-						<div className={styles.main__posts}>
-							{allPosts.map(post => (
-								<Post key={post.id} post={post} />
-							))}
 						</div>
+					) : (
+						<>
+							{userToken && user !== null && (
+								<div className={styles["main__info-column"]}>
+									<div className={styles.main__profile}>
+										<div className={styles["main__profile-face"]}>
+											<div
+												className={styles["main__profile-avatar"]}
+												style={{
+													backgroundImage: `url(${user.avatar})`
+												}}
+											></div>
+											<div className={styles["main__profile-info"]}>
+												<h3 className={styles["main__profile-name"]}>
+													{user.username}
+												</h3>
+												<p className={styles["main__profile-tag"]}>
+													{user.email}
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							)}
+						</>
 					)}
-				</div>
-			</section>
+					<div
+						className={`${styles["main__posts-column"]} ${!userToken ? styles["main__posts-column_no-auth"] : ""}`}
+					>
+						{error && <p style={{ color: "red" }}>{error}</p>}
+						{status === "loading" ? (
+							<>
+								<PostSkeleton />
+								<PostSkeleton />
+								<PostSkeleton />
+							</>
+						) : (
+							<div className={styles.main__posts}>
+								{allPosts.map(post => (
+									<Post key={post.id} post={post} />
+								))}
+							</div>
+						)}
+					</div>
+				</section>
+				<GetToLoginPopup />
+			</div>
 			<Footer />
-		</>
+		</div>
 	);
 }

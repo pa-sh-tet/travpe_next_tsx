@@ -24,7 +24,7 @@ interface UserData {
 	token: string;
 }
 
-export const registerUser = createAsyncThunk<void, RegisterData>(
+export const registerUser = createAsyncThunk<UserData, RegisterData>(
 	"auth/register",
 	async ({ username, email, password, avatar }, { rejectWithValue }) => {
 		try {
@@ -34,11 +34,13 @@ export const registerUser = createAsyncThunk<void, RegisterData>(
 				}
 			};
 
-			await axios.post(
+			const { data } = await axios.post<UserData>(
 				`${API_URL}/register`,
 				{ username, email, password, avatar },
 				config
 			);
+
+			return data;
 		} catch (error) {
 			return rejectWithValue(error);
 		}
@@ -60,8 +62,6 @@ export const loginUser = createAsyncThunk<UserData, LoginData>(
 				{ email, password },
 				config
 			);
-
-			// localStorage.setItem("userToken", data.token);
 
 			return data;
 		} catch (error) {

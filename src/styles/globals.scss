@@ -26,6 +26,22 @@ body {
 	flex-direction: column;
 }
 
+body > div:first-child, /* Для create-react-app и некоторых других случаев */
+div#__next,
+div#__next > div,
+main {
+	height: 100%;
+	min-height: 100vh; /* Добавьте min-height для viewport height */
+}
+
+main > div {
+	height: 100%;
+	min-height: 100vh;
+	justify-content: space-between;
+	display: flex;
+	flex-direction: column;
+}
+
 h1,
 h2,
 h3,

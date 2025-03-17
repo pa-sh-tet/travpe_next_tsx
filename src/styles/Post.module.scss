@@ -24,6 +24,10 @@
 		@include respond-to(mobile) {
 			height: 200px;
 		}
+
+		&:hover {
+			cursor: pointer;
+		}
 	}
 
 	&__container {
@@ -51,6 +55,10 @@
 		@include respond-to(mobile) {
 			font-size: 14px;
 		}
+
+		&:hover {
+			cursor: pointer;
+		}
 	}
 
 	&__info {
@@ -76,8 +84,8 @@
 		flex: 1;
 
 		&_author {
-			font-size: 16px;
-			color: #335270;
+			font-size: 18px;
+			color: #182a3d;
 
 			@include respond-to(mobile) {
 				font-size: 13px;

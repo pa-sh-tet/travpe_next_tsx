@@ -91,7 +91,7 @@ function Login() {
 
 		try {
 			await dispatch(registerUser({ username, email, password, avatar }));
-			router.push("/login");
+			router.push("/");
 		} catch (error) {
 			setRegisterError("Registration failed");
 			console.error("Ошибка при регистрации:", error);

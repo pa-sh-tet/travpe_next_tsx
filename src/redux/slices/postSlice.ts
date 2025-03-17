@@ -16,6 +16,7 @@ const postsSlice = createSlice({
 		userPosts: [] as IPost[],
 		postDataById: null as IPost | null,
 		status: "idle",
+		statusPostById: "idle",
 		error: null
 	},
 	reducers: {},
@@ -42,14 +43,14 @@ const postsSlice = createSlice({
 				state.status = "failed";
 			})
 			.addCase(fetchPostById.pending, state => {
-				state.status = "loading";
+				state.statusPostById = "loading";
 			})
 			.addCase(fetchPostById.fulfilled, (state, action) => {
-				state.status = "succeded";
+				state.statusPostById = "succeded";
 				state.postDataById = action.payload;
 			})
 			.addCase(fetchPostById.rejected, state => {
-				state.status = "failed";
+				state.statusPostById = "failed";
 			})
 			.addCase(createPost.pending, state => {
 				state.status = "loading";

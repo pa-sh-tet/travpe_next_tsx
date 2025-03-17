@@ -1,6 +1,7 @@
 "use client";
 
-import styles from "@/styles/PopupWithForm.module.scss";
+import styles from "@/styles/Popup.module.scss";
+import Popup from "./Popup";
 
 interface PopupWithFormProps {
 	title: string;
@@ -24,8 +25,7 @@ function PopupWithForm({
 	onClose
 }: PopupWithFormProps) {
 	return (
-		<section className={`${styles.popup} ${isOpen ? styles.popup_active : ""}`}>
-			<div className={styles.popup__overlay} onClick={onClose}></div>
+		<Popup isOpen={isOpen} onClose={onClose}>
 			<div className={styles.popup__container}>
 				<h3 className={styles.popup__title}>{title}</h3>
 				<form
@@ -53,7 +53,7 @@ function PopupWithForm({
 					className={styles.popup__button_close}
 				></button>
 			</div>
-		</section>
+		</Popup>
 	);
 }
 

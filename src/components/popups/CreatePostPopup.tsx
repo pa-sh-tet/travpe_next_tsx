@@ -1,4 +1,4 @@
-import styles from "@/styles/PopupWithForm.module.scss";
+import styles from "@/styles/Popup.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import PopupWithForm from "./PopupWithForm";
 import { createPost, fetchAllUserPosts } from "@/redux/actions/postActions";

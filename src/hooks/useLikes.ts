@@ -13,9 +13,6 @@ const selectLikesByPost = (postId: number) =>
 
 export const useLikes = (postId: number) => {
 	const dispatch = useDispatch<AppDispatch>();
-	// const likes = useSelector(
-	// 	(state: RootState) => state.likes.likesByPost[postId] || []
-	// );
 	const likes: ILike[] = useSelector(selectLikesByPost(postId));
 
 	const loading: boolean = useSelector(

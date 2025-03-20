@@ -19,6 +19,7 @@
 		opacity 0.2s ease-in;
 	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 1000;
+	overflow: visible;
 
 	&__overlay {
 		position: absolute;
@@ -29,6 +30,23 @@
 	&_active {
 		visibility: visible;
 		opacity: 1;
+	}
+
+	&__map {
+		overflow: hidden;
+		width: 700px;
+		min-height: 450px;
+		max-height: 450px;
+
+		@include respond-to(900px) {
+			width: 100%;
+			min-height: 250px;
+		}
+
+		@include respond-to(400px) {
+			min-height: 250px;
+			max-height: 250px;
+		}
 	}
 
 	&__container {
@@ -42,6 +60,30 @@
 		border-radius: 0.75rem;
 		align-items: center;
 		overflow: visible;
+		z-index: 200;
+
+		&-location {
+			width: 700px;
+			height: 480px;
+			overflow: hidden;
+			gap: 10px;
+			max-height: 90%;
+			overflow-y: auto;
+			align-items: flex-start;
+
+			@include respond-to(900px) {
+				width: 70%;
+				max-height: 480px;
+				height: auto;
+			}
+
+			&-text {
+				color: #475569;
+				font-size: 15px;
+				text-align: left;
+				font-weight: bold;
+			}
+		}
 
 		@include respond-to(500px) {
 			width: 70%;
@@ -71,13 +113,16 @@
 		gap: 5px;
 		position: relative;
 		overflow: visible;
+
+		&-location {
+			gap: 0;
+		}
 	}
 
 	&__input {
 		background-color: #f1f5f9;
 		color: #475569;
 		height: 1.5rem;
-		// margin-bottom: 20px;
 		border: 1px solid #e2e8f0;
 		resize: none;
 		outline: none;
@@ -137,8 +182,6 @@
 			border-radius: 0.5rem;
 			padding: 0.5rem;
 			transition: all 0.3s;
-			// font-family: var(--font-kanit);
-			// letter-spacing: 0.5px;
 			font-family: var(--font-roboto);
 			font-weight: 600;
 			font-size: 16px;
@@ -220,6 +263,47 @@
 				100% {
 					transform: scaleX(80%) translateX(150%);
 				}
+			}
+		}
+	}
+
+	&__location {
+		&-list {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			width: 100%;
+			background: #fafcfe;
+			border-radius: 8px;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.347);
+			max-height: 250px;
+			overflow-y: auto;
+			z-index: 10;
+			list-style: none;
+			// padding: 8px 0;
+			margin: 4px 0 0;
+
+			&.hidden {
+				display: none;
+			}
+		}
+
+		&-item {
+			text-align: left;
+			padding: 10px 15px;
+			cursor: pointer;
+			transition: all 0.2s ease-in-out;
+			font-size: 14px;
+			color: #5d6d82ac;
+			border: 1px solid #e2e8f0;
+
+			&:hover {
+				background: #f0f0f0;
+				color: #000000;
+			}
+
+			&:active {
+				background: #e0e0e0;
 			}
 		}
 	}

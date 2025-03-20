@@ -22,6 +22,8 @@ import Footer from "@/components/Footer";
 import EditPostPopup from "@/components/popups/EditPostPopup";
 import { IUser } from "@/interfaces/User";
 import { IPost } from "@/interfaces/Post";
+import LocationPopup from "@/components/popups/LocationPopup";
+import FullPostPopup from "@/components/popups/FullPostPopup";
 
 function Profile() {
 	const router = useRouter();
@@ -119,6 +121,8 @@ function Profile() {
 				<EditPostPopup />
 				<DeletePostPopup />
 				<EditUserPopup />
+				<LocationPopup />
+				<FullPostPopup />
 			</div>
 			<Footer />
 		</div>

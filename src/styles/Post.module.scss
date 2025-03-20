@@ -35,7 +35,7 @@
 		flex-direction: column;
 		padding: 20px;
 		min-height: calc(120px - 2 * 20px);
-		gap: 20px;
+		gap: 10px;
 
 		@include respond-to(mobile) {
 			padding: 10px;
@@ -58,6 +58,37 @@
 
 		&:hover {
 			cursor: pointer;
+		}
+	}
+
+	&__location {
+		width: 90%;
+		@include overflow_style;
+
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 5px;
+
+		&:hover {
+			cursor: pointer;
+			opacity: 0.8;
+		}
+
+		&-icon {
+			min-width: 18px;
+			min-height: 18px;
+			background-image: url("/images/locationIcon.svg");
+			background-size: cover;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		&-value {
+			@include overflow_style;
+			color: #335eb3;
+			font-size: 16px;
+			line-height: 20px;
 		}
 	}
 
@@ -99,25 +130,6 @@
 			@include respond-to(mobile) {
 				font-size: 12px;
 			}
-		}
-	}
-
-	&__location {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 5px;
-
-		&_icon {
-			width: 18px;
-			height: 18px;
-			// background-image: url("../../public/images/pinIcon.png");
-			background-size: cover;
-			background-position: center;
-		}
-
-		&_value {
-			font-size: 14px;
 		}
 	}
 

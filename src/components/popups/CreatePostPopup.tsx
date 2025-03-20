@@ -8,14 +8,19 @@ import { closeCreatePostPopup } from "@/redux/slices/popupSlice";
 import { IPost } from "@/interfaces/Post";
 import { isValidUrl } from "@/utils/functions";
 import { IUser } from "@/interfaces/User";
+import LocationInput from "../LocationInput";
 
 function CreatePostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
 	const [link, setLink] = useState<string>("");
 	const [content, setContent] = useState<string>("");
+	const [location, setLocation] = useState<string>("");
+	const [latitude, setLatitude] = useState<string>("");
+	const [longitude, setLongitude] = useState<string>("");
 
 	const [linkError, setLinkError] = useState<string>("");
 	const [contentError, setContentError] = useState<string>("");
+	const [locationError, setLocationError] = useState<string>("");
 
 	const { user }: { user: IUser | null } = useSelector(
 		(state: RootState) => state.user
@@ -45,6 +50,16 @@ function CreatePostPopup() {
 		resetForm();
 	}, [isCreatePostPopupOpen]);
 
+	// Обработка выбора локации
+	const handleLocationSelect = (place: {
+		fullName: string;
+		coordinates: [number, number];
+	}) => {
+		setLocation(place.fullName);
+		setLatitude(String(place.coordinates[0]));
+		setLongitude(String(place.coordinates[1]));
+	};
+
 	const handleCreatePost = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
@@ -52,6 +67,7 @@ function CreatePostPopup() {
 
 		setContentError("");
 		setLinkError("");
+		setLocationError("");
 
 		if (!content) {
 			setContentError("Content is required");
@@ -69,12 +85,20 @@ function CreatePostPopup() {
 			isValid = false;
 		}
 
+		if (!location) {
+			setLocationError("Location is required");
+			isValid = false;
+		}
+
 		if (!user || !user.id || !isValid) return;
 
 		const newPost: Partial<IPost> = {
 			userId: user.id,
 			content,
-			image: link
+			image: link,
+			location,
+			latitude: parseFloat(latitude),
+			longitude: parseFloat(longitude)
 		};
 
 		await dispatch(createPost(newPost));
@@ -118,6 +142,14 @@ function CreatePostPopup() {
 					onChange={handleLinkChange}
 				/>
 				{linkError && <span className={styles.popup__error}>{linkError}</span>}
+			</div>
+			<div
+				className={`${styles["popup__item-location"]} ${styles.popup__item}`}
+			>
+				<LocationInput onSelect={handleLocationSelect} />
+				{locationError && (
+					<span className={styles.popup__error}>{locationError}</span>
+				)}
 			</div>
 		</PopupWithForm>
 	);

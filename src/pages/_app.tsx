@@ -8,8 +8,9 @@ import { store } from "@/redux/store";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUserToken } from "@/redux/slices/authSlice";
-import { kanit, pacifico, poppins, roboto } from "@/styles/fonts";
+import { kanit, pacifico, poppins, roboto } from "@/utils/fonts";
 import { jwtDecode } from "jwt-decode";
+const yandex_map_api_key = process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY;
 
 interface DecodedToken {
 	exp: number;
@@ -49,6 +50,11 @@ export default function App({ Component, pageProps, router }: AppProps) {
 		<Provider store={store}>
 			<Head>
 				<link rel="icon" type="image/png" href="/favicon.png" />
+				{/* eslint-disable-next-line @next/next/no-sync-scripts*/}
+				<script
+					src={`https://api-maps.yandex.ru/2.1/?apikey=${yandex_map_api_key}&lang=ru_RU`}
+					type="text/javascript"
+				></script>
 			</Head>
 			<main
 				className={`${poppins.variable} ${pacifico.variable} ${kanit.variable} ${roboto.variable}`}

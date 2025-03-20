@@ -12,13 +12,19 @@ import { closeEditPostPopup } from "@/redux/slices/popupSlice";
 import { IPost } from "@/interfaces/Post";
 import { isValidUrl } from "@/utils/functions";
 import { IUser } from "@/interfaces/User";
+import LocationInput from "../LocationInput";
 
 function EditPostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
 	const [link, setLink] = useState<string>("");
 	const [content, setContent] = useState<string>("");
+	const [location, setLocation] = useState<string>("");
+	const [latitude, setLatitude] = useState<string>("");
+	const [longitude, setLongitude] = useState<string>("");
+
 	const [linkError, setLinkError] = useState<string>("");
 	const [contentError, setContentError] = useState<string>("");
+	const [locationError, setLocationError] = useState<string>("");
 
 	const { user }: { user: IUser | null } = useSelector(
 		(state: RootState) => state.user
@@ -47,6 +53,9 @@ function EditPostPopup() {
 		if (postDataById) {
 			setLink(postDataById.image || "");
 			setContent(postDataById.content || "");
+			setLocation(postDataById.location || "");
+			setLatitude(String(postDataById.latitude || 0));
+			setLongitude(String(postDataById.longitude || 0));
 		}
 	}, [postDataById]);
 
@@ -54,6 +63,9 @@ function EditPostPopup() {
 		if (postDataById) {
 			setLink(postDataById.image || "");
 			setContent(postDataById.content || "");
+			setLocation(postDataById.location || "");
+			setLatitude(String(postDataById.latitude || 0));
+			setLongitude(String(postDataById.longitude || 0));
 		}
 	}, [postDataById]);
 
@@ -71,6 +83,16 @@ function EditPostPopup() {
 		setLink(e.target.value);
 	}
 
+	// Обработка выбора локации
+	const handleLocationSelect = (place: {
+		fullName: string;
+		coordinates: [number, number];
+	}) => {
+		setLocation(place.fullName);
+		setLatitude(String(place.coordinates[0]));
+		setLongitude(String(place.coordinates[1]));
+	};
+
 	const handleEditPost = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
@@ -78,6 +100,7 @@ function EditPostPopup() {
 
 		setContentError("");
 		setLinkError("");
+		setLocationError("");
 
 		if (!content) {
 			setContentError("Content is required");
@@ -95,12 +118,20 @@ function EditPostPopup() {
 			isValid = false;
 		}
 
+		if (!location || !latitude || !longitude) {
+			setLocationError("Location is required");
+			isValid = false;
+		}
+
 		if (!isValid) return;
 
 		const newPost: Partial<IPost> = {
 			id: postIdToUpdate,
 			content,
-			image: link
+			image: link,
+			location,
+			latitude: parseFloat(latitude),
+			longitude: parseFloat(longitude)
 		};
 
 		await dispatch(updatePost(newPost));
@@ -144,6 +175,14 @@ function EditPostPopup() {
 					onChange={handleLinkChange}
 				/>
 				{linkError && <span className={styles.popup__error}>{linkError}</span>}
+			</div>
+			<div
+				className={`${styles["popup__item-location"]} ${styles.popup__item}`}
+			>
+				<LocationInput value={location} onSelect={handleLocationSelect} />
+				{locationError && (
+					<span className={styles.popup__error}>{locationError}</span>
+				)}
 			</div>
 		</PopupWithForm>
 	);

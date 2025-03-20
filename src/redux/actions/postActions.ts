@@ -64,7 +64,10 @@ export const fetchPostById = createAsyncThunk<IPost, number>(
 
 export const createPost = createAsyncThunk<IPost, Partial<IPost>>(
 	"posts/createPost",
-	async ({ content, image, userId }, { rejectWithValue }) => {
+	async (
+		{ content, image, userId, location, latitude, longitude },
+		{ rejectWithValue }
+	) => {
 		try {
 			const response = await fetch(API_URL, {
 				method: "POST",
@@ -72,7 +75,14 @@ export const createPost = createAsyncThunk<IPost, Partial<IPost>>(
 					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
 					"Content-Type": "application/json"
 				},
-				body: JSON.stringify({ content, image, userId })
+				body: JSON.stringify({
+					content,
+					image,
+					userId,
+					location,
+					latitude,
+					longitude
+				})
 			});
 
 			if (!response.ok) {
@@ -110,11 +120,17 @@ export const deletePost = createAsyncThunk<void, number>(
 
 export const updatePost = createAsyncThunk<IPost, Partial<IPost>>(
 	"posts/updatePost",
-	async ({ id, content, image }, { rejectWithValue }) => {
+	async (
+		{ id, content, image, location, latitude, longitude },
+		{ rejectWithValue }
+	) => {
 		try {
 			const updatedData: Partial<IPost> = {};
 			if (content !== undefined) updatedData.content = content;
 			if (image !== undefined) updatedData.image = image;
+			if (location !== undefined) updatedData.location = location;
+			if (latitude !== undefined) updatedData.latitude = latitude;
+			if (longitude !== undefined) updatedData.longitude = longitude;
 
 			const response = await fetch(`${API_URL}/${id}`, {
 				method: "PATCH",

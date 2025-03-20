@@ -14,6 +14,9 @@ import Footer from "@/components/Footer";
 import { IUser } from "@/interfaces/User";
 import { IPost } from "@/interfaces/Post";
 import GetToLoginPopup from "@/components/popups/GetToLoginPopup";
+import LocationPopup from "@/components/popups/LocationPopup";
+import FullPostPopup from "@/components/popups/FullPostPopup";
+// import YandexMap from "@/components/YandexMap";
 
 export default function NewsFeed() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -103,6 +106,8 @@ export default function NewsFeed() {
 					</div>
 				</section>
 				<GetToLoginPopup />
+				<LocationPopup />
+				<FullPostPopup />
 			</div>
 			<Footer />
 		</div>

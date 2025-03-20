@@ -7,12 +7,12 @@ import {
 	openDeletePostPopup,
 	openEditPostPopup,
 	openFullPostPopup,
-	openGetToLoginPopup
+	openGetToLoginPopup,
+	openLocationPopup
 } from "@/redux/slices/popupSlice";
 import { useLikes } from "@/hooks/useLikes";
 import { likePost, unlikePost } from "@/redux/actions/likeActions";
 import { useState } from "react";
-import FullPostPopup from "./popups/FullPostPopup";
 import { fetchPostById } from "@/redux/actions/postActions";
 
 export default function Post({ post }: { post: IPost }) {
@@ -55,7 +55,12 @@ export default function Post({ post }: { post: IPost }) {
 	};
 
 	const handleOpenFullPostPopup = () => {
-		dispatch(openFullPostPopup(post.id));
+		dispatch(openFullPostPopup());
+		dispatch(fetchPostById(post.id));
+	};
+
+	const handleOpenLocationPopup = () => {
+		dispatch(openLocationPopup());
 		dispatch(fetchPostById(post.id));
 	};
 
@@ -80,6 +85,13 @@ export default function Post({ post }: { post: IPost }) {
 						>
 							{post.content}
 						</p>
+						<div
+							className={`${styles.post__location}`}
+							onClick={handleOpenLocationPopup}
+						>
+							<div className={styles["post__location-icon"]}></div>
+							<p className={styles["post__location-value"]}>{post.location}</p>
+						</div>
 						<div className={styles.post__info}>
 							<div
 								className={styles.post__avatar}
@@ -132,7 +144,18 @@ export default function Post({ post }: { post: IPost }) {
 							{post.content}
 						</p>
 						<div className={styles["profile__post-info"]}>
-							<p className={styles["profile__post-date"]}>{formattedDate}</p>
+							<div className={styles["profile__post-main"]}>
+								<p className={styles["profile__post-date"]}>{formattedDate}</p>
+								<div
+									className={styles["profile__post-location"]}
+									onClick={handleOpenLocationPopup}
+								>
+									<div className={styles["profile__post-location-icon"]}></div>
+									<p className={styles["profile__post-location-value"]}>
+										{post.location}
+									</p>
+								</div>
+							</div>
 							<div className={styles["profile__post-like"]}>
 								{loading ? (
 									<div className={styles["profile__post-like-loader"]}></div>
@@ -176,7 +199,6 @@ export default function Post({ post }: { post: IPost }) {
 					</div>
 				</li>
 			)}
-			<FullPostPopup />
 		</>
 	);
 }

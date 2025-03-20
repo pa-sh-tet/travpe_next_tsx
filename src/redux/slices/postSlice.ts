@@ -19,7 +19,15 @@ const postsSlice = createSlice({
 		statusPostById: "idle",
 		error: null
 	},
-	reducers: {},
+	reducers: {
+		clearPosts: state => {
+			state.allPosts = [];
+			state.userPosts = [];
+		},
+		clearPostDataById: state => {
+			state.postDataById = null;
+		}
+	},
 	extraReducers: builder => {
 		builder
 			.addCase(fetchAllPosts.pending, state => {

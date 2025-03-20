@@ -26,7 +26,7 @@ body {
 	flex-direction: column;
 }
 
-body > div:first-child, /* Для create-react-app и некоторых других случаев */
+body > div:first-child,
 div#__next,
 div#__next > div,
 main {

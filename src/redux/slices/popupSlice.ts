@@ -8,6 +8,7 @@ interface PopupState {
 	isMenuPopupOpen: boolean;
 	isGetToLoginPopupOpen: boolean;
 	isFullPostPopupOpen: boolean;
+	isLocationPopupOpen: boolean;
 	postIdToDelete: number | null;
 	postIdToUpdate: number | null;
 	postIdToOpen: number | null;
@@ -21,6 +22,7 @@ const initialState: PopupState = {
 	isMenuPopupOpen: false,
 	isGetToLoginPopupOpen: false,
 	isFullPostPopupOpen: false,
+	isLocationPopupOpen: false,
 	postIdToDelete: null,
 	postIdToUpdate: null,
 	postIdToOpen: null
@@ -70,12 +72,17 @@ const popupSlice = createSlice({
 		closeGetToLoginPopup: state => {
 			state.isGetToLoginPopupOpen = false;
 		},
-		openFullPostPopup: (state, action: PayloadAction<number>) => {
+		openFullPostPopup: state => {
 			state.isFullPostPopupOpen = true;
-			state.postIdToOpen = action.payload;
 		},
 		closeFullPostPopup: state => {
 			state.isFullPostPopupOpen = false;
+		},
+		openLocationPopup: state => {
+			state.isLocationPopupOpen = true;
+		},
+		closeLocationPopup: state => {
+			state.isLocationPopupOpen = false;
 		}
 	}
 });
@@ -94,7 +101,9 @@ export const {
 	openGetToLoginPopup,
 	closeGetToLoginPopup,
 	openFullPostPopup,
-	closeFullPostPopup
+	closeFullPostPopup,
+	openLocationPopup,
+	closeLocationPopup
 } = popupSlice.actions;
 
 export const popupReduser = popupSlice.reducer;

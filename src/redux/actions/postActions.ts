@@ -22,14 +22,13 @@ export const fetchAllPosts = createAsyncThunk<IPost[], void>(
 	}
 );
 
-// Получение всех постов пользователя
+// Получение всех постов конкретного пользователя
 export const fetchAllUserPosts = createAsyncThunk<IPost[], number>(
 	"posts/fetchAllUserPosts",
 	async (userId, { rejectWithValue }) => {
 		try {
 			const response = await fetch(`${API_URL}/user/${userId}`, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("userToken")}`,
 					"Content-Type": "application/json"
 				}
 			});

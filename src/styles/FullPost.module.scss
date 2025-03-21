@@ -3,7 +3,6 @@
 
 .full-post {
 	&__container {
-		// margin-top: 50px;
 		position: relative;
 		display: flex;
 		flex-direction: column;
@@ -31,10 +30,14 @@
 		}
 
 		@include respond-to(desktop) {
-			max-width: 500px;
+			width: 600px;
 		}
 
-		@include respond-to(500px) {
+		@include respond-to(tablet) {
+			width: 450px;
+		}
+
+		@include respond-to(570px) {
 			max-width: 350px;
 		}
 
@@ -54,8 +57,12 @@
 			min-height: 370px;
 		}
 
-		@include respond-to(500px) {
-			min-height: 350px;
+		@include respond-to(tablet) {
+			min-height: 300px;
+		}
+
+		@include respond-to(570px) {
+			min-height: 270px;
 		}
 
 		@include respond-to(mobile) {

@@ -35,11 +35,11 @@
 		}
 
 		@include respond-to(tablet) {
-			width: 65%;
+			width: 450px;
 		}
 
-		@include respond-to(mobile) {
-			width: 100%;
+		@include respond-to(500px) {
+			width: calc(100%);
 		}
 	}
 

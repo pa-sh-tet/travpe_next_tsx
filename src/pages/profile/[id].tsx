@@ -22,8 +22,9 @@ import Footer from "@/components/Footer";
 import EditPostPopup from "@/components/popups/EditPostPopup";
 import FullPostPopup from "@/components/popups/FullPostPopup";
 import LocationPopup from "@/components/popups/LocationPopup";
-// import { IUser } from "@/interfaces/User";
-// import { IPost } from "@/interfaces/Post";
+import GetToLoginPopup from "@/components/popups/GetToLoginPopup";
+import { IUser } from "@/interfaces/User";
+import { IPost } from "@/interfaces/Post";
 
 function Profile() {
 	const router = useRouter();
@@ -34,26 +35,25 @@ function Profile() {
 		user: currentUser,
 		profileUser,
 		loading
+	}: {
+		user: IUser | null;
+		profileUser: IUser | null;
+		loading: boolean;
 	} = useSelector((state: RootState) => state.user); // Текущий юзер
 
-	const { userPosts, status } = useSelector((state: RootState) => state.posts);
+	const { userPosts, status }: { userPosts: IPost[]; status: string } =
+		useSelector((state: RootState) => state.posts);
 
 	// Определяем, чей профиль открыт: свой или чужой
 	const isMyProfile = !id || currentUser?.id === Number(id);
 
 	useEffect(() => {
-		const userToken = localStorage.getItem("userToken");
-
-		if (!userToken) {
-			router.push("/login");
+		if (isMyProfile) {
+			if (!currentUser) dispatch(fetchUserInfo());
+			dispatch(fetchAllUserPosts(currentUser?.id || 0));
 		} else {
-			if (isMyProfile) {
-				if (!currentUser) dispatch(fetchUserInfo());
-				dispatch(fetchAllUserPosts(currentUser?.id || 0));
-			} else {
-				dispatch(fetchUserById(Number(id)));
-				dispatch(fetchAllUserPosts(Number(id)));
-			}
+			dispatch(fetchUserById(Number(id)));
+			dispatch(fetchAllUserPosts(Number(id)));
 		}
 	}, [router, dispatch, id, currentUser, isMyProfile]);
 
@@ -134,6 +134,7 @@ function Profile() {
 			<EditUserPopup />
 			<FullPostPopup />
 			<LocationPopup />
+			<GetToLoginPopup />
 
 			<Footer />
 		</div>

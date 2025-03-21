@@ -1,5 +1,5 @@
 @use "./mixins" as *;
-@import "PostProfile.module.scss";
+@use "PostProfile.module.scss" as *;
 
 .post {
 	display: flex;

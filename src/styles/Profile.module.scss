@@ -257,9 +257,11 @@
 			gap: 5px;
 			height: 100%;
 
-			// @include respond-to(950px) {
-			// 	height: 250px;
-			// }
+			@include respond-to(500px) {
+				max-width: 350px;
+				width: 100%;
+				margin: 0 auto;
+			}
 
 			&-logo {
 				background-image: url("/images/AddIcon.svg");

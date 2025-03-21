@@ -13,7 +13,8 @@
 	height: auto;
 
 	@include respond-to(500px) {
-		max-width: 290px;
+		// max-width: 290px;
+		max-width:350px;
 		margin: 0 auto;
 	}
 

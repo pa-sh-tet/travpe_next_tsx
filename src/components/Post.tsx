@@ -14,6 +14,7 @@ import { useLikes } from "@/hooks/useLikes";
 import { likePost, unlikePost } from "@/redux/actions/likeActions";
 import { useState } from "react";
 import { fetchPostById } from "@/redux/actions/postActions";
+import Link from "next/link";
 
 export default function Post({ post }: { post: IPost }) {
 	const router = useRouter();
@@ -29,6 +30,11 @@ export default function Post({ post }: { post: IPost }) {
 	const { loading }: { loading: boolean } = useSelector(
 		(state: RootState) => state.likes
 	);
+
+	const { user: currentUser } = useSelector((state: RootState) => state.user);
+
+	const { id } = router.query;
+	const isMyProfile = !id || currentUser?.id === Number(id);
 
 	const [isKebabMenuOpen, setIsKebabMenuOpen] = useState<boolean>(false);
 
@@ -91,7 +97,10 @@ export default function Post({ post }: { post: IPost }) {
 							<div className={styles["post__location-icon"]}></div>
 							<p className={styles["post__location-value"]}>{post.location}</p>
 						</div>
-						<div className={styles.post__info}>
+						<Link
+							href={`/profile/${post.user.id}`}
+							className={styles.post__info}
+						>
 							<div
 								className={styles.post__avatar}
 								style={{
@@ -125,7 +134,7 @@ export default function Post({ post }: { post: IPost }) {
 									</>
 								)}
 							</div>
-						</div>
+						</Link>
 					</div>
 				</div>
 			) : (
@@ -176,26 +185,28 @@ export default function Post({ post }: { post: IPost }) {
 							</div>
 						</div>
 					</div>
-					<div className={styles["profile__post-icons"]}>
-						<button
-							className={`${styles["profile__post-kebab"]} ${styles["profile__post-menu-icon"]} ${isKebabMenuOpen ? styles["profile__post-kebab_active"] : ""}`}
-							onClick={() => setIsKebabMenuOpen(!isKebabMenuOpen)}
-						/>
-						<div
-							className={`${styles["profile__post-etc"]} ${isKebabMenuOpen ? styles["profile__post-etc_active"] : ""}`}
-						>
+					{isMyProfile && (
+						<div className={styles["profile__post-icons"]}>
 							<button
-								className={`${styles["profile__post-edit"]} ${styles["profile__post-menu-icon"]}`}
-								onClick={() => {
-									dispatch(openEditPostPopup(post.id));
-								}}
-							></button>
-							<button
-								className={`${styles["profile__post-delete"]} ${styles["profile__post-menu-icon"]}`}
-								onClick={() => dispatch(openDeletePostPopup(post.id))}
-							></button>
+								className={`${styles["profile__post-kebab"]} ${styles["profile__post-menu-icon"]} ${isKebabMenuOpen ? styles["profile__post-kebab_active"] : ""}`}
+								onClick={() => setIsKebabMenuOpen(!isKebabMenuOpen)}
+							/>
+							<div
+								className={`${styles["profile__post-etc"]} ${isKebabMenuOpen ? styles["profile__post-etc_active"] : ""}`}
+							>
+								<button
+									className={`${styles["profile__post-edit"]} ${styles["profile__post-menu-icon"]}`}
+									onClick={() => {
+										dispatch(openEditPostPopup(post.id));
+									}}
+								></button>
+								<button
+									className={`${styles["profile__post-delete"]} ${styles["profile__post-menu-icon"]}`}
+									onClick={() => dispatch(openDeletePostPopup(post.id))}
+								></button>
+							</div>
 						</div>
-					</div>
+					)}
 				</li>
 			)}
 		</>

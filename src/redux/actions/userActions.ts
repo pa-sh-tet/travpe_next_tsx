@@ -128,3 +128,21 @@ export const isEmailAvailable = createAsyncThunk<boolean, string>(
 		}
 	}
 );
+
+export const fetchUserById = createAsyncThunk<IUser, number>(
+	"user/fetchById",
+	async (id: number, { rejectWithValue }) => {
+		try {
+			const response = await fetch(`${API_URL}/${id}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+			const data = await response.json();
+			return data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);

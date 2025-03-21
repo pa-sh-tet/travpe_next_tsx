@@ -2,20 +2,24 @@
 @use "./variables" as *;
 
 .profile {
-	// width: 100%;
+	width: 100%;
 	max-width: 1110px;
 	height: auto;
 	margin: 0 auto;
-	padding: 40px 90px;
+	// padding: 40px 90px;
+	padding: 40px 0;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 
 	@include respond-to(desktop) {
-		padding: 40px 45px;
+		width: calc(100% - 90px);
+		padding: 40px 0;
+		// padding: 40px 45px;
 	}
 
 	@include respond-to(500px) {
+		width: calc(100% - 40px);
 		padding: 40px 20px;
 	}
 

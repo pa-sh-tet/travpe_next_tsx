@@ -121,8 +121,8 @@ function Profile() {
 				<EditPostPopup />
 				<DeletePostPopup />
 				<EditUserPopup />
-				<LocationPopup />
 				<FullPostPopup />
+				<LocationPopup />
 			</div>
 			<Footer />
 		</div>

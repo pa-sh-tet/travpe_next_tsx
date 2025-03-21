@@ -62,6 +62,23 @@ export const fetchPostById = createAsyncThunk<IPost, number>(
 	}
 );
 
+export const fetchTopLocations = createAsyncThunk<IPost[], void>(
+	"posts/fetchTopLocations",
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await fetch(`${API_URL}/locations/top-locations`);
+			const data = await response.json();
+
+			if (!response.ok)
+				throw new Error(data.message || "Ошибка загрузки популярных локаций");
+
+			return data;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	}
+);
+
 export const createPost = createAsyncThunk<IPost, Partial<IPost>>(
 	"posts/createPost",
 	async (

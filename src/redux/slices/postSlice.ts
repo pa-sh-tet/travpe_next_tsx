@@ -2,6 +2,7 @@ import {
 	fetchAllPosts,
 	fetchAllUserPosts,
 	fetchPostById,
+	fetchTopLocations,
 	createPost,
 	deletePost,
 	updatePost
@@ -15,7 +16,9 @@ const postsSlice = createSlice({
 		allPosts: [] as IPost[],
 		userPosts: [] as IPost[],
 		postDataById: null as IPost | null,
+		topLocations: [] as IPost[],
 		status: "idle",
+		loadingTopLocations: false,
 		statusPostById: "idle",
 		error: null
 	},
@@ -59,6 +62,16 @@ const postsSlice = createSlice({
 			})
 			.addCase(fetchPostById.rejected, state => {
 				state.statusPostById = "failed";
+			})
+			.addCase(fetchTopLocations.pending, state => {
+				state.loadingTopLocations = true;
+			})
+			.addCase(fetchTopLocations.fulfilled, (state, action) => {
+				state.loadingTopLocations = false;
+				state.topLocations = action.payload;
+			})
+			.addCase(fetchTopLocations.rejected, state => {
+				state.loadingTopLocations = false;
 			})
 			.addCase(createPost.pending, state => {
 				state.status = "loading";

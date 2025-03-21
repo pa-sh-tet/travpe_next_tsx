@@ -71,7 +71,6 @@ export default function Post({ post }: { post: IPost }) {
 					{post.image !== null && (
 						<div
 							className={styles.post__image}
-							// TODO: при несоответствии картинки и блока, на фоне дублировать размытую картинку
 							style={{ backgroundImage: `url(${post.image})` }}
 							role="image"
 							aria-label="post image"

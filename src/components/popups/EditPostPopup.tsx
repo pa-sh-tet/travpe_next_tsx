@@ -6,7 +6,7 @@ import {
 	fetchPostById,
 	updatePost
 } from "@/redux/actions/postActions";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeEditPostPopup } from "@/redux/slices/popupSlice";
 import { IPost } from "@/interfaces/Post";
@@ -59,19 +59,26 @@ function EditPostPopup() {
 		}
 	}, [postDataById]);
 
-	const resetForm = useCallback(() => {
-		if (postDataById) {
-			setLink(postDataById.image || "");
-			setContent(postDataById.content || "");
-			setLocation(postDataById.location || "");
-			setLatitude(String(postDataById.latitude || 0));
-			setLongitude(String(postDataById.longitude || 0));
-		}
-	}, [postDataById]);
+	// const resetForm = useCallback(() => {
+	// 	if (postDataById) {
+	// 		setLink(postDataById.image || "");
+	// 		setContent(postDataById.content || "");
+	// 		setLocation(postDataById.location || "");
+	// 		setLatitude(String(postDataById.latitude || 0));
+	// 		setLongitude(String(postDataById.longitude || 0));
+	// 	}
+	// }, [postDataById]);
+	function resetForm() {
+		setLink("");
+		setContent("");
+		setLocation("");
+		setLatitude(String(0));
+		setLongitude(String(0));
+	}
 
 	useEffect(() => {
 		resetForm();
-	}, [isEditPostPopupOpen, resetForm]);
+	}, [isEditPostPopupOpen]);
 
 	if (!user || !user.id || !postIdToUpdate) return;
 

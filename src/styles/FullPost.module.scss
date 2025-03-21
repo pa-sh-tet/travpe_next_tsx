@@ -74,7 +74,8 @@
 		max-width: 700px;
 
 		@include respond-to(mobile) {
-			min-width: 200px;margin-top: 10px;
+			min-width: 200px;
+			margin-top: 10px;
 		}
 	}
 
@@ -91,6 +92,30 @@
 		border-radius: 50%;
 		background-size: cover;
 		background-position: center;
+	}
+
+	&__location {
+		display: flex;
+		flex-direction: row;
+		gap: 10px;
+
+		&-icon {
+			min-width: 13px;
+			min-height: 13px;
+			background-image: url("/images/locationIcon.svg");
+			background-size: cover;
+			background-position: center;
+		}
+
+		&-value {
+			font-size: 16px;
+			color: #335eb3;
+		}
+
+		&:hover {
+			opacity: 0.7;
+			cursor: pointer;
+		}
 	}
 
 	&__about {

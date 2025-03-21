@@ -32,7 +32,7 @@ const YandexMap: React.FC<Props> = ({ latitude, longitude }) => {
 			loadMap();
 		} else {
 			const script = document.createElement("script");
-			script.src = `https://api-maps.yandex.ru/2.1/?apikey=${yandex_map_api_key}&lang=ru_RU`;
+			script.src = `https://api-maps.yandex.ru/2.1/?apikey=${yandex_map_api_key}&lang=en_RU`;
 			script.async = true;
 			script.onload = () => loadMap();
 			document.head.appendChild(script);

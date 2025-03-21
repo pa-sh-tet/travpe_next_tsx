@@ -4,12 +4,14 @@ import Popup from "./Popup";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
 	closeFullPostPopup,
-	openGetToLoginPopup
+	openGetToLoginPopup,
+	openLocationPopup
 } from "@/redux/slices/popupSlice";
 import { IPost } from "@/interfaces/Post";
 import PostSkeleton from "../PostSkeleton";
 import { useLikes } from "@/hooks/useLikes";
 import { likePost, unlikePost } from "@/redux/actions/likeActions";
+import { fetchPostById } from "@/redux/actions/postActions";
 
 export default function FullPostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -68,6 +70,11 @@ export default function FullPostPopup() {
 		dispatch(closeFullPostPopup());
 	};
 
+	const handleOpenLocationPopup = () => {
+		dispatch(openLocationPopup());
+		dispatch(fetchPostById(postDataById.id));
+	};
+
 	return (
 		<Popup isOpen={isFullPostPopupOpen} onClose={handleClose}>
 			<div className={styles["full-post__container"]}>
@@ -80,6 +87,15 @@ export default function FullPostPopup() {
 							style={{ backgroundImage: `url(${postDataById.image})` }}
 						></div>
 						<div className={styles["full-post__content"]}>
+							<div
+								className={styles["full-post__location"]}
+								onClick={handleOpenLocationPopup}
+							>
+								<div className={styles["full-post__location-icon"]}></div>
+								<p className={styles["full-post__location-value"]}>
+									{postDataById.location}
+								</p>
+							</div>
 							<div className={styles["full-post__info"]}>
 								<div
 									className={styles["full-post__avatar"]}

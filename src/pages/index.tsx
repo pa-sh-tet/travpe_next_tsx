@@ -5,7 +5,7 @@ import styles from "@/styles/NewsFeed.module.scss";
 import Post from "@/components/Post";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllPosts } from "@/redux/actions/postActions";
+import { fetchAllPosts, fetchTopLocations } from "@/redux/actions/postActions";
 import { RootState, AppDispatch } from "@/redux/store";
 import { fetchUserInfo } from "@/redux/actions/userActions";
 import PostSkeleton from "@/components/PostSkeleton";
@@ -23,11 +23,17 @@ export default function NewsFeed() {
 
 	const {
 		allPosts,
+		topLocations,
+		loadingTopLocations,
 		status,
 		error
-	}: { allPosts: IPost[]; status: string; error: string | null } = useSelector(
-		(state: RootState) => state.posts
-	);
+	}: {
+		allPosts: IPost[];
+		topLocations: IPost[];
+		loadingTopLocations: boolean;
+		status: string;
+		error: string | null;
+	} = useSelector((state: RootState) => state.posts);
 
 	const { userToken }: { userToken: string | null } = useSelector(
 		(state: RootState) => state.auth
@@ -41,6 +47,7 @@ export default function NewsFeed() {
 			dispatch(fetchUserInfo());
 		}
 		dispatch(fetchAllPosts());
+		dispatch(fetchTopLocations());
 	}, [dispatch, userToken]);
 
 	return (
@@ -59,11 +66,21 @@ export default function NewsFeed() {
 									</div>
 								</div>
 							</div>
+							<div className={styles.main__destinations}>
+								<Skeleton height={25} width={200} />
+								<ul className={styles["main__destinations-list"]}>
+									<Skeleton height={16} width={200} />
+									<Skeleton height={16} width={200} />
+									<Skeleton height={16} width={200} />
+									<Skeleton height={16} width={200} />
+									<Skeleton height={16} width={200} />
+								</ul>
+							</div>
 						</div>
 					) : (
 						<>
-							{userToken && user !== null && (
-								<div className={styles["main__info-column"]}>
+							<div className={styles["main__info-column"]}>
+								{userToken && user !== null && (
 									<div className={styles.main__profile}>
 										<div className={styles["main__profile-face"]}>
 											<div
@@ -82,8 +99,52 @@ export default function NewsFeed() {
 											</div>
 										</div>
 									</div>
+								)}
+								<div className={styles.main__destinations}>
+									<h2 className={styles["main__destinations-title"]}>
+										Trending Destinations
+									</h2>
+									<ul className={styles["main__destinations-list"]}>
+										{loadingTopLocations ? (
+											<>
+												<Skeleton height={16} width={200} />
+												<Skeleton height={16} width={200} />
+												<Skeleton height={16} width={200} />
+												<Skeleton height={16} width={200} />
+												<Skeleton height={16} width={200} />
+											</>
+										) : (
+											<>
+												{topLocations.length > 0 ? (
+													topLocations.map((destination, index) => (
+														<li
+															key={index}
+															className={styles["main__destinations-item"]}
+														>
+															<div
+																className={
+																	styles["main__destinations-item-image"]
+																}
+															/>
+															<p
+																className={
+																	styles["main__destinations-item-name"]
+																}
+															>
+																{destination.location}
+															</p>
+														</li>
+													))
+												) : (
+													<p className={styles["main__destinations-item-name"]}>
+														No posts yet
+													</p>
+												)}
+											</>
+										)}
+									</ul>
 								</div>
-							)}
+							</div>
 						</>
 					)}
 					<div
@@ -106,8 +167,8 @@ export default function NewsFeed() {
 					</div>
 				</section>
 				<GetToLoginPopup />
-				<LocationPopup />
 				<FullPostPopup />
+				<LocationPopup />
 			</div>
 			<Footer />
 		</div>

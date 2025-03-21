@@ -44,6 +44,7 @@ function CreatePostPopup() {
 	function resetForm() {
 		setContent("");
 		setLink("");
+		setLocation("");
 	}
 
 	useEffect(() => {
@@ -146,7 +147,7 @@ function CreatePostPopup() {
 			<div
 				className={`${styles["popup__item-location"]} ${styles.popup__item}`}
 			>
-				<LocationInput onSelect={handleLocationSelect} />
+				<LocationInput value={location} onSelect={handleLocationSelect} />
 				{locationError && (
 					<span className={styles.popup__error}>{locationError}</span>
 				)}

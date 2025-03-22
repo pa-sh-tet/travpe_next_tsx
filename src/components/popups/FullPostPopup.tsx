@@ -11,7 +11,6 @@ import { IPost } from "@/interfaces/Post";
 import PostSkeleton from "../PostSkeleton";
 import { useLikes } from "@/hooks/useLikes";
 import { likePost, unlikePost } from "@/redux/actions/likeActions";
-import { fetchPostById } from "@/redux/actions/postActions";
 
 export default function FullPostPopup() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -70,9 +69,8 @@ export default function FullPostPopup() {
 		dispatch(closeFullPostPopup());
 	};
 
-	const handleOpenLocationPopup = () => {
-		dispatch(openLocationPopup());
-		dispatch(fetchPostById(postDataById.id));
+	const handleOpenLocationPopup = (locationData: IPost) => {
+		dispatch(openLocationPopup(locationData));
 	};
 
 	return (
@@ -89,7 +87,7 @@ export default function FullPostPopup() {
 						<div className={styles["full-post__content"]}>
 							<div
 								className={styles["full-post__location"]}
-								onClick={handleOpenLocationPopup}
+								onClick={() => handleOpenLocationPopup(postDataById)}
 							>
 								<div className={styles["full-post__location-icon"]}></div>
 								<p className={styles["full-post__location-value"]}>

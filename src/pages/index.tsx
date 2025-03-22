@@ -16,7 +16,7 @@ import { IPost } from "@/interfaces/Post";
 import GetToLoginPopup from "@/components/popups/GetToLoginPopup";
 import LocationPopup from "@/components/popups/LocationPopup";
 import FullPostPopup from "@/components/popups/FullPostPopup";
-// import YandexMap from "@/components/YandexMap";
+import { openLocationPopup } from "@/redux/slices/popupSlice";
 
 export default function NewsFeed() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -49,6 +49,10 @@ export default function NewsFeed() {
 		dispatch(fetchAllPosts());
 		dispatch(fetchTopLocations());
 	}, [dispatch, userToken]);
+
+	const handleOpenLocationPopup = (locationData: IPost) => {
+		dispatch(openLocationPopup(locationData));
+	};
 
 	return (
 		<div>
@@ -120,6 +124,9 @@ export default function NewsFeed() {
 														<li
 															key={index}
 															className={styles["main__destinations-item"]}
+															onClick={() =>
+																handleOpenLocationPopup(destination)
+															}
 														>
 															<div
 																className={

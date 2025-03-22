@@ -1,3 +1,4 @@
+import { IPost } from "@/interfaces/Post";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PopupState {
@@ -12,6 +13,7 @@ interface PopupState {
 	postIdToDelete: number | null;
 	postIdToUpdate: number | null;
 	postIdToOpen: number | null;
+	selectedLocation: IPost | null;
 }
 
 const initialState: PopupState = {
@@ -25,7 +27,8 @@ const initialState: PopupState = {
 	isLocationPopupOpen: false,
 	postIdToDelete: null,
 	postIdToUpdate: null,
-	postIdToOpen: null
+	postIdToOpen: null,
+	selectedLocation: null
 };
 
 const popupSlice = createSlice({
@@ -78,12 +81,20 @@ const popupSlice = createSlice({
 		closeFullPostPopup: state => {
 			state.isFullPostPopupOpen = false;
 		},
-		openLocationPopup: state => {
+		openLocationPopup: (state, action: PayloadAction<IPost>) => {
 			state.isLocationPopupOpen = true;
+			state.selectedLocation = action.payload;
 		},
 		closeLocationPopup: state => {
 			state.isLocationPopupOpen = false;
+			state.selectedLocation = null;
 		}
+		// openLocationPopup: state => {
+		// 	state.isLocationPopupOpen = true;
+		// },
+		// closeLocationPopup: state => {
+		// 	state.isLocationPopupOpen = false;
+		// }
 	}
 });
 

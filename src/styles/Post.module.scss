@@ -68,11 +68,12 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: 5px;
+		gap: 3px;
 
 		&:hover {
 			cursor: pointer;
-			opacity: 0.8;
+			opacity: 0.7;
+			text-decoration: underline;
 		}
 
 		&-icon {
@@ -97,6 +98,22 @@
 		justify-content: space-between;
 	}
 
+	&__profile {
+		display: flex;
+		flex-direction: row;
+		@include overflow_style;
+		flex: 1;
+		border-radius: 20px;
+		margin-right: 10px;
+		outline: 2px solid transparent;
+
+		&:hover {
+			cursor: pointer;
+			opacity: 0.8;
+			outline: 2px solid #cdd0d3;
+		}
+	}
+
 	&__avatar {
 		width: 40px;
 		height: 40px;
@@ -112,11 +129,13 @@
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
+		@include overflow_style;
 		flex: 1;
 
 		&_author {
 			font-size: 18px;
 			color: #182a3d;
+			@include overflow_style;
 
 			@include respond-to(mobile) {
 				font-size: 13px;

@@ -65,9 +65,8 @@ export default function Post({ post }: { post: IPost }) {
 		dispatch(fetchPostById(post.id));
 	};
 
-	const handleOpenLocationPopup = () => {
-		dispatch(openLocationPopup());
-		dispatch(fetchPostById(post.id));
+	const handleOpenLocationPopup = (locationData: IPost) => {
+		dispatch(openLocationPopup(locationData));
 	};
 
 	return (
@@ -92,28 +91,30 @@ export default function Post({ post }: { post: IPost }) {
 						</p>
 						<div
 							className={`${styles.post__location}`}
-							onClick={handleOpenLocationPopup}
+							onClick={() => handleOpenLocationPopup(post)}
 						>
 							<div className={styles["post__location-icon"]}></div>
 							<p className={styles["post__location-value"]}>{post.location}</p>
 						</div>
-						<Link
-							href={`/profile/${post.user.id}`}
-							className={styles.post__info}
-						>
-							<div
-								className={styles.post__avatar}
-								style={{
-									backgroundImage: `url(${post.user.avatar})`
-								}}
-							></div>
-							<div className={styles.post__about}>
-								<p className={styles.post__about_author}>
-									{post.user.username}
-								</p>
+						<div className={styles.post__info}>
+							<Link
+								href={`/profile/${post.user.id}`}
+								className={styles["post__profile"]}
+							>
+								<div
+									className={styles.post__avatar}
+									style={{
+										backgroundImage: `url(${post.user.avatar})`
+									}}
+								></div>
+								<div className={styles.post__about}>
+									<p className={styles.post__about_author}>
+										{post.user.username}
+									</p>
 
-								<p className={styles.post__about_date}>{formattedDate}</p>
-							</div>
+									<p className={styles.post__about_date}>{formattedDate}</p>
+								</div>
+							</Link>
 							<div className={styles.post__like}>
 								{loading ? (
 									<div className={styles.post__like_loader}></div>
@@ -134,7 +135,7 @@ export default function Post({ post }: { post: IPost }) {
 									</>
 								)}
 							</div>
-						</Link>
+						</div>
 					</div>
 				</div>
 			) : (
@@ -156,7 +157,7 @@ export default function Post({ post }: { post: IPost }) {
 								<p className={styles["profile__post-date"]}>{formattedDate}</p>
 								<div
 									className={styles["profile__post-location"]}
-									onClick={handleOpenLocationPopup}
+									onClick={() => handleOpenLocationPopup(post)}
 								>
 									<div className={styles["profile__post-location-icon"]}></div>
 									<p className={styles["profile__post-location-value"]}>

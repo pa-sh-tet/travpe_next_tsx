@@ -104,23 +104,23 @@ export default function NewsFeed() {
 										</div>
 									</div>
 								)}
-								<div className={styles.main__destinations}>
-									<h2 className={styles["main__destinations-title"]}>
-										Trending Destinations
-									</h2>
-									<ul className={styles["main__destinations-list"]}>
-										{loadingTopLocations ? (
-											<>
-												<Skeleton height={16} width={200} />
-												<Skeleton height={16} width={200} />
-												<Skeleton height={16} width={200} />
-												<Skeleton height={16} width={200} />
-												<Skeleton height={16} width={200} />
-											</>
-										) : (
-											<>
-												{topLocations.length > 0 ? (
-													topLocations.map((destination, index) => (
+								{topLocations.length > 0 && (
+									<div className={styles.main__destinations}>
+										<h2 className={styles["main__destinations-title"]}>
+											Trending Destinations
+										</h2>
+										<ul className={styles["main__destinations-list"]}>
+											{loadingTopLocations ? (
+												<>
+													<Skeleton height={16} width={200} />
+													<Skeleton height={16} width={200} />
+													<Skeleton height={16} width={200} />
+													<Skeleton height={16} width={200} />
+													<Skeleton height={16} width={200} />
+												</>
+											) : (
+												<>
+													{topLocations.map((destination, index) => (
 														<li
 															key={index}
 															className={styles["main__destinations-item"]}
@@ -141,16 +141,12 @@ export default function NewsFeed() {
 																{destination.location}
 															</p>
 														</li>
-													))
-												) : (
-													<p className={styles["main__destinations-item-name"]}>
-														No posts yet
-													</p>
-												)}
-											</>
-										)}
-									</ul>
-								</div>
+													))}
+												</>
+											)}
+										</ul>
+									</div>
+								)}
 							</div>
 						</>
 					)}

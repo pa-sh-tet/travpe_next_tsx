@@ -81,6 +81,10 @@ function Login() {
 		<>
 			<section className={styles.login}>
 				<div className={styles.login__container}>
+					<Link href="/" className={styles.login__main}>
+						<div className={styles["login__main-icon"]}></div>
+						<p className={styles["login__main-text"]}>Main</p>
+					</Link>
 					<Link className={styles["login__logo-link"]} href="/" />
 					<h2 className={styles.login__title}>Glad to see you!</h2>
 					<form

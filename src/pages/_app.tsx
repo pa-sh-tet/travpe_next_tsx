@@ -11,6 +11,7 @@ import { setUserToken } from "@/redux/slices/authSlice";
 import { kanit, pacifico, poppins, roboto } from "@/utils/fonts";
 import { jwtDecode } from "jwt-decode";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
 const yandex_map_api_key = process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY;
 
 interface DecodedToken {
@@ -65,6 +66,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
 					router={router}
 				/>
 			</main>
+			<Analytics />
 		</Provider>
 	);
 }

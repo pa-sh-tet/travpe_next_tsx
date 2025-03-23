@@ -2,7 +2,7 @@
 
 **Travpe** – это социальная сеть для путешественников, где пользователи могут делиться своими поездками, отмечать геолокации на карте и взаимодействовать друг с другом.
 
-**URL**: [Travpe на Vercel](https://travpe.vercel.app/)
+**URL**: [Travpe](https://travpe.ru/)
 
 **Репозитории**:  
 - [Frontend (Next.js)](https://github.com/pa-sh-tet/travpe_next_tsx)  

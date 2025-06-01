@@ -1,0 +1,67 @@
+@use "./mixins" as *;
+@use "./variables" as *;
+
+.gpt {
+	max-width: 600px;
+	// margin: 2rem auto;
+	padding: 1rem;
+	text-align: center;
+	@include block_style;
+
+	&__button {
+		padding: 10px 20px;
+		background-color: #2563eb;
+		color: white;
+		border: none;
+		border-radius: 8px;
+		font-size: 16px;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+
+		&:hover {
+			background-color: #1e40af;
+		}
+
+		&:disabled {
+			background-color: #94a3b8;
+			cursor: not-allowed;
+		}
+	}
+
+	&__result {
+		background-color: #f1f5f9;
+		padding: 1rem;
+		margin-top: 1rem;
+		border-radius: 10px;
+		text-align: left;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+		h3 {
+			font-weight: 600;
+			margin-bottom: 0.5rem;
+		}
+
+		p {
+			margin-bottom: 0.5rem;
+		}
+
+		&__reset {
+			font-size: 14px;
+			color: #64748b;
+			background: none;
+			border: none;
+			cursor: pointer;
+			text-decoration: underline;
+
+			&:hover {
+				color: #334155;
+			}
+		}
+	}
+
+	&__error {
+		color: #dc2626;
+		margin-top: 1rem;
+		font-weight: 500;
+	}
+}

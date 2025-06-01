@@ -4,6 +4,7 @@ import { postReducer } from "@/redux/slices/postSlice";
 import { likesReducer } from "@/redux/slices/likeSlice";
 import { userReducer } from "@/redux/slices/userSlice";
 import { popupReduser } from "./slices/popupSlice";
+import { gptReducer } from "./slices/gptSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
 		posts: postReducer,
 		likes: likesReducer,
 		user: userReducer,
-		popup: popupReduser
+		popup: popupReduser,
+		gpt: gptReducer
 	},
 	devTools: true
 });

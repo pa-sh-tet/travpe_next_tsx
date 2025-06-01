@@ -17,6 +17,7 @@ import GetToLoginPopup from "@/components/popups/GetToLoginPopup";
 import LocationPopup from "@/components/popups/LocationPopup";
 import FullPostPopup from "@/components/popups/FullPostPopup";
 import { openLocationPopup } from "@/redux/slices/popupSlice";
+import { GigaChatButton } from "@/components/Gigachat";
 
 export default function NewsFeed() {
 	const dispatch = useDispatch<AppDispatch>();
@@ -80,6 +81,7 @@ export default function NewsFeed() {
 									<Skeleton height={16} width={200} />
 								</ul>
 							</div>
+							<GigaChatButton />
 						</div>
 					) : (
 						<>
@@ -147,6 +149,7 @@ export default function NewsFeed() {
 										</ul>
 									</div>
 								)}
+								<GigaChatButton />
 							</div>
 						</>
 					)}

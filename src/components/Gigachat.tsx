@@ -19,6 +19,7 @@ export const GigaChatButton = () => {
 		dispatch(resetPlace());
 	};
 
+	// TODO изменить на динамический запрос, подстраивающийся под контекст профиля пользователя
 	return (
 		<div className={styles.gpt}>
 			<button

@@ -27,7 +27,7 @@ export const GigaChatButton = () => {
 				className={styles.gpt__button}
 				disabled={loading}
 			>
-				{loading ? "Загрузка..." : "Предложить место в России"}
+				{loading ? "Загрузка..." : "Куда поехать в России?"}
 			</button>
 
 			{place && (

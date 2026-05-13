@@ -67,42 +67,42 @@ function EditUserPopup() {
 		setAvatarError("");
 
 		if (!name) {
-			setUsernameError("Name is required");
+			setUsernameError("Укажите имя");
 			isValid = false;
 		} else if (name.length < 2 || name.length > 40) {
-			setUsernameError("Name must be between 2 and 40 characters");
+			setUsernameError("Имя должно быть от 2 до 40 символов");
 			isValid = false;
 		} else if (name !== user?.username) {
 			const available = await dispatch(isUsernameAvailable(name)).unwrap();
 			if (!available) {
-				setUsernameError("This name is already taken");
+				setUsernameError("Это имя уже занято");
 				isValid = false;
 			}
 		}
 
 		if (!email) {
-			setEmailError("Email is required");
+			setEmailError("Укажите email");
 			isValid = false;
 		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-			setEmailError("Invalid email format");
+			setEmailError("Некорректный формат email");
 			isValid = false;
 		} else if (email.length < 2) {
-			setEmailError("Email must be at least 2 characters");
+			setEmailError("Email должен быть не короче 2 символов");
 			isValid = false;
 		} else if (email !== user?.email) {
 			const available = await dispatch(isEmailAvailable(email)).unwrap();
 			if (!available) {
-				setEmailError("This email has already been registered");
+				setEmailError("Этот email уже зарегистрирован");
 				isValid = false;
 			}
 		}
 
 		if (avatar) {
 			if (avatar.length < 4) {
-				setAvatarError("Avatar must be at least 4 characters");
+				setAvatarError("Ссылка на аватар должна быть не короче 4 символов");
 				isValid = false;
 			} else if (!isValidUrl(avatar)) {
-				setAvatarError("Avatar must be a valid URL");
+				setAvatarError("Укажите корректную ссылку на аватар");
 				isValid = false;
 			}
 		}
@@ -122,10 +122,10 @@ function EditUserPopup() {
 
 	return (
 		<PopupWithForm
-			title="Edit user data"
+			title="Редактировать профиль"
 			name="edit-user"
 			status={status}
-			buttonText="SAVE"
+			buttonText="СОХРАНИТЬ"
 			isOpen={isEditUserPopupOpen}
 			onSubmit={handleEditUser}
 			onClose={() => dispatch(closeEditUserPopup())}
@@ -133,7 +133,7 @@ function EditUserPopup() {
 			<div className={styles.popup__item}>
 				<input
 					className={styles.popup__input}
-					placeholder="Name"
+					placeholder="Имя"
 					id="name-input"
 					name="name"
 					type="text"
@@ -163,7 +163,7 @@ function EditUserPopup() {
 			<div className={styles.popup__item}>
 				<input
 					className={styles.popup__input}
-					placeholder="Avatar URL"
+					placeholder="Ссылка на аватар"
 					id="avatar-input"
 					name="avatar"
 					type="url"

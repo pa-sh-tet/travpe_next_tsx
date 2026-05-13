@@ -44,7 +44,7 @@ export default function FullPostPopup() {
 	if (!postDataById) return;
 
 	const date = new Date(postDataById.createdAt);
-	const formattedDate = date.toLocaleDateString("en-US", {
+	const formattedDate = date.toLocaleDateString("ru-RU", {
 		year: "numeric",
 		month: "long",
 		day: "numeric"

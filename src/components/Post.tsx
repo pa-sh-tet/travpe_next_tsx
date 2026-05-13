@@ -39,7 +39,7 @@ export default function Post({ post }: { post: IPost }) {
 	const [isKebabMenuOpen, setIsKebabMenuOpen] = useState<boolean>(false);
 
 	const date = new Date(post.createdAt);
-	const formattedDate = date.toLocaleDateString("en-US", {
+	const formattedDate = date.toLocaleDateString("ru-RU", {
 		year: "numeric",
 		month: "long",
 		day: "numeric"
@@ -78,7 +78,7 @@ export default function Post({ post }: { post: IPost }) {
 							className={styles.post__image}
 							style={{ backgroundImage: `url(${post.image})` }}
 							role="image"
-							aria-label="post image"
+							aria-label="изображение поста"
 							onClick={handleOpenFullPostPopup}
 						/>
 					)}

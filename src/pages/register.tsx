@@ -39,51 +39,51 @@ function Login() {
 		setPasswordError("");
 
 		if (!username) {
-			setUsernameError("Name is required");
+			setUsernameError("Укажите имя");
 			isValid = false;
 		} else if (username.length < 2 || username.length > 40) {
-			setUsernameError("Name must be between 2 and 40 characters");
+			setUsernameError("Имя должно быть от 2 до 40 символов");
 			isValid = false;
 		} else {
 			const available = await dispatch(isUsernameAvailable(username)).unwrap();
 			if (!available) {
-				setUsernameError("This name is already taken");
+				setUsernameError("Это имя уже занято");
 				isValid = false;
 			}
 		}
 
 		if (!email) {
-			setEmailError("Email is required");
+			setEmailError("Укажите email");
 			isValid = false;
 		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-			setEmailError("Invalid email format");
+			setEmailError("Некорректный формат email");
 			isValid = false;
 		} else if (email.length < 2) {
-			setEmailError("Email must be at least 2 characters");
+			setEmailError("Email должен быть не короче 2 символов");
 			isValid = false;
 		} else {
 			const available = await dispatch(isEmailAvailable(email)).unwrap();
 			if (!available) {
-				setEmailError("This email has already been registered");
+				setEmailError("Этот email уже зарегистрирован");
 				isValid = false;
 			}
 		}
 
 		if (avatar) {
 			if (avatar.length < 4) {
-				setAvatarError("Avatar must be at least 4 characters");
+				setAvatarError("Ссылка на аватар должна быть не короче 4 символов");
 				isValid = false;
 			} else if (!isValidUrl(avatar)) {
-				setAvatarError("Avatar must be a valid URL");
+				setAvatarError("Укажите корректную ссылку на аватар");
 				isValid = false;
 			}
 		}
 
 		if (!password) {
-			setPasswordError("Password is required");
+			setPasswordError("Укажите пароль");
 			isValid = false;
 		} else if (password.length < 4) {
-			setPasswordError("Password must be at least 4 characters");
+			setPasswordError("Пароль должен быть не короче 4 символов");
 			isValid = false;
 		}
 
@@ -93,7 +93,7 @@ function Login() {
 			await dispatch(registerUser({ username, email, password, avatar }));
 			router.push("/");
 		} catch (error) {
-			setRegisterError("Registration failed");
+			setRegisterError("Не удалось зарегистрироваться");
 			console.error("Ошибка при регистрации:", error);
 		}
 	};
@@ -114,10 +114,10 @@ function Login() {
 				<div className={styles.login__container}>
 					<Link href="/" className={styles.login__main}>
 						<div className={styles["login__main-icon"]}></div>
-						<p className={styles["login__main-text"]}>Main</p>
+						<p className={styles["login__main-text"]}>Главная</p>
 					</Link>
 					<Link className={styles["login__logo-link"]} href="/" />
-					<h2 className={styles.login__title}>Welcome!</h2>
+					<h2 className={styles.login__title}>Добро пожаловать!</h2>
 					<form
 						className={styles.login__form}
 						onSubmit={handleRegister}
@@ -125,11 +125,11 @@ function Login() {
 					>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="name" className={styles.login__label}>
-								Name
+								Имя
 							</label>
 							<input
 								className={styles.login__input}
-								placeholder="Enter your name"
+								placeholder="Введите имя"
 								name="name"
 								id="name"
 								type="name"
@@ -149,7 +149,7 @@ function Login() {
 							</label>
 							<input
 								className={styles.login__input}
-								placeholder="Enter your email"
+								placeholder="Введите email"
 								name="email"
 								id="email"
 								type="email"
@@ -164,10 +164,10 @@ function Login() {
 						</div>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="avatar" className={styles.login__label}>
-								Avatar* (optionally)
+								Аватар* (необязательно)
 							</label>
 							<input
-								placeholder="Enter your avatar URL"
+								placeholder="Введите ссылку на аватар"
 								className={styles.login__input}
 								name="avatar"
 								id="avatar"
@@ -181,11 +181,11 @@ function Login() {
 						</div>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="password" className={styles.login__label}>
-								Password
+								Пароль
 							</label>
 							<input
 								className={styles.login__input}
-								placeholder="Enter your password"
+								placeholder="Введите пароль"
 								name="password"
 								id="password"
 								type="password"
@@ -204,15 +204,15 @@ function Login() {
 							type="submit"
 							disabled={loading}
 						>
-							{loading ? <div className={styles.loader}></div> : "SIGN UP"}
+							{loading ? <div className={styles.loader}></div> : "СОЗДАТЬ АККАУНТ"}
 						</button>
 						<span className={styles.login__error}>{registerError}</span>
-						<p className={styles.login__text}>Forgot your password?</p>
+						<p className={styles.login__text}>Забыли пароль?</p>
 					</form>
 					<p className={styles.login__register}>
-						Already have an account?
+						Уже есть аккаунт?
 						<Link className={styles.login__link} href="/login">
-							Sign in
+							Войти
 						</Link>
 					</p>
 				</div>

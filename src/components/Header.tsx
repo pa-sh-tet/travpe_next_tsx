@@ -36,7 +36,7 @@ function Header() {
 									pathname === "/" ? styles.home_icon_active : ""
 								}`}
 							/>
-							Home
+							Главная
 						</Link>
 						<Link
 							href="/profile"
@@ -49,7 +49,7 @@ function Header() {
 									pathname === "/profile" ? styles.profile_icon_active : ""
 								}`}
 							/>
-							Profile
+							Профиль
 						</Link>
 						<Link
 							href="/login"
@@ -63,7 +63,7 @@ function Header() {
 									pathname === "/login" ? styles.header__link_active : ""
 								}`}
 							/>
-							Logout
+							Выйти
 						</Link>
 						<button
 							className={styles.header__burger}
@@ -83,7 +83,7 @@ function Header() {
 									pathname === "/login" ? styles.header__link_active : ""
 								}`}
 							/>
-							Login
+							Войти
 						</Link>
 					</div>
 				)}

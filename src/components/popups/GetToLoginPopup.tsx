@@ -23,14 +23,14 @@ function GetToLoginPopup() {
 	return (
 		<PopupWithForm
 			name="getToLogin"
-			title="You are not logged in!"
+			title="Вы не вошли в аккаунт"
 			status={"succeded"}
-			buttonText="Login"
+			buttonText="Войти"
 			isOpen={isGetToLoginPopupOpen}
 			onSubmit={handleGetToLogin}
 			onClose={() => dispatch(closeGetToLoginPopup())}
 		>
-			<p>This action is only available to authorized users.</p>
+			<p>Это действие доступно только авторизованным пользователям.</p>
 		</PopupWithForm>
 	);
 }

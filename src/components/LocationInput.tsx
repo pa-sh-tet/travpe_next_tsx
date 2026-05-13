@@ -31,7 +31,7 @@ const LocationInput: React.FC<Props> = ({ value, onSelect }) => {
 		}
 
 		const response = await fetch(
-			`https://geocode-maps.yandex.ru/1.x/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY}&format=json&geocode=${address}&lang=en_RU`
+			`https://geocode-maps.yandex.ru/1.x/?apikey=${process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY}&format=json&geocode=${address}&lang=ru_RU`
 		);
 		const data = await response.json();
 
@@ -68,7 +68,7 @@ const LocationInput: React.FC<Props> = ({ value, onSelect }) => {
 				type="text"
 				value={query}
 				onChange={handleInputChange}
-				placeholder="Location"
+				placeholder="Место"
 				autoComplete="off"
 				className={styles.popup__input}
 			/>

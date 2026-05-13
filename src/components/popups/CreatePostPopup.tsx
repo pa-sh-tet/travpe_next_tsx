@@ -71,23 +71,23 @@ function CreatePostPopup() {
 		setLocationError("");
 
 		if (!content) {
-			setContentError("Content is required");
+			setContentError("Добавьте текст поста");
 			isValid = false;
 		}
 
 		if (!link) {
-			setLinkError("Link is required");
+			setLinkError("Добавьте ссылку на изображение");
 			isValid = false;
 		} else if (!isValidUrl(link)) {
-			setLinkError("Link must be a valid URL");
+			setLinkError("Укажите корректную ссылку");
 			isValid = false;
 		} else if (link.length < 4) {
-			setLinkError("Link must be at least 4 characters");
+			setLinkError("Ссылка должна быть не короче 4 символов");
 			isValid = false;
 		}
 
 		if (!location) {
-			setLocationError("Location is required");
+			setLocationError("Выберите место");
 			isValid = false;
 		}
 
@@ -109,10 +109,10 @@ function CreatePostPopup() {
 
 	return (
 		<PopupWithForm
-			title="New Post"
+			title="Новый пост"
 			name="post"
 			status={status}
-			buttonText="POST"
+			buttonText="ОПУБЛИКОВАТЬ"
 			isOpen={isCreatePostPopupOpen}
 			onSubmit={handleCreatePost}
 			onClose={() => dispatch(closeCreatePostPopup())}
@@ -120,7 +120,7 @@ function CreatePostPopup() {
 			<div className={styles.popup__item}>
 				<input
 					className={styles.popup__input}
-					placeholder="Content"
+					placeholder="Текст поста"
 					id="place-input"
 					name="name"
 					type="text"
@@ -134,7 +134,7 @@ function CreatePostPopup() {
 			<div className={styles.popup__item}>
 				<input
 					className={styles.popup__input}
-					placeholder="Image link"
+					placeholder="Ссылка на изображение"
 					id="link-input"
 					name="link"
 					type="url"

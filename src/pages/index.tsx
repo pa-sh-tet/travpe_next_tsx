@@ -109,7 +109,7 @@ export default function NewsFeed() {
 								{topLocations.length > 0 && (
 									<div className={styles.main__destinations}>
 										<h2 className={styles["main__destinations-title"]}>
-											Trending Destinations
+											Популярные места
 										</h2>
 										<ul className={styles["main__destinations-list"]}>
 											{loadingTopLocations ? (

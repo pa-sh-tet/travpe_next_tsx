@@ -51,7 +51,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
 	return (
 		<Provider store={store}>
 			<Script
-				src={`https://api-maps.yandex.ru/2.1/?apikey=${yandex_map_api_key}&lang=en_RU`}
+				src={`https://api-maps.yandex.ru/2.1/?apikey=${yandex_map_api_key}&lang=ru_RU`}
 				type="text/javascript"
 			></Script>
 			<Head>

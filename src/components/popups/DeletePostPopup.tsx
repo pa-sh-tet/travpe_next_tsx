@@ -29,14 +29,14 @@ function DeletePostPopup() {
 	return (
 		<PopupWithForm
 			name="deletePost"
-			title="Delete Post"
+			title="Удалить пост"
 			status={status}
-			buttonText="DELETE"
+			buttonText="УДАЛИТЬ"
 			isOpen={isDeletePostPopupOpen}
 			onSubmit={handleDeletePost}
 			onClose={() => dispatch(closeDeletePostPopup())}
 		>
-			<p>Are you sure you want to delete this post?</p>
+			<p>Вы уверены, что хотите удалить этот пост?</p>
 		</PopupWithForm>
 	);
 }

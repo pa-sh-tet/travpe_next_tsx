@@ -98,7 +98,7 @@ function Profile() {
 
 				{user && (
 					<div className={styles.profile__content}>
-						<h2 className={styles["profile__content-title"]}>Recent Posts</h2>
+						<h2 className={styles["profile__content-title"]}>Недавние посты</h2>
 						<ul className={styles["profile__content-list"]}>
 							{isMyProfile && (
 								<button
@@ -109,7 +109,7 @@ function Profile() {
 										className={styles["profile__content-add-button-logo"]}
 									></div>
 									<p className={styles["profile__content-add-button-text"]}>
-										Add New Post
+										Добавить пост
 									</p>
 								</button>
 							)}

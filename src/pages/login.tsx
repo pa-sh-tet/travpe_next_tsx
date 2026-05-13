@@ -37,29 +37,29 @@ function Login() {
 		setLoginError("");
 
 		if (!email) {
-			setEmailError("Email is required");
+			setEmailError("Укажите email");
 			isValid = false;
 		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-			setEmailError("Invalid email format");
+			setEmailError("Некорректный формат email");
 			isValid = false;
 		} else if (email.length < 2) {
-			setEmailError("Email must be at least 2 characters");
+			setEmailError("Email должен быть не короче 2 символов");
 			isValid = false;
 		} else {
 			const available: boolean = await dispatch(
 				isEmailAvailable(email)
 			).unwrap();
 			if (available) {
-				setEmailError("There is no user with this email address");
+				setEmailError("Пользователь с таким email не найден");
 				isValid = false;
 			}
 		}
 
 		if (!password) {
-			setPasswordError("Password is required");
+			setPasswordError("Укажите пароль");
 			isValid = false;
 		} else if (password.length < 4) {
-			setPasswordError("Password must be at least 4 characters");
+			setPasswordError("Пароль должен быть не короче 4 символов");
 			isValid = false;
 		}
 
@@ -72,7 +72,7 @@ function Login() {
 			if (typeof error === "string") {
 				setLoginError(error);
 			} else {
-				setLoginError("An unknown error occurred");
+				setLoginError("Произошла неизвестная ошибка");
 			}
 		}
 	};
@@ -83,10 +83,11 @@ function Login() {
 				<div className={styles.login__container}>
 					<Link href="/" className={styles.login__main}>
 						<div className={styles["login__main-icon"]}></div>
-						<p className={styles["login__main-text"]}>Main</p>
+						<p className={styles["login__main-text"]}>Главная</p>
 					</Link>
 					<Link className={styles["login__logo-link"]} href="/" />
-					<h2 className={styles.login__title}>Glad to see you!</h2>
+					{/* TODO добавить смену языка */}
+					<h2 className={styles.login__title}>Рады вас видеть!</h2>
 					<form
 						className={styles.login__form}
 						onSubmit={handleLogin}
@@ -98,7 +99,7 @@ function Login() {
 							</label>
 							<input
 								className={styles.login__input}
-								placeholder="Enter your Email"
+								placeholder="Введите email"
 								name="email"
 								id="email"
 								type="email"
@@ -112,11 +113,11 @@ function Login() {
 						</div>
 						<div className={styles["login__form-item"]}>
 							<label htmlFor="password" className={styles.login__label}>
-								Password
+								Пароль
 							</label>
 							<input
 								className={styles.login__input}
-								placeholder="Enter your Password"
+								placeholder="Введите пароль"
 								name="password"
 								id="password"
 								type="password"
@@ -133,7 +134,7 @@ function Login() {
 							type="submit"
 							disabled={loading}
 						>
-							{loading ? <div className={styles.loader}></div> : "SIGN IN"}
+							{loading ? <div className={styles.loader}></div> : "ВОЙТИ"}
 						</button>
 						{loginError && (
 							<span
@@ -143,12 +144,12 @@ function Login() {
 								{loginError}
 							</span>
 						)}
-						<p className={styles.login__text}>Forgot your password?</p>
+						<p className={styles.login__text}>Забыли пароль?</p>
 					</form>
 					<p className={styles.login__register}>
-						Don&apos;t have an account?
+						Нет аккаунта?
 						<Link className={styles.login__link} href="/register">
-							Sign up
+							Зарегистрироваться
 						</Link>
 					</p>
 				</div>

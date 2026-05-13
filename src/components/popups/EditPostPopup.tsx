@@ -110,23 +110,23 @@ function EditPostPopup() {
 		setLocationError("");
 
 		if (!content) {
-			setContentError("Content is required");
+			setContentError("Добавьте текст поста");
 			isValid = false;
 		}
 
 		if (!link) {
-			setLinkError("Link is required");
+			setLinkError("Добавьте ссылку на изображение");
 			isValid = false;
 		} else if (!isValidUrl(link)) {
-			setLinkError("Link must be a valid URL");
+			setLinkError("Укажите корректную ссылку");
 			isValid = false;
 		} else if (link.length < 4) {
-			setLinkError("Link must be at least 4 characters");
+			setLinkError("Ссылка должна быть не короче 4 символов");
 			isValid = false;
 		}
 
 		if (!location || !latitude || !longitude) {
-			setLocationError("Location is required");
+			setLocationError("Выберите место");
 			isValid = false;
 		}
 
@@ -148,10 +148,10 @@ function EditPostPopup() {
 
 	return (
 		<PopupWithForm
-			title="Edit Post"
+			title="Редактировать пост"
 			name="edit-post"
 			status={status}
-			buttonText="SAVE"
+			buttonText="СОХРАНИТЬ"
 			isOpen={isEditPostPopupOpen}
 			onSubmit={handleEditPost}
 			onClose={() => dispatch(closeEditPostPopup())}
@@ -159,7 +159,7 @@ function EditPostPopup() {
 			<div className={styles.popup__item}>
 				<input
 					className={styles.popup__input}
-					placeholder="Content"
+					placeholder="Текст поста"
 					id="place-input"
 					name="name"
 					type="text"
@@ -173,7 +173,7 @@ function EditPostPopup() {
 			<div className={styles.popup__item}>
 				<input
 					className={styles.popup__input}
-					placeholder="Image link"
+					placeholder="Ссылка на изображение"
 					id="link-input"
 					name="link"
 					type="url"
